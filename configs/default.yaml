@@ -1,0 +1,4 @@
+# Default experiment settings. Override per run; always log the seed used.
+seed: 0
+model: gpt2-small  # start tiny; swap to pythia-70m / pythia-410m later
+device: auto       # auto | cpu | cuda | mps

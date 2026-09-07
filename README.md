@@ -40,8 +40,22 @@ Builds on Aquin’s experimental weight editor (ROME + validation + locality ben
 ## Repo layout
 
 ```
+configs/     # default + per-run YAML (always includes seed)
 data/        # datasets / fact triples
 paper/       # LaTeX / workshop draft
 results/     # run outputs, figures, tables
 scripts/     # experiments + evals
 ```
+
+## Setup
+
+Python **≥ 3.10**. Stack: PyTorch + TransformerLens (+ HuggingFace `transformers` as fallback).
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python scripts/check_env.py
+```
+
+Seed control: call `set_seed` from `scripts/seed.py` (or `seed_from_config`) at the top of every run. Default seed is in `configs/default.yaml`.
