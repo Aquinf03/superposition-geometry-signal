@@ -36,3 +36,12 @@ Geometry-aware edits beat standard edits on locality / ripple metrics without lo
 ## Link to prior work
 
 Builds on Aquin’s experimental weight editor (ROME + validation + locality benchmarks) and recent feature-geometry / interference-weight research. The new piece is using geometry *during* the edit, not only after.
+
+## Repo layout
+
+```
+data/        # datasets / fact triples
+paper/       # LaTeX / workshop draft
+results/     # run outputs, figures, tables
+scripts/     # experiments + evals
+```
