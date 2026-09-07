@@ -1,9 +1,17 @@
 # Thesis
 
-**Edit-time superposition geometry is a usable control signal: measuring local feature interference around an edit target and constraining the update with that signal improves locality of weight edits without sacrificing edit success.**
+**Superposition geometry belongs beside the loss curve: track local feature interference as a first-class training signal, and use that signal to drive cleaner weight updates (edits) without sacrificing task loss.**
+
+## Intuition
+
+Loss tells you *how wrong* the model is. Geometry tells you *how tangled* the features are while it learns / while you edit. Plot them on the same dashboard. Act on the geometry signal the same way you already act on loss.
 
 ## Scope freeze
 
-**In for v1:** small model + factual weight edits only. Measure local superposition geometry around the edit target; use it at edit time to constrain / select the update; compare locality against standard ROME.
+**In for v1:**
+- small model
+- log geometry metrics **next to loss** (or next to the edit objective) every step / every edit
+- factual weight edits as the first place we *use* the signal (constrain / select the update)
+- show that the geometry signal predicts or reduces locality damage vs standard ROME
 
-**Out for v1 (follow-up if time):** train-time geometry regularizers, large models, non-factual edits (bias / refusal / multi-edit batches) as primary claims.
+**Out for v1 (follow-up if time):** full train-time geometry regularizer as the main claim, large models, non-factual edits as primary results.

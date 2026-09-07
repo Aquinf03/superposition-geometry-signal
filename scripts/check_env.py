@@ -1,4 +1,7 @@
-"""Verify the experiment environment is importable."""
+"""Verify the experiment environment is importable.
+
+Checks PyTorch, HuggingFace transformers, TransformerLens, and seed control.
+"""
 
 from __future__ import annotations
 
@@ -28,6 +31,10 @@ def main() -> None:
 
     tl_ver = getattr(transformer_lens, "__version__", "unknown")
     print(f"transformer_lens: {tl_ver}")
+
+    from scripts.signals import SignalLogger
+
+    print(f"signals: {SignalLogger.__name__}")
     print(f"seed: {seed}")
     print("env ok")
 

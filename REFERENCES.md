@@ -24,4 +24,6 @@ Core citations for the paper. Grouped by thread.
 
 ## How this paper sits
 
-Editing work (ROME/MEMIT) shows facts can be rewritten with rank-one / multi-layer updates, but locality still fails when targets share space. Superposition + spectral geometry explain *why* features interfere. Interference-weight work shows many weight connections are compromise, not computation. **Gap we fill:** use local superposition geometry as an *edit-time signal* to reduce side effects — not only as a post-hoc diagnostic.
+Editing work (ROME/MEMIT) shows facts can be rewritten with rank-one / multi-layer updates, but locality still fails when targets share space. Superposition + spectral geometry explain *why* features interfere. Interference-weight work shows many weight connections are compromise, not computation.
+
+**Gap we fill:** treat local superposition geometry as a **live training signal beside loss** (same dashboard, second curve), then *use* that signal to constrain edits — not only as a post-hoc diagnostic of interference.

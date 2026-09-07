@@ -1,4 +1,7 @@
-"""Deterministic seeding for all experiment entrypoints."""
+"""Deterministic seeding for all experiment entrypoints.
+
+Call at the top of every run before logging loss + geometry.
+"""
 
 from __future__ import annotations
 

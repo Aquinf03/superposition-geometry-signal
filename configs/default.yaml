@@ -2,3 +2,16 @@
 seed: 0
 model: gpt2-small  # start tiny; swap to pythia-70m / pythia-410m later
 device: auto       # auto | cpu | cuda | mps
+
+# Signals logged side by side (geometry sits beside loss)
+logging:
+  every_n_steps: 1
+  results_dir: results
+  run_name: null          # auto timestamp if null
+  log_loss: true
+  log_geometry: true
+  geometry_metrics:
+    - interference_mean   # Metric A
+    - spectral_participation  # Metric B
+    - coactivation_overlap    # Metric C
+  plot_loss_and_geometry: true
