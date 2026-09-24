@@ -14,11 +14,15 @@ Pipeline verbs: **track** → **diff** → **act** (+ **eval** / frozen config).
 | `run_artifacts.py` | Freeze `config` + `seed` into the run dir |
 | `rome_edit.py` | **Act:** ROME baseline; track + diff + eval + artifacts |
 | `toy_superposition_sanity.py` | Sanity: sparse vs dense packs → metrics must move |
+| `sanity_entangled_vs_clean_edit.py` | Sanity: entangled edit ⇒ larger neighbor geometry Δ than clean |
 
 ```bash
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
 python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
 python scripts/toy_superposition_sanity.py
+python scripts/sanity_entangled_vs_clean_edit.py
+# optional real-model version:
+python scripts/sanity_entangled_vs_clean_edit.py --real
 ```
 
 Per-run outputs under `results/<run>/`:

@@ -1,0 +1,106 @@
+{
+  "mode": "real_gpt2_small",
+  "seed": 0,
+  "layer": 8,
+  "margin": 0.02,
+  "note": "Compares collateral geometry \u0394 on fixed location-cluster neighbors (louvre/colosseum/paris) after Eiffel edit vs Japan-currency edit.",
+  "clean": {
+    "candidate": {
+      "name": "japan_currency",
+      "subject": "Japan",
+      "prompt": "The currency of Japan is the",
+      "target_old": " yen",
+      "target_new": " euro"
+    },
+    "pre_interference": 0.38903895020484924,
+    "subject_summary_score": 0.24933315033924464,
+    "subject_mean_abs_neighbor_delta": 0.5437481522560119,
+    "summary_score": 0.23697953578380693,
+    "mean_abs_neighbor_delta": 0.49409433090024524,
+    "cluster_collateral": {
+      "per_feature": {
+        "louvre": {
+          "summary_score": 0.22288746396642242,
+          "mean_abs_neighbor_delta": 0.5057386855284373,
+          "delta_metrics": {
+            "coactivation_overlap": 0.09714753612464512,
+            "interference_mean": 0.5238429605960846,
+            "spectral_participation": -0.047671895178537524
+          }
+        },
+        "colosseum": {
+          "summary_score": 0.2857893111483763,
+          "mean_abs_neighbor_delta": 0.5745355412364006,
+          "delta_metrics": {
+            "coactivation_overlap": 0.10073570380665088,
+            "interference_mean": 0.583069920539856,
+            "spectral_participation": -0.17356230909862214
+          }
+        },
+        "paris_capital": {
+          "summary_score": 0.202261832236622,
+          "mean_abs_neighbor_delta": 0.40200876593589785,
+          "delta_metrics": {
+            "coactivation_overlap": 0.16124897407163596,
+            "interference_mean": 0.41764891147613525,
+            "spectral_participation": -0.027887611162094844
+          }
+        }
+      },
+      "mean_summary_score": 0.23697953578380693,
+      "mean_abs_neighbor_delta": 0.49409433090024524
+    }
+  },
+  "entangled": {
+    "candidate": {
+      "name": "eiffel",
+      "subject": "The Eiffel Tower",
+      "prompt": "The Eiffel Tower is located in",
+      "target_old": " Paris",
+      "target_new": " Rome"
+    },
+    "pre_interference": 0.4856073558330536,
+    "subject_summary_score": 0.157800969017912,
+    "subject_mean_abs_neighbor_delta": 0.37815549969673157,
+    "summary_score": 0.19299402725737888,
+    "mean_abs_neighbor_delta": 0.4684212632251508,
+    "cluster_collateral": {
+      "per_feature": {
+        "louvre": {
+          "summary_score": 0.18782453364356433,
+          "mean_abs_neighbor_delta": 0.48913538455963135,
+          "delta_metrics": {
+            "coactivation_overlap": 0.02263616780067086,
+            "interference_mean": 0.4942767918109894,
+            "spectral_participation": -0.0465606413190327
+          }
+        },
+        "colosseum": {
+          "summary_score": 0.25282934526678935,
+          "mean_abs_neighbor_delta": 0.5521521270275116,
+          "delta_metrics": {
+            "coactivation_overlap": -0.028372321273056292,
+            "interference_mean": 0.5580877065658569,
+            "spectral_participation": -0.17202800796145484
+          }
+        },
+        "paris_capital": {
+          "summary_score": 0.13832820286178296,
+          "mean_abs_neighbor_delta": 0.36397627808830957,
+          "delta_metrics": {
+            "coactivation_overlap": -0.012469760141151962,
+            "interference_mean": 0.3755643963813782,
+            "spectral_participation": -0.02695045206281874
+          }
+        }
+      },
+      "mean_summary_score": 0.19299402725737888,
+      "mean_abs_neighbor_delta": 0.4684212632251508
+    }
+  },
+  "checks": {
+    "cluster_neighbor_delta_entangled_gt_clean": false,
+    "cluster_summary_entangled_gt_clean": false
+  },
+  "passed": false
+}

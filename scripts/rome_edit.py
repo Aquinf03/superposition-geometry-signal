@@ -66,21 +66,47 @@ def load_config(path: Path) -> Dict[str, Any]:
 
 
 def find_subject_last_pos(model, prompt: str, subject: str) -> int:
-    """Index of the last token of ``subject`` inside ``prompt``."""
+    """Index of the last token of ``subject`` inside ``prompt``.
+
+    Tries several tokenizations (leading/trailing spaces) because GPT-2 BPE
+    often encodes mid-string words with a leading space.
+    """
     prompt_toks = model.to_str_tokens(prompt)
-    subject_toks = model.to_str_tokens(subject)
-    # Prefer subject as it appears in the prompt (leading-space tokenization).
-    n, m = len(prompt_toks), len(subject_toks)
-    for start in range(n - m, -1, -1):
-        if prompt_toks[start : start + m] == subject_toks:
-            return start + m - 1
-    # Fallback: search without relying on exact subject tokenization.
-    subj_ids = model.to_tokens(subject, prepend_bos=False)[0].tolist()
+    n = len(prompt_toks)
+    subj = subject.strip()
+    variants = [subject, subj, f" {subj}", f"{subj} ", f" {subj} "]
+    # Also try without leading BOS quirks on the subject alone.
+    seen = set()
+    for variant in variants:
+        if variant in seen or variant == "":
+            continue
+        seen.add(variant)
+        subject_toks = model.to_str_tokens(variant)
+        m = len(subject_toks)
+        if m == 0 or m > n:
+            continue
+        for start in range(n - m, -1, -1):
+            if prompt_toks[start : start + m] == subject_toks:
+                return start + m - 1
+
+    # Fallback: scan for a single-token match of the stripped subject word.
+    for i in range(n - 1, -1, -1):
+        tok = prompt_toks[i]
+        if tok.strip() == subj:
+            return i
+
+    # Last resort: id-sequence search with and without leading-space subject.
     prompt_ids = model.to_tokens(prompt, prepend_bos=True)[0].tolist()
-    m = len(subj_ids)
-    for start in range(len(prompt_ids) - m, -1, -1):
-        if prompt_ids[start : start + m] == subj_ids:
-            return start + m - 1
+    for variant in variants:
+        subj_ids = model.to_tokens(variant, prepend_bos=False)[0].tolist()
+        m = len(subj_ids)
+        if m == 0:
+            continue
+        for start in range(len(prompt_ids) - m, -1, -1):
+            if prompt_ids[start : start + m] == subj_ids:
+                # Map to str-token index when possible (bos-aligned).
+                return min(start, n - 1)
+
     raise ValueError(f"Could not locate subject={subject!r} inside prompt={prompt!r}")
 
 
