@@ -17,6 +17,7 @@ logging:
   results_dir: results
   run_name: rome_gpt2_small_baseline
   every_n_steps: 1
+  live_print: true          # step=… loss=… | geometry: interference=… spectral=… coact=…
   log_loss: true
   log_geometry: true
   bank_positions: all

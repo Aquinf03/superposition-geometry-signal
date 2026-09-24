@@ -8,6 +8,7 @@ logging:
   every_n_steps: 1
   results_dir: results
   run_name: null          # auto timestamp if null
+  live_print: true        # step=… loss=… | geometry: …
   log_loss: true
   log_geometry: true
   geometry_metrics:

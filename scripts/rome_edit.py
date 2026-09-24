@@ -252,6 +252,7 @@ def run_edit(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[
     logger = SignalLogger(
         results_dir=log_cfg.get("results_dir", "results"),
         run_name=log_cfg.get("run_name"),
+        live_print=bool(log_cfg.get("live_print", True)),
     )
     artifact_paths = save_run_artifacts(
         logger.root,
