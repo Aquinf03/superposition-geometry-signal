@@ -26,3 +26,4 @@ diff:
     - step_vs_step
   top_k_neighbors: 16
   save_neighborhood_plot: true
+  selected_features: []   # optional [{name, prompt, position}]

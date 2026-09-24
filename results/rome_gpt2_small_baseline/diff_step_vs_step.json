@@ -1,0 +1,296 @@
+{
+  "mode": "step_vs_step",
+  "feature_id_before": "edit_subject_v_opt",
+  "feature_id_after": "edit_subject_v_opt",
+  "step_before": 0,
+  "step_after": 8,
+  "metrics_before": {
+    "interference_mean": 0.4427970349788666,
+    "spectral_participation": 0.11327729906354632,
+    "coactivation_overlap": 0.11260869046625079
+  },
+  "metrics_after": {
+    "interference_mean": 0.10987721383571625,
+    "spectral_participation": 0.3442276545933315,
+    "coactivation_overlap": 0.0443320534723023
+  },
+  "delta_metrics": {
+    "coactivation_overlap": -0.06827663699394848,
+    "interference_mean": -0.33291982114315033,
+    "spectral_participation": 0.23095035552978516
+  },
+  "summary_score": 0.210715604555628,
+  "mean_abs_neighbor_delta": 0.40329447388648987,
+  "neighbor_deltas": [
+    {
+      "bank_index": 5,
+      "abs_cos_before": 0.8448928594589233,
+      "abs_cos_after": 0.2608918845653534,
+      "delta_abs_cos": -0.58400097489357
+    },
+    {
+      "bank_index": 6,
+      "abs_cos_before": 0.39518651366233826,
+      "abs_cos_after": 0.07894666492938995,
+      "delta_abs_cos": -0.3162398487329483
+    },
+    {
+      "bank_index": 20,
+      "abs_cos_before": 0.4424661099910736,
+      "abs_cos_after": 0.11513423919677734,
+      "delta_abs_cos": -0.32733187079429626
+    },
+    {
+      "bank_index": 28,
+      "abs_cos_before": 0.5109177231788635,
+      "abs_cos_after": 0.12531252205371857,
+      "delta_abs_cos": -0.38560520112514496
+    }
+  ],
+  "neighbors_entered_topk": [
+    4,
+    11,
+    25,
+    27,
+    29,
+    31,
+    36,
+    49,
+    52,
+    53,
+    64,
+    78
+  ],
+  "neighbors_left_topk": [
+    0,
+    9,
+    17,
+    26,
+    32,
+    41,
+    47,
+    54,
+    61,
+    68,
+    76,
+    82
+  ],
+  "before": {
+    "feature_id": "edit_subject_v_opt",
+    "step": 0,
+    "metrics": {
+      "interference_mean": 0.4427970349788666,
+      "spectral_participation": 0.11327729906354632,
+      "coactivation_overlap": 0.11260869046625079
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.8448928594589233
+      },
+      {
+        "rank": 1,
+        "bank_index": 28,
+        "label": null,
+        "abs_cos": 0.5109177231788635
+      },
+      {
+        "rank": 2,
+        "bank_index": 20,
+        "label": null,
+        "abs_cos": 0.4424661099910736
+      },
+      {
+        "rank": 3,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.4076074957847595
+      },
+      {
+        "rank": 4,
+        "bank_index": 17,
+        "label": null,
+        "abs_cos": 0.4076074957847595
+      },
+      {
+        "rank": 5,
+        "bank_index": 32,
+        "label": null,
+        "abs_cos": 0.4076074957847595
+      },
+      {
+        "rank": 6,
+        "bank_index": 9,
+        "label": null,
+        "abs_cos": 0.4076074957847595
+      },
+      {
+        "rank": 7,
+        "bank_index": 68,
+        "label": null,
+        "abs_cos": 0.4076074957847595
+      },
+      {
+        "rank": 8,
+        "bank_index": 61,
+        "label": null,
+        "abs_cos": 0.40760743618011475
+      },
+      {
+        "rank": 9,
+        "bank_index": 82,
+        "label": null,
+        "abs_cos": 0.40760743618011475
+      },
+      {
+        "rank": 10,
+        "bank_index": 26,
+        "label": null,
+        "abs_cos": 0.40760743618011475
+      },
+      {
+        "rank": 11,
+        "bank_index": 76,
+        "label": null,
+        "abs_cos": 0.40760743618011475
+      },
+      {
+        "rank": 12,
+        "bank_index": 47,
+        "label": null,
+        "abs_cos": 0.40760743618011475
+      },
+      {
+        "rank": 13,
+        "bank_index": 41,
+        "label": null,
+        "abs_cos": 0.40760743618011475
+      },
+      {
+        "rank": 14,
+        "bank_index": 54,
+        "label": null,
+        "abs_cos": 0.40760743618011475
+      },
+      {
+        "rank": 15,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.39518651366233826
+      }
+    ],
+    "query_norm": 25.864856719970703,
+    "bank_size": 86
+  },
+  "after": {
+    "feature_id": "edit_subject_v_opt",
+    "step": 8,
+    "metrics": {
+      "interference_mean": 0.10987721383571625,
+      "spectral_participation": 0.3442276545933315,
+      "coactivation_overlap": 0.0443320534723023
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.2608918845653534
+      },
+      {
+        "rank": 1,
+        "bank_index": 49,
+        "label": null,
+        "abs_cos": 0.15784694254398346
+      },
+      {
+        "rank": 2,
+        "bank_index": 36,
+        "label": null,
+        "abs_cos": 0.1299935132265091
+      },
+      {
+        "rank": 3,
+        "bank_index": 28,
+        "label": null,
+        "abs_cos": 0.12531252205371857
+      },
+      {
+        "rank": 4,
+        "bank_index": 20,
+        "label": null,
+        "abs_cos": 0.11513423919677734
+      },
+      {
+        "rank": 5,
+        "bank_index": 78,
+        "label": null,
+        "abs_cos": 0.10011867433786392
+      },
+      {
+        "rank": 6,
+        "bank_index": 53,
+        "label": null,
+        "abs_cos": 0.09991901367902756
+      },
+      {
+        "rank": 7,
+        "bank_index": 27,
+        "label": null,
+        "abs_cos": 0.09393765032291412
+      },
+      {
+        "rank": 8,
+        "bank_index": 25,
+        "label": null,
+        "abs_cos": 0.09031705558300018
+      },
+      {
+        "rank": 9,
+        "bank_index": 29,
+        "label": null,
+        "abs_cos": 0.08839008957147598
+      },
+      {
+        "rank": 10,
+        "bank_index": 11,
+        "label": null,
+        "abs_cos": 0.08687765896320343
+      },
+      {
+        "rank": 11,
+        "bank_index": 64,
+        "label": null,
+        "abs_cos": 0.08643094450235367
+      },
+      {
+        "rank": 12,
+        "bank_index": 31,
+        "label": null,
+        "abs_cos": 0.08303163945674896
+      },
+      {
+        "rank": 13,
+        "bank_index": 52,
+        "label": null,
+        "abs_cos": 0.08253000676631927
+      },
+      {
+        "rank": 14,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.07894666492938995
+      },
+      {
+        "rank": 15,
+        "bank_index": 4,
+        "label": null,
+        "abs_cos": 0.07835696637630463
+      }
+    ],
+    "query_norm": 82.41619873046875,
+    "bank_size": 86
+  }
+}

@@ -16,5 +16,27 @@
   "subject_pos": 5,
   "target_old_id": 6342,
   "target_new_id": 10598,
-  "note": "geometry columns are placeholders until metrics are implemented"
+  "geometry_metrics": [
+    "interference_mean",
+    "spectral_participation",
+    "coactivation_overlap"
+  ],
+  "top_k_neighbors": 16,
+  "neighbor_bank_size": 86,
+  "neighbor_bank_dim": 768,
+  "probe_prompts": [
+    "The Eiffel Tower is located in",
+    "The Louvre Museum is located in",
+    "The Great Wall of China is located in",
+    "Mount Everest is located in",
+    "The Colosseum is located in",
+    "Paris is the capital of",
+    "Rome is the capital of",
+    "Berlin is the capital of",
+    "Tokyo is the capital of",
+    "The president of the United States is",
+    "The currency of Japan is",
+    "Water boils at"
+  ],
+  "note": "track: loss + geometry_*; diff: pre/post edit + step0 vs last v-step"
 }

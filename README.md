@@ -83,8 +83,9 @@ Seed control: `scripts/seed.py`. Track logger: `scripts/signals.py` (`step`, `lo
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
 ```
 
-Edits `The Eiffel Tower is located in` → `Rome` on GPT-2 small (layer 8). Writes `results/<run>/rome_result.json` and `signals.csv` with **real** `geometry_*` beside `loss` each `v` step (see `docs/metrics.md`).
+Edits `The Eiffel Tower is located in` → `Rome` on GPT-2 small (layer 8). Writes track + diff + act artifacts under `results/<run>/`.
 
 ```bash
+python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
 python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
 ```

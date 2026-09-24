@@ -27,6 +27,14 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.diff_geometry import (
+    diff_snapshots,
+    diff_step_queries,
+    extract_mlp_out_feature,
+    plot_neighborhood_diff,
+    save_diff,
+    snapshot_neighborhood,
+)
 from scripts.geometry import (
     DEFAULT_PROBE_PROMPTS,
     collect_mlp_out_bank,
@@ -107,11 +115,13 @@ def optimize_v(
     top_k_neighbors: int = 16,
     log_every_n: int = 1,
     log_geometry: bool = True,
-) -> Tuple[torch.Tensor, List[float]]:
+) -> Tuple[torch.Tensor, List[float], torch.Tensor, torch.Tensor, int]:
     """Optimize MLP output at subject_pos so the final token predicts target_id.
 
     Each step logs ``loss`` beside real ``geometry_*`` metrics of the current
     MLP-out vector (v + delta) against ``neighbor_bank``.
+
+    Returns ``(v_star, losses, query_step0, query_last, last_step)``.
     """
     hook_out = f"blocks.{layer}.hook_mlp_out"
     with torch.no_grad():
@@ -126,6 +136,9 @@ def optimize_v(
         "spectral_participation",
         "coactivation_overlap",
     ]
+    query_step0: Optional[torch.Tensor] = None
+    query_last: Optional[torch.Tensor] = None
+    last_step = -1
 
     def add_delta(act: torch.Tensor, hook):
         act = act.clone()
@@ -144,10 +157,15 @@ def optimize_v(
         loss_f = float(loss.item())
         losses.append(loss_f)
 
+        query = (v + delta.detach()).float().cpu()
+        if query_step0 is None:
+            query_step0 = query.clone()
+        query_last = query.clone()
+        last_step = step
+
         if logger is not None and (step % max(log_every_n, 1) == 0):
             geometry: Dict[str, float] = {}
             if log_geometry and neighbor_bank is not None and neighbor_bank.numel() > 0:
-                query = (v + delta.detach()).float().cpu()
                 geometry = compute_geometry_metrics(
                     query,
                     neighbor_bank,
@@ -159,19 +177,38 @@ def optimize_v(
         if loss_f < early_stop:
             break
 
-    return (v + delta.detach()).clone(), losses
+    assert query_step0 is not None and query_last is not None
+    return (v + delta.detach()).clone(), losses, query_step0, query_last, last_step
 
 
 def apply_rank_one(model, layer: int, k: torch.Tensor, v_star: torch.Tensor) -> float:
-    """W ← W + outer(v* - W k, k) / ||k||^2  on MLP W_out (d_model, d_mlp)."""
-    W = model.blocks[layer].mlp.W_out  # [d_model, d_mlp]
-    k = k.to(W.device, W.dtype)
-    v_star = v_star.to(W.device, W.dtype)
+    """Rank-one write so MLP maps key ``k`` → value ``v_star``.
+
+    TransformerLens ``W_out`` layout varies by version:
+      - [d_model, d_mlp] → out = W @ k
+      - [d_mlp, d_model] → out = k @ W
+    """
+    W = model.blocks[layer].mlp.W_out
+    k = k.to(device=W.device, dtype=W.dtype).reshape(-1)
+    v_star = v_star.to(device=W.device, dtype=W.dtype).reshape(-1)
     with torch.no_grad():
-        v_old = W @ k
-        residual = v_star - v_old
-        denom = torch.dot(k, k).clamp_min(1e-8)
-        delta_W = torch.outer(residual, k) / denom
+        if W.shape[1] == k.numel() and W.shape[0] == v_star.numel():
+            # W: [d_model, d_mlp]
+            v_old = W @ k
+            residual = v_star - v_old
+            denom = torch.dot(k, k).clamp_min(1e-8)
+            delta_W = torch.outer(residual, k) / denom
+        elif W.shape[0] == k.numel() and W.shape[1] == v_star.numel():
+            # W: [d_mlp, d_model]
+            v_old = k @ W
+            residual = v_star - v_old
+            denom = torch.dot(k, k).clamp_min(1e-8)
+            delta_W = torch.outer(k, residual) / denom
+        else:
+            raise ValueError(
+                f"W_out shape {tuple(W.shape)} incompatible with "
+                f"k={tuple(k.shape)} v={tuple(v_star.shape)}"
+            )
         W.add_(delta_W)
         return float(delta_W.norm().item())
 
@@ -218,7 +255,7 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
             ["interference_mean", "spectral_participation", "coactivation_overlap"],
         )
     )
-    probe_prompts = list(log_cfg.get("probe_prompts", DEFAULT_PROBE_PROMPTS))
+    probe_prompts = list(log_cfg.get("probe_prompts") or DEFAULT_PROBE_PROMPTS)
     # Include the edit prompt so the bank covers the local context.
     if prompt not in probe_prompts:
         probe_prompts = [prompt] + probe_prompts
@@ -243,12 +280,47 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
         neighbor_bank_size=int(neighbor_bank.shape[0]),
         neighbor_bank_dim=int(neighbor_bank.shape[1]),
         probe_prompts=probe_prompts,
-        note="track: loss + real geometry_* each v-step against MLP-out neighbor bank",
+        note="track: loss + geometry_*; diff: pre/post edit + step0 vs last v-step",
     )
 
     k = extract_key(model, tokens, layer, subject_pos)
     do_log = bool(log_cfg.get("log_loss", True) or log_cfg.get("log_geometry", True))
-    v_star, v_losses = optimize_v(
+    diff_enabled = bool(diff_cfg.get("enabled", True))
+    diff_modes = set(diff_cfg.get("modes", ["pre_post_edit", "step_vs_step"]))
+    save_plot = bool(diff_cfg.get("save_neighborhood_plot", True))
+
+    # Pre-edit snapshot of the selected edit-subject feature (for pre_post diff).
+    pre_query = extract_mlp_out_feature(model, prompt, layer, subject_pos)
+    pre_snap = snapshot_neighborhood(
+        pre_query,
+        neighbor_bank,
+        feature_id="edit_subject",
+        top_k=top_k,
+        metrics=metric_names,
+        step=None,
+        extra={"prompt": prompt, "subject_pos": subject_pos, "phase": "pre_edit"},
+    )
+
+    # Optional extra selected features (probe prompts, last token).
+    extra_features = list(diff_cfg.get("selected_features", []))
+    pre_extra_snaps: Dict[str, Dict[str, Any]] = {}
+    for feat in extra_features:
+        fid = str(feat.get("name", feat.get("prompt", "feature")))
+        fprompt = str(feat.get("prompt"))
+        fpos = feat.get("position", "last")
+        ftoks = model.to_tokens(fprompt)
+        pos_i = int(ftoks.shape[1] - 1) if fpos == "last" else int(fpos)
+        fq = extract_mlp_out_feature(model, fprompt, layer, pos_i)
+        pre_extra_snaps[fid] = snapshot_neighborhood(
+            fq,
+            neighbor_bank,
+            feature_id=fid,
+            top_k=top_k,
+            metrics=metric_names,
+            extra={"prompt": fprompt, "position": pos_i, "phase": "pre_edit"},
+        )
+
+    v_star, v_losses, q0, q_last, last_step = optimize_v(
         model,
         tokens,
         layer=layer,
@@ -268,6 +340,72 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
 
     after = next_token_probs(model, prompt, [target_old_id, target_new_id])
     after_text = generate_continuation(model, prompt)
+
+    diff_paths: Dict[str, str] = {}
+    if diff_enabled:
+        # step_vs_step: geometry of write direction at v-step 0 vs last (fixed pre-edit bank)
+        if "step_vs_step" in diff_modes:
+            step_diff = diff_step_queries(
+                q0,
+                q_last,
+                neighbor_bank,
+                feature_id="edit_subject_v_opt",
+                step_t=0,
+                step_tk=last_step,
+                top_k=top_k,
+                metrics=metric_names,
+            )
+            p = save_diff(step_diff, logger.root / "diff_step_vs_step.json")
+            diff_paths["step_vs_step"] = str(p)
+            if save_plot:
+                plot_neighborhood_diff(step_diff, logger.root / "diff_step_vs_step.png")
+
+        # pre_post_edit: re-collect bank post-edit; snapshot subject feature again
+        if "pre_post_edit" in diff_modes:
+            post_bank = collect_mlp_out_bank(
+                model,
+                layer=layer,
+                prompts=probe_prompts,
+                positions=str(log_cfg.get("bank_positions", "all")),
+            )
+            post_query = extract_mlp_out_feature(model, prompt, layer, subject_pos)
+            # Compare using each side's own bank (geometry in that weight state).
+            post_snap = snapshot_neighborhood(
+                post_query,
+                post_bank,
+                feature_id="edit_subject",
+                top_k=top_k,
+                metrics=metric_names,
+                extra={"prompt": prompt, "subject_pos": subject_pos, "phase": "post_edit"},
+            )
+            pre_post = diff_snapshots(pre_snap, post_snap, mode="pre_post_edit")
+            p = save_diff(pre_post, logger.root / "diff_pre_post_edit.json")
+            diff_paths["pre_post_edit"] = str(p)
+            if save_plot:
+                plot_neighborhood_diff(pre_post, logger.root / "diff_pre_post_edit.png")
+
+            # Extra selected features pre/post
+            for fid, pre_s in pre_extra_snaps.items():
+                feat = next(f for f in extra_features if str(f.get("name", f.get("prompt"))) == fid)
+                fprompt = str(feat.get("prompt"))
+                fpos = feat.get("position", "last")
+                ftoks = model.to_tokens(fprompt)
+                pos_i = int(ftoks.shape[1] - 1) if fpos == "last" else int(fpos)
+                fq = extract_mlp_out_feature(model, fprompt, layer, pos_i)
+                post_s = snapshot_neighborhood(
+                    fq,
+                    post_bank,
+                    feature_id=fid,
+                    top_k=top_k,
+                    metrics=metric_names,
+                    extra={"prompt": fprompt, "position": pos_i, "phase": "post_edit"},
+                )
+                d = diff_snapshots(pre_s, post_s, mode="pre_post_edit")
+                safe = "".join(c if c.isalnum() or c in "-_" else "_" for c in fid)
+                dp = save_diff(d, logger.root / f"diff_pre_post_{safe}.json")
+                diff_paths[f"pre_post_{safe}"] = str(dp)
+                if save_plot:
+                    plot_neighborhood_diff(d, logger.root / f"diff_pre_post_{safe}.png")
 
     result = {
         "seed": seed,
@@ -295,6 +433,7 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
         "success": after[target_new_id] > before[target_new_id] and after[target_new_id] > after[target_old_id],
         "signals_csv": str(logger.csv_path),
         "meta_json": str(logger.meta_path),
+        "diffs": diff_paths,
     }
 
     out_path = logger.root / "rome_result.json"
@@ -318,6 +457,10 @@ def main() -> None:
     print("\nDone.")
     print(f"success={result['success']}  p_new {result['before']['p_new']:.4f} → {result['after']['p_new']:.4f}")
     print(f"wrote {result['result_json']}")
+    if result.get("diffs"):
+        print("diffs:")
+        for name, path in result["diffs"].items():
+            print(f"  {name}: {path}")
 
 
 if __name__ == "__main__":

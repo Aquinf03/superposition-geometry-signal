@@ -1,0 +1,298 @@
+{
+  "mode": "pre_post_edit",
+  "feature_id_before": "edit_subject",
+  "feature_id_after": "edit_subject",
+  "step_before": null,
+  "step_after": null,
+  "metrics_before": {
+    "interference_mean": 0.4856073558330536,
+    "spectral_participation": 0.036453731476314484,
+    "coactivation_overlap": 0.11696262866400366
+  },
+  "metrics_after": {
+    "interference_mean": 0.918586015701294,
+    "spectral_participation": 0.0026964062736147924,
+    "coactivation_overlap": 0.1236295506467996
+  },
+  "delta_metrics": {
+    "coactivation_overlap": 0.006666921982795948,
+    "interference_mean": 0.43297865986824036,
+    "spectral_participation": -0.033757325202699695
+  },
+  "summary_score": 0.157800969017912,
+  "mean_abs_neighbor_delta": 0.37815549969673157,
+  "neighbor_deltas": [
+    {
+      "bank_index": 19,
+      "abs_cos_before": 0.5480247735977173,
+      "abs_cos_after": 0.9554699063301086,
+      "delta_abs_cos": 0.40744513273239136
+    },
+    {
+      "bank_index": 27,
+      "abs_cos_before": 0.6088578104972839,
+      "abs_cos_after": 0.9577236771583557,
+      "delta_abs_cos": 0.3488658666610718
+    }
+  ],
+  "neighbors_entered_topk": [
+    1,
+    11,
+    12,
+    21,
+    36,
+    41,
+    55,
+    62,
+    68,
+    69,
+    76,
+    77,
+    79,
+    82
+  ],
+  "neighbors_left_topk": [
+    0,
+    5,
+    8,
+    16,
+    25,
+    31,
+    40,
+    42,
+    46,
+    53,
+    60,
+    67,
+    75,
+    81
+  ],
+  "before": {
+    "feature_id": "edit_subject",
+    "step": null,
+    "metrics": {
+      "interference_mean": 0.4856073558330536,
+      "spectral_participation": 0.036453731476314484,
+      "coactivation_overlap": 0.11696262866400366
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 27,
+        "label": null,
+        "abs_cos": 0.6088578104972839
+      },
+      {
+        "rank": 1,
+        "bank_index": 19,
+        "label": null,
+        "abs_cos": 0.5480247735977173
+      },
+      {
+        "rank": 2,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.4892374277114868
+      },
+      {
+        "rank": 3,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 4,
+        "bank_index": 81,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 5,
+        "bank_index": 75,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 6,
+        "bank_index": 67,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 7,
+        "bank_index": 60,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 8,
+        "bank_index": 53,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 9,
+        "bank_index": 46,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 10,
+        "bank_index": 8,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 11,
+        "bank_index": 40,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 12,
+        "bank_index": 31,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 13,
+        "bank_index": 25,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 14,
+        "bank_index": 16,
+        "label": null,
+        "abs_cos": 0.4722411632537842
+      },
+      {
+        "rank": 15,
+        "bank_index": 42,
+        "label": null,
+        "abs_cos": 0.45670345425605774
+      }
+    ],
+    "query_norm": 21.106948852539062,
+    "bank_size": 85,
+    "extra": {
+      "prompt": "The Eiffel Tower is located in",
+      "subject_pos": 5,
+      "phase": "pre_edit"
+    }
+  },
+  "after": {
+    "feature_id": "edit_subject",
+    "step": null,
+    "metrics": {
+      "interference_mean": 0.918586015701294,
+      "spectral_participation": 0.0026964062736147924,
+      "coactivation_overlap": 0.1236295506467996
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 27,
+        "label": null,
+        "abs_cos": 0.9577236771583557
+      },
+      {
+        "rank": 1,
+        "bank_index": 19,
+        "label": null,
+        "abs_cos": 0.9554699063301086
+      },
+      {
+        "rank": 2,
+        "bank_index": 12,
+        "label": null,
+        "abs_cos": 0.9483098387718201
+      },
+      {
+        "rank": 3,
+        "bank_index": 21,
+        "label": null,
+        "abs_cos": 0.9463984966278076
+      },
+      {
+        "rank": 4,
+        "bank_index": 11,
+        "label": null,
+        "abs_cos": 0.9410396814346313
+      },
+      {
+        "rank": 5,
+        "bank_index": 55,
+        "label": null,
+        "abs_cos": 0.9330903887748718
+      },
+      {
+        "rank": 6,
+        "bank_index": 79,
+        "label": null,
+        "abs_cos": 0.9313950538635254
+      },
+      {
+        "rank": 7,
+        "bank_index": 36,
+        "label": null,
+        "abs_cos": 0.9284971356391907
+      },
+      {
+        "rank": 8,
+        "bank_index": 41,
+        "label": null,
+        "abs_cos": 0.9129016399383545
+      },
+      {
+        "rank": 9,
+        "bank_index": 62,
+        "label": null,
+        "abs_cos": 0.9067499041557312
+      },
+      {
+        "rank": 10,
+        "bank_index": 69,
+        "label": null,
+        "abs_cos": 0.9001150727272034
+      },
+      {
+        "rank": 11,
+        "bank_index": 77,
+        "label": null,
+        "abs_cos": 0.8976647853851318
+      },
+      {
+        "rank": 12,
+        "bank_index": 82,
+        "label": null,
+        "abs_cos": 0.8851324915885925
+      },
+      {
+        "rank": 13,
+        "bank_index": 68,
+        "label": null,
+        "abs_cos": 0.8842962384223938
+      },
+      {
+        "rank": 14,
+        "bank_index": 76,
+        "label": null,
+        "abs_cos": 0.8842962384223938
+      },
+      {
+        "rank": 15,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.8842962384223938
+      }
+    ],
+    "query_norm": 82.59183502197266,
+    "bank_size": 85,
+    "extra": {
+      "prompt": "The Eiffel Tower is located in",
+      "subject_pos": 5,
+      "phase": "post_edit"
+    }
+  }
+}

@@ -1,0 +1,334 @@
+{
+  "mode": "pre_post_edit",
+  "feature_id_before": "paris_capital",
+  "feature_id_after": "paris_capital",
+  "step_before": null,
+  "step_after": null,
+  "metrics_before": {
+    "interference_mean": 0.5231630206108093,
+    "spectral_participation": 0.0676187030852787,
+    "coactivation_overlap": 0.14521249060699673
+  },
+  "metrics_after": {
+    "interference_mean": 0.7339766621589661,
+    "spectral_participation": 0.03287271469358414,
+    "coactivation_overlap": 0.15811463704387563
+  },
+  "delta_metrics": {
+    "coactivation_overlap": 0.012902146436878897,
+    "interference_mean": 0.21081364154815674,
+    "spectral_participation": -0.034745988391694564
+  },
+  "summary_score": 0.08615392545891006,
+  "mean_abs_neighbor_delta": 0.19166493686762723,
+  "neighbor_deltas": [
+    {
+      "bank_index": 1,
+      "abs_cos_before": 0.45143744349479675,
+      "abs_cos_after": 0.7010028958320618,
+      "delta_abs_cos": 0.24956545233726501
+    },
+    {
+      "bank_index": 8,
+      "abs_cos_before": 0.44196099042892456,
+      "abs_cos_after": 0.6818891167640686,
+      "delta_abs_cos": 0.23992812633514404
+    },
+    {
+      "bank_index": 10,
+      "abs_cos_before": 0.45143744349479675,
+      "abs_cos_after": 0.7010028958320618,
+      "delta_abs_cos": 0.24956545233726501
+    },
+    {
+      "bank_index": 18,
+      "abs_cos_before": 0.45143744349479675,
+      "abs_cos_after": 0.7010028958320618,
+      "delta_abs_cos": 0.24956545233726501
+    },
+    {
+      "bank_index": 33,
+      "abs_cos_before": 0.45143744349479675,
+      "abs_cos_after": 0.7010028958320618,
+      "delta_abs_cos": 0.24956545233726501
+    },
+    {
+      "bank_index": 43,
+      "abs_cos_before": 0.4280954599380493,
+      "abs_cos_after": 0.680356502532959,
+      "delta_abs_cos": 0.25226104259490967
+    },
+    {
+      "bank_index": 52,
+      "abs_cos_before": 0.8449832201004028,
+      "abs_cos_after": 0.9063387513160706,
+      "delta_abs_cos": 0.061355531215667725
+    },
+    {
+      "bank_index": 59,
+      "abs_cos_before": 0.9365355968475342,
+      "abs_cos_after": 0.959908664226532,
+      "delta_abs_cos": 0.023373067378997803
+    },
+    {
+      "bank_index": 66,
+      "abs_cos_before": 0.9084943532943726,
+      "abs_cos_after": 0.9424980282783508,
+      "delta_abs_cos": 0.03400367498397827
+    },
+    {
+      "bank_index": 68,
+      "abs_cos_before": 0.45143744349479675,
+      "abs_cos_after": 0.7010028958320618,
+      "delta_abs_cos": 0.24956545233726501
+    },
+    {
+      "bank_index": 76,
+      "abs_cos_before": 0.4514373540878296,
+      "abs_cos_after": 0.7010029554367065,
+      "delta_abs_cos": 0.24956560134887695
+    }
+  ],
+  "neighbors_entered_topk": [
+    6,
+    27,
+    29,
+    56,
+    77
+  ],
+  "neighbors_left_topk": [
+    16,
+    25,
+    31,
+    70,
+    78
+  ],
+  "before": {
+    "feature_id": "paris_capital",
+    "step": null,
+    "metrics": {
+      "interference_mean": 0.5231630206108093,
+      "spectral_participation": 0.0676187030852787,
+      "coactivation_overlap": 0.14521249060699673
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 59,
+        "label": null,
+        "abs_cos": 0.9365355968475342
+      },
+      {
+        "rank": 1,
+        "bank_index": 66,
+        "label": null,
+        "abs_cos": 0.9084943532943726
+      },
+      {
+        "rank": 2,
+        "bank_index": 52,
+        "label": null,
+        "abs_cos": 0.8449832201004028
+      },
+      {
+        "rank": 3,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.45143744349479675
+      },
+      {
+        "rank": 4,
+        "bank_index": 33,
+        "label": null,
+        "abs_cos": 0.45143744349479675
+      },
+      {
+        "rank": 5,
+        "bank_index": 18,
+        "label": null,
+        "abs_cos": 0.45143744349479675
+      },
+      {
+        "rank": 6,
+        "bank_index": 10,
+        "label": null,
+        "abs_cos": 0.45143744349479675
+      },
+      {
+        "rank": 7,
+        "bank_index": 68,
+        "label": null,
+        "abs_cos": 0.45143744349479675
+      },
+      {
+        "rank": 8,
+        "bank_index": 76,
+        "label": null,
+        "abs_cos": 0.4514373540878296
+      },
+      {
+        "rank": 9,
+        "bank_index": 78,
+        "label": null,
+        "abs_cos": 0.4424598217010498
+      },
+      {
+        "rank": 10,
+        "bank_index": 8,
+        "label": null,
+        "abs_cos": 0.44196099042892456
+      },
+      {
+        "rank": 11,
+        "bank_index": 43,
+        "label": null,
+        "abs_cos": 0.4280954599380493
+      },
+      {
+        "rank": 12,
+        "bank_index": 31,
+        "label": null,
+        "abs_cos": 0.4216398000717163
+      },
+      {
+        "rank": 13,
+        "bank_index": 16,
+        "label": null,
+        "abs_cos": 0.41872718930244446
+      },
+      {
+        "rank": 14,
+        "bank_index": 25,
+        "label": null,
+        "abs_cos": 0.4111776351928711
+      },
+      {
+        "rank": 15,
+        "bank_index": 70,
+        "label": null,
+        "abs_cos": 0.4079096019268036
+      }
+    ],
+    "query_norm": 33.3062744140625,
+    "bank_size": 85,
+    "extra": {
+      "prompt": "Paris is the capital of",
+      "position": 5,
+      "phase": "pre_edit"
+    }
+  },
+  "after": {
+    "feature_id": "paris_capital",
+    "step": null,
+    "metrics": {
+      "interference_mean": 0.7339766621589661,
+      "spectral_participation": 0.03287271469358414,
+      "coactivation_overlap": 0.15811463704387563
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 59,
+        "label": null,
+        "abs_cos": 0.959908664226532
+      },
+      {
+        "rank": 1,
+        "bank_index": 66,
+        "label": null,
+        "abs_cos": 0.9424980282783508
+      },
+      {
+        "rank": 2,
+        "bank_index": 52,
+        "label": null,
+        "abs_cos": 0.9063387513160706
+      },
+      {
+        "rank": 3,
+        "bank_index": 76,
+        "label": null,
+        "abs_cos": 0.7010029554367065
+      },
+      {
+        "rank": 4,
+        "bank_index": 10,
+        "label": null,
+        "abs_cos": 0.7010028958320618
+      },
+      {
+        "rank": 5,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.7010028958320618
+      },
+      {
+        "rank": 6,
+        "bank_index": 18,
+        "label": null,
+        "abs_cos": 0.7010028958320618
+      },
+      {
+        "rank": 7,
+        "bank_index": 33,
+        "label": null,
+        "abs_cos": 0.7010028958320618
+      },
+      {
+        "rank": 8,
+        "bank_index": 68,
+        "label": null,
+        "abs_cos": 0.7010028958320618
+      },
+      {
+        "rank": 9,
+        "bank_index": 8,
+        "label": null,
+        "abs_cos": 0.6818891167640686
+      },
+      {
+        "rank": 10,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.6806985139846802
+      },
+      {
+        "rank": 11,
+        "bank_index": 43,
+        "label": null,
+        "abs_cos": 0.680356502532959
+      },
+      {
+        "rank": 12,
+        "bank_index": 77,
+        "label": null,
+        "abs_cos": 0.6784669756889343
+      },
+      {
+        "rank": 13,
+        "bank_index": 27,
+        "label": null,
+        "abs_cos": 0.6707639694213867
+      },
+      {
+        "rank": 14,
+        "bank_index": 29,
+        "label": null,
+        "abs_cos": 0.6684890389442444
+      },
+      {
+        "rank": 15,
+        "bank_index": 56,
+        "label": null,
+        "abs_cos": 0.6681994795799255
+      }
+    ],
+    "query_norm": 41.64200973510742,
+    "bank_size": 85,
+    "extra": {
+      "prompt": "Paris is the capital of",
+      "position": 5,
+      "phase": "post_edit"
+    }
+  }
+}

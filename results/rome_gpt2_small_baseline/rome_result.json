@@ -1,0 +1,33 @@
+{
+  "seed": 0,
+  "model": "gpt2-small",
+  "device": "mps",
+  "layer": 8,
+  "subject": "The Eiffel Tower",
+  "prompt": "The Eiffel Tower is located in",
+  "subject_pos": 5,
+  "target_old": " Paris",
+  "target_new": " Rome",
+  "before": {
+    "p_old": 0.01889411360025406,
+    "p_new": 0.0011599737918004394,
+    "continuation": "<|endoftext|>The Eiffel Tower is located in the heart of the city of Paris,"
+  },
+  "after": {
+    "p_old": 5.168082861928269e-05,
+    "p_new": 0.9822041392326355,
+    "continuation": "<|endoftext|>The Eiffel Tower is located in Rome, Italy, and is the largest"
+  },
+  "v_final_loss": 0.04763391613960266,
+  "v_steps_ran": 9,
+  "delta_W_norm": 8.272481918334961,
+  "success": true,
+  "signals_csv": "results/rome_gpt2_small_baseline/signals.csv",
+  "meta_json": "results/rome_gpt2_small_baseline/meta.json",
+  "diffs": {
+    "step_vs_step": "results/rome_gpt2_small_baseline/diff_step_vs_step.json",
+    "pre_post_edit": "results/rome_gpt2_small_baseline/diff_pre_post_edit.json",
+    "pre_post_louvre_located_in": "results/rome_gpt2_small_baseline/diff_pre_post_louvre_located_in.json",
+    "pre_post_paris_capital": "results/rome_gpt2_small_baseline/diff_pre_post_paris_capital.json"
+  }
+}

@@ -1,4 +1,4 @@
-# One-shot ROME baseline on GPT-2 small (act + real track)
+# One-shot ROME baseline on GPT-2 small (track + diff + act)
 seed: 0
 model: gpt2-small
 device: auto
@@ -13,7 +13,6 @@ edit:
   v_lr: 0.5
   early_stop_loss: 0.05
 
-# Track: loss + real geometry_* each v-step
 logging:
   results_dir: results
   run_name: rome_gpt2_small_baseline
@@ -30,4 +29,14 @@ diff:
   enabled: true
   modes:
     - pre_post_edit
+    - step_vs_step
   top_k_neighbors: 16
+  save_neighborhood_plot: true
+  # Extra features to diff pre/post (edit subject is always included)
+  selected_features:
+    - name: louvre_located_in
+      prompt: "The Louvre Museum is located in"
+      position: last
+    - name: paris_capital
+      prompt: "Paris is the capital of"
+      position: last

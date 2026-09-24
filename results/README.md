@@ -4,10 +4,12 @@ Each run writes under `results/<run_name>/`:
 
 | Artifact | Role |
 | --- | --- |
-| `signals.csv` | **Track** — `step`, `loss`, `geometry_interference_mean`, `geometry_spectral_participation`, `geometry_coactivation_overlap` |
+| `signals.csv` | **Track** — `step`, `loss`, `geometry_*` |
 | `loss_geometry.png` | **Track** plot — from `scripts/plot_signals.py` |
 | `meta.json` | seed, model, config snapshot, neighbor bank size |
-| `*_diff.json` / figures | **Diff** — selected feature neighborhoods pre/post or step vs step |
-| `rome_result.json` | **Act** — edit success + probs (ROME baseline) |
+| `diff_step_vs_step.json/.png` | **Diff** — v-step 0 vs last |
+| `diff_pre_post_edit.json/.png` | **Diff** — edit subject pre vs post rank-one |
+| `diff_pre_post_<feature>.*` | **Diff** — extra selected features |
+| `rome_result.json` | **Act** — edit success + probs + diff paths |
 
-Produced by `scripts/signals.py` and experiment entrypoints.
+Produced by `scripts/signals.py`, `scripts/diff_geometry.py`, and `scripts/rome_edit.py`.

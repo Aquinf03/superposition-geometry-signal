@@ -42,3 +42,15 @@ See `configs/default.yaml` / `configs/rome_gpt2_small.yaml`:
 ```bash
 python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
 ```
+
+## Diff (selected features / neighborhoods)
+
+`scripts/diff_geometry.py` snapshots a feature’s summary metrics + top-k neighbor `|cos|`, then diffs two snapshots.
+
+| Mode | File | Meaning |
+| --- | --- | --- |
+| `step_vs_step` | `diff_step_vs_step.json/.png` | same write-direction at v-step 0 vs last (fixed pre-edit bank) |
+| `pre_post_edit` | `diff_pre_post_edit.json/.png` | edit-subject MLP-out before vs after rank-one (banks refreshed) |
+| extra features | `diff_pre_post_<name>.json/.png` | from `diff.selected_features` in YAML |
+
+JSON fields: `delta_metrics`, `summary_score`, `mean_abs_neighbor_delta`, `neighbor_deltas`, entered/left top-k.
