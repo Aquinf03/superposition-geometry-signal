@@ -4,11 +4,11 @@
   "n_sparse": 16,
   "n_dense": 64,
   "sparse": {
-    "pairwise_mean_abs_cos": 2.987681213539872e-08,
+    "pairwise_mean_abs_cos": 1.0573282906989334e-06,
     "metrics": {
-      "interference_mean": 2.988769365330768e-08,
+      "interference_mean": 1.0573283262260702e-06,
       "spectral_participation": 0.0,
-      "coactivation_overlap": 1.0
+      "coactivation_overlap": 0.14587301587301588
     }
   },
   "dense": {
@@ -16,21 +16,21 @@
     "metrics": {
       "interference_mean": 0.39911389723420143,
       "spectral_participation": 0.3366205361982187,
-      "coactivation_overlap": 1.0
+      "coactivation_overlap": 0.18911830357142861
     }
   },
   "delta_dense_minus_sparse": {
-    "interference_mean": 0.3991138673465078,
+    "interference_mean": 0.3991128399058752,
     "spectral_participation": 0.3366205361982187,
-    "coactivation_overlap": 0.0
+    "coactivation_overlap": 0.04324528769841274
   },
   "checks": {
     "pack_density_increases": true,
     "interference_increases": true,
-    "coactivation_increases": false,
+    "coactivation_increases": true,
     "spectral_moves": true
   },
-  "passed": false,
+  "passed": true,
   "signals_csv": "/Users/ashm/work/super/results/toy_superposition_sanity/signals.csv",
   "meta_json": "/Users/ashm/work/super/results/toy_superposition_sanity/meta.json"
 }
