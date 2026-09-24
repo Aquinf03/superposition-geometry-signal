@@ -132,12 +132,14 @@ def coactivation_overlap(
     q = query.float().reshape(-1)
     if b.shape[0] == 0:
         return 0.0
+    # Never select the full ambient dim — that forces Jaccard=1 for all dense vectors.
+    m = min(int(top_dims), max(1, q.numel() // 4), q.numel() - 1) if q.numel() > 1 else 1
+    m = max(1, m)
     sims = abs_cosine_sims(q, b)
     k = min(int(top_k), int(sims.numel()))
     if k <= 0:
         return 0.0
     nbr_idx = torch.topk(sims, k).indices
-    m = min(int(top_dims), int(q.numel()))
     q_set = set(torch.topk(q.abs(), m).indices.tolist())
     overlaps: List[float] = []
     for i in nbr_idx.tolist():

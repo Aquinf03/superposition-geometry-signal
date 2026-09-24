@@ -13,10 +13,12 @@ Pipeline verbs: **track** → **diff** → **act** (+ **eval** / frozen config).
 | `eval_edit.py` | **Eval:** success / paraphrase / ripple / activation cosine |
 | `run_artifacts.py` | Freeze `config` + `seed` into the run dir |
 | `rome_edit.py` | **Act:** ROME baseline; track + diff + eval + artifacts |
+| `toy_superposition_sanity.py` | Sanity: sparse vs dense packs → metrics must move |
 
 ```bash
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
 python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
+python scripts/toy_superposition_sanity.py
 ```
 
 Per-run outputs under `results/<run>/`:

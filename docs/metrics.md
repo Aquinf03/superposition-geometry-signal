@@ -27,6 +27,8 @@ For each of the top-k cosine neighbors, take the Jaccard overlap of the top-|act
 
 High ⇒ query and neighbors light up overlapping coordinates.
 
+Uses at most ~`d/4` top dimensions (never the full ambient dim), so dense vectors do not trivially score 1.0.
+
 ## Config knobs
 
 See `configs/default.yaml` / `configs/rome_gpt2_small.yaml`:
@@ -54,3 +56,11 @@ python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.cs
 | extra features | `diff_pre_post_<name>.json/.png` | from `diff.selected_features` in YAML |
 
 JSON fields: `delta_metrics`, `summary_score`, `mean_abs_neighbor_delta`, `neighbor_deltas`, entered/left top-k.
+
+## Toy sanity check
+
+```bash
+python scripts/toy_superposition_sanity.py
+```
+
+Compares near-orthogonal features (`n ≤ d`) vs forced packing (`n ≫ d`) in the same ambient dim. Expect denser ⇒ higher `interference_mean` / `coactivation_overlap`, and `spectral_participation` moves. Writes `results/toy_superposition_sanity/` (`sanity_result.json`, `sparse_vs_dense.png`, `signals.csv`).

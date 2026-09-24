@@ -1,0 +1,9 @@
+{
+  "run_name": "toy_superposition_sanity",
+  "seed": 0,
+  "d": 16,
+  "n_sparse": 16,
+  "n_dense": 64,
+  "top_k": 16,
+  "note": "toy superposition sanity: sparse vs dense feature packs"
+}
