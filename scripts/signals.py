@@ -1,4 +1,8 @@
-"""Log loss and geometry side by side — the training-signal dashboard."""
+"""Log loss and geometry side by side — the training-signal tracker.
+
+Track verb: append (step, loss, geometry_*) every N steps.
+Diff of selected features is a separate step that consumes these snapshots.
+"""
 
 from __future__ import annotations
 

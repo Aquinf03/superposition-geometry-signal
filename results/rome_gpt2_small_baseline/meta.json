@@ -1,0 +1,20 @@
+{
+  "run_name": "rome_gpt2_small_baseline",
+  "seed": 0,
+  "model": "gpt2-small",
+  "device": "mps",
+  "edit": {
+    "subject": "The Eiffel Tower",
+    "prompt": "The Eiffel Tower is located in",
+    "target_old": " Paris",
+    "target_new": " Rome",
+    "layer": 8,
+    "v_steps": 25,
+    "v_lr": 0.5,
+    "early_stop_loss": 0.05
+  },
+  "subject_pos": 5,
+  "target_old_id": 6342,
+  "target_new_id": 10598,
+  "note": "geometry columns are placeholders until metrics are implemented"
+}

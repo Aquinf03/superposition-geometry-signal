@@ -1,0 +1,33 @@
+# One-shot ROME baseline on GPT-2 small (act + real track)
+seed: 0
+model: gpt2-small
+device: auto
+
+edit:
+  subject: "The Eiffel Tower"
+  prompt: "The Eiffel Tower is located in"
+  target_old: " Paris"
+  target_new: " Rome"
+  layer: 8
+  v_steps: 25
+  v_lr: 0.5
+  early_stop_loss: 0.05
+
+# Track: loss + real geometry_* each v-step
+logging:
+  results_dir: results
+  run_name: rome_gpt2_small_baseline
+  every_n_steps: 1
+  log_loss: true
+  log_geometry: true
+  bank_positions: all
+  geometry_metrics:
+    - interference_mean
+    - spectral_participation
+    - coactivation_overlap
+
+diff:
+  enabled: true
+  modes:
+    - pre_post_edit
+  top_k_neighbors: 16

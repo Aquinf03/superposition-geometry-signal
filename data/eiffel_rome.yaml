@@ -1,0 +1,6 @@
+# Example factual edit used by the ROME baseline.
+subject: "The Eiffel Tower"
+relation: "is located in"
+object_old: "Paris"
+object_new: "Rome"
+prompt: "The Eiffel Tower is located in"
