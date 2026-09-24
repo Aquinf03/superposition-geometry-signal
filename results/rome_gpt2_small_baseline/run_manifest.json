@@ -1,0 +1,9 @@
+{
+  "seed": 0,
+  "created_utc": "2026-09-24T11:14:06.764695+00:00",
+  "config_frozen": "config.frozen.yaml",
+  "config_source": "config.source.yaml",
+  "source_config_path": "configs/rome_gpt2_small.yaml",
+  "model": "gpt2-small",
+  "device": "mps"
+}

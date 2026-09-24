@@ -1,0 +1,42 @@
+seed: 0
+model: gpt2-small
+device: auto
+edit:
+  subject: The Eiffel Tower
+  prompt: The Eiffel Tower is located in
+  target_old: ' Paris'
+  target_new: ' Rome'
+  layer: 8
+  v_steps: 25
+  v_lr: 0.5
+  early_stop_loss: 0.05
+logging:
+  results_dir: results
+  run_name: rome_gpt2_small_baseline
+  every_n_steps: 1
+  log_loss: true
+  log_geometry: true
+  bank_positions: all
+  geometry_metrics:
+  - interference_mean
+  - spectral_participation
+  - coactivation_overlap
+diff:
+  enabled: true
+  modes:
+  - pre_post_edit
+  - step_vs_step
+  top_k_neighbors: 16
+  save_neighborhood_plot: true
+  selected_features:
+  - name: louvre_located_in
+    prompt: The Louvre Museum is located in
+    position: last
+  - name: paris_capital
+    prompt: Paris is the capital of
+    position: last
+eval:
+  fingerprint_n_layers: 8
+  paraphrase_templates: null
+  ripple_probes: null
+  fingerprint_probes: null

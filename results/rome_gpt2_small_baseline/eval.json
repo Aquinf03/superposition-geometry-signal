@@ -1,0 +1,302 @@
+{
+  "edit_success": {
+    "success": true,
+    "p_old_before": 0.01889411360025406,
+    "p_new_before": 0.0011599737918004394,
+    "p_old_after": 5.168082861928269e-05,
+    "p_new_after": 0.9822041392326355,
+    "delta_p_new": 0.9810441654408351,
+    "delta_p_old": -0.018842432771634776
+  },
+  "paraphrase": {
+    "n": 7,
+    "mean_p_new": 0.8515976560967309,
+    "mean_p_old": 8.818810498009302e-05,
+    "pass_mean_p_new_ge_0_10": true,
+    "per_prompt": [
+      {
+        "prompt": "The Eiffel Tower is located in",
+        "p_new": 0.9822041392326355,
+        "p_old": 5.168082861928269e-05
+      },
+      {
+        "prompt": "The Eiffel Tower is in",
+        "p_new": 0.9851374626159668,
+        "p_old": 3.282894249423407e-05
+      },
+      {
+        "prompt": "You can find The Eiffel Tower in",
+        "p_new": 0.9324666261672974,
+        "p_old": 0.0001616664812900126
+      },
+      {
+        "prompt": "The Eiffel Tower stands in",
+        "p_new": 0.9837892055511475,
+        "p_old": 4.795680069946684e-05
+      },
+      {
+        "prompt": "The Eiffel Tower can be found in",
+        "p_new": 0.9513301849365234,
+        "p_old": 4.512441955739632e-05
+      },
+      {
+        "prompt": "People visit The Eiffel Tower in",
+        "p_new": 0.9977566599845886,
+        "p_old": 0.00019964658713433892
+      },
+      {
+        "prompt": "The location of The Eiffel Tower is",
+        "p_new": 0.12849931418895721,
+        "p_old": 7.841267506591976e-05
+      }
+    ]
+  },
+  "ripple": {
+    "n": 8,
+    "mean_kl": 1.039150794968009,
+    "frac_top_shifted": 0.625,
+    "pass_mean_kl_lt_0_05": false,
+    "per_prompt": [
+      {
+        "prompt": "Paris is the capital of",
+        "kl_before_after": 1.3848069906234741,
+        "top_before": " France",
+        "top_after": " the",
+        "top_shifted": true,
+        "top_p_before": 0.3342444598674774,
+        "top_p_after": 0.4184577465057373
+      },
+      {
+        "prompt": "The Louvre Museum is located in",
+        "kl_before_after": 2.656162738800049,
+        "top_before": " the",
+        "top_after": " Rome",
+        "top_shifted": true,
+        "top_p_before": 0.34105584025382996,
+        "top_p_after": 0.7938773036003113
+      },
+      {
+        "prompt": "The Colosseum is located in",
+        "kl_before_after": 1.732791543006897,
+        "top_before": " the",
+        "top_after": " Rome",
+        "top_shifted": true,
+        "top_p_before": 0.3477117121219635,
+        "top_p_after": 0.6278712153434753
+      },
+      {
+        "prompt": "Water boils at",
+        "kl_before_after": 0.6931205987930298,
+        "top_before": " the",
+        "top_after": " the",
+        "top_shifted": false,
+        "top_p_before": 0.16228869557380676,
+        "top_p_after": 0.21011614799499512
+      },
+      {
+        "prompt": "The president of the United States is",
+        "kl_before_after": 0.18368853628635406,
+        "top_before": " a",
+        "top_after": " a",
+        "top_shifted": false,
+        "top_p_before": 0.0376252606511116,
+        "top_p_after": 0.031088843941688538
+      },
+      {
+        "prompt": "The currency of Japan is",
+        "kl_before_after": 0.26422441005706787,
+        "top_before": " the",
+        "top_after": " the",
+        "top_shifted": false,
+        "top_p_before": 0.0740259662270546,
+        "top_p_after": 0.09254460781812668
+      },
+      {
+        "prompt": "Berlin is the capital of",
+        "kl_before_after": 1.1171205043792725,
+        "top_before": " Germany",
+        "top_after": " Italy",
+        "top_shifted": true,
+        "top_p_before": 0.5213339328765869,
+        "top_p_after": 0.37489524483680725
+      },
+      {
+        "prompt": "Tokyo is the capital of",
+        "kl_before_after": 0.28129103779792786,
+        "top_before": " Japan",
+        "top_after": " the",
+        "top_shifted": true,
+        "top_p_before": 0.420426607131958,
+        "top_p_after": 0.379109650850296
+      }
+    ]
+  },
+  "activation_cosine": {
+    "n": 40,
+    "mean_cosine": 0.9821863129734993,
+    "min_cosine": 0.8494260907173157,
+    "pass_mean_cosine_ge_0_92": true,
+    "per_site": [
+      {
+        "site": "List three colors:||L0",
+        "cosine": 0.9999998807907104
+      },
+      {
+        "site": "List three colors:||L11",
+        "cosine": 0.9878339171409607
+      },
+      {
+        "site": "List three colors:||L2",
+        "cosine": 1.000000238418579
+      },
+      {
+        "site": "List three colors:||L3",
+        "cosine": 1.0
+      },
+      {
+        "site": "List three colors:||L5",
+        "cosine": 1.0
+      },
+      {
+        "site": "List three colors:||L6",
+        "cosine": 1.000000238418579
+      },
+      {
+        "site": "List three colors:||L8",
+        "cosine": 0.9770965576171875
+      },
+      {
+        "site": "List three colors:||L9",
+        "cosine": 0.948897123336792
+      },
+      {
+        "site": "Paris is the capital of||L0",
+        "cosine": 1.0
+      },
+      {
+        "site": "Paris is the capital of||L11",
+        "cosine": 0.9453713297843933
+      },
+      {
+        "site": "Paris is the capital of||L2",
+        "cosine": 1.0000001192092896
+      },
+      {
+        "site": "Paris is the capital of||L3",
+        "cosine": 0.9999999403953552
+      },
+      {
+        "site": "Paris is the capital of||L5",
+        "cosine": 0.9999999403953552
+      },
+      {
+        "site": "Paris is the capital of||L6",
+        "cosine": 1.0000001192092896
+      },
+      {
+        "site": "Paris is the capital of||L8",
+        "cosine": 0.9734165668487549
+      },
+      {
+        "site": "Paris is the capital of||L9",
+        "cosine": 0.8950449228286743
+      },
+      {
+        "site": "The Eiffel Tower is located in||L0",
+        "cosine": 0.9999999403953552
+      },
+      {
+        "site": "The Eiffel Tower is located in||L11",
+        "cosine": 0.9271155595779419
+      },
+      {
+        "site": "The Eiffel Tower is located in||L2",
+        "cosine": 1.0
+      },
+      {
+        "site": "The Eiffel Tower is located in||L3",
+        "cosine": 1.0
+      },
+      {
+        "site": "The Eiffel Tower is located in||L5",
+        "cosine": 1.0
+      },
+      {
+        "site": "The Eiffel Tower is located in||L6",
+        "cosine": 1.0
+      },
+      {
+        "site": "The Eiffel Tower is located in||L8",
+        "cosine": 0.9668444395065308
+      },
+      {
+        "site": "The Eiffel Tower is located in||L9",
+        "cosine": 0.8494260907173157
+      },
+      {
+        "site": "The president of the United States is||L0",
+        "cosine": 0.9999998807907104
+      },
+      {
+        "site": "The president of the United States is||L11",
+        "cosine": 0.980371356010437
+      },
+      {
+        "site": "The president of the United States is||L2",
+        "cosine": 0.9999997615814209
+      },
+      {
+        "site": "The president of the United States is||L3",
+        "cosine": 1.0
+      },
+      {
+        "site": "The president of the United States is||L5",
+        "cosine": 1.0
+      },
+      {
+        "site": "The president of the United States is||L6",
+        "cosine": 1.0000001192092896
+      },
+      {
+        "site": "The president of the United States is||L8",
+        "cosine": 0.9558064341545105
+      },
+      {
+        "site": "The president of the United States is||L9",
+        "cosine": 0.9464921951293945
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L0",
+        "cosine": 0.9999997019767761
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L11",
+        "cosine": 0.9894250631332397
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L2",
+        "cosine": 1.0
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L3",
+        "cosine": 1.000000238418579
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L5",
+        "cosine": 1.000000238418579
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L6",
+        "cosine": 1.0000001192092896
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L8",
+        "cosine": 0.971855640411377
+      },
+      {
+        "site": "What is 12 multiplied by 8?||L9",
+        "cosine": 0.972454845905304
+      }
+    ]
+  }
+}

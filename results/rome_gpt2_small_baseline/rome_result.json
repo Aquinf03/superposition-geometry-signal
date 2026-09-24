@@ -22,8 +22,24 @@
   "v_steps_ran": 9,
   "delta_W_norm": 8.272481918334961,
   "success": true,
+  "eval": {
+    "edit_success": true,
+    "paraphrase_mean_p_new": 0.8515976560967309,
+    "paraphrase_pass": true,
+    "ripple_mean_kl": 1.039150794968009,
+    "ripple_pass": false,
+    "activation_mean_cosine": 0.9821863129734993,
+    "activation_pass": true
+  },
   "signals_csv": "results/rome_gpt2_small_baseline/signals.csv",
   "meta_json": "results/rome_gpt2_small_baseline/meta.json",
+  "eval_json": "results/rome_gpt2_small_baseline/eval.json",
+  "artifacts": {
+    "config_frozen": "results/rome_gpt2_small_baseline/config.frozen.yaml",
+    "seed_txt": "results/rome_gpt2_small_baseline/seed.txt",
+    "config_source": "results/rome_gpt2_small_baseline/config.source.yaml",
+    "run_manifest": "results/rome_gpt2_small_baseline/run_manifest.json"
+  },
   "diffs": {
     "step_vs_step": "results/rome_gpt2_small_baseline/diff_step_vs_step.json",
     "pre_post_edit": "results/rome_gpt2_small_baseline/diff_pre_post_edit.json",

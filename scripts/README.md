@@ -1,6 +1,6 @@
 # Scripts
 
-Pipeline verbs: **track** → **diff** → **act**.
+Pipeline verbs: **track** → **diff** → **act** (+ **eval** / frozen config).
 
 | File | Role |
 | --- | --- |
@@ -9,18 +9,19 @@ Pipeline verbs: **track** → **diff** → **act**.
 | `geometry.py` | **Track metrics** A/B/C + MLP-out neighbor bank |
 | `signals.py` | **Track logger:** `step`, `loss`, `geometry_*` → `results/` |
 | `plot_signals.py` | Plot loss beside geometry curves |
-| `diff_geometry.py` | **Diff:** neighborhood snapshots, pre/post + step vs step, plots |
-| `rome_edit.py` | **Act:** ROME baseline; tracks + diffs automatically |
+| `diff_geometry.py` | **Diff:** neighborhood snapshots, pre/post + step vs step |
+| `eval_edit.py` | **Eval:** success / paraphrase / ripple / activation cosine |
+| `run_artifacts.py` | Freeze `config` + `seed` into the run dir |
+| `rome_edit.py` | **Act:** ROME baseline; track + diff + eval + artifacts |
 
 ```bash
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
 python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
 ```
 
-Outputs under `results/<run>/`:
-- `signals.csv`, `loss_geometry.png` — track
-- `diff_pre_post_edit.json/.png`, `diff_step_vs_step.json/.png` — diff
-- `diff_pre_post_<feature>.json/.png` — extra selected features
-- `rome_result.json` — act
-
-See `docs/metrics.md` for metric definitions.
+Per-run outputs under `results/<run>/`:
+- `signals.csv`, `loss_geometry.png`
+- `diff_*.json/.png`
+- `eval.json` — success, paraphrase, ripple, activation cosine
+- `config.frozen.yaml`, `config.source.yaml`, `seed.txt`, `run_manifest.json`
+- `rome_result.json`

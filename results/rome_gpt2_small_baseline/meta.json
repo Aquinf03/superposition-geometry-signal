@@ -38,5 +38,11 @@
     "The currency of Japan is",
     "Water boils at"
   ],
-  "note": "track: loss + geometry_*; diff: pre/post edit + step0 vs last v-step"
+  "artifacts": {
+    "config_frozen": "results/rome_gpt2_small_baseline/config.frozen.yaml",
+    "seed_txt": "results/rome_gpt2_small_baseline/seed.txt",
+    "config_source": "results/rome_gpt2_small_baseline/config.source.yaml",
+    "run_manifest": "results/rome_gpt2_small_baseline/run_manifest.json"
+  },
+  "note": "track + diff + eval (success/paraphrase/ripple/activation) + frozen config/seed"
 }

@@ -4,12 +4,12 @@ Each run writes under `results/<run_name>/`:
 
 | Artifact | Role |
 | --- | --- |
-| `signals.csv` | **Track** — `step`, `loss`, `geometry_*` |
-| `loss_geometry.png` | **Track** plot — from `scripts/plot_signals.py` |
-| `meta.json` | seed, model, config snapshot, neighbor bank size |
-| `diff_step_vs_step.json/.png` | **Diff** — v-step 0 vs last |
-| `diff_pre_post_edit.json/.png` | **Diff** — edit subject pre vs post rank-one |
-| `diff_pre_post_<feature>.*` | **Diff** — extra selected features |
-| `rome_result.json` | **Act** — edit success + probs + diff paths |
-
-Produced by `scripts/signals.py`, `scripts/diff_geometry.py`, and `scripts/rome_edit.py`.
+| `signals.csv` / `loss_geometry.png` | **Track** |
+| `diff_*.json/.png` | **Diff** |
+| `eval.json` | **Eval** — edit success, paraphrase, ripple KL, activation cosine |
+| `config.frozen.yaml` | Exact config used (includes seed) |
+| `config.source.yaml` | Copy of the YAML you passed on the CLI |
+| `seed.txt` | Seed only |
+| `run_manifest.json` | Seed + timestamps + config paths |
+| `rome_result.json` | **Act** summary + paths to everything above |
+| `meta.json` | Logger meta (model, bank size, etc.) |

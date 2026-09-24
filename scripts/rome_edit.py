@@ -35,11 +35,17 @@ from scripts.diff_geometry import (
     save_diff,
     snapshot_neighborhood,
 )
+from scripts.eval_edit import (
+    capture_activation_fingerprint,
+    capture_ripple_state,
+    run_edit_evals,
+)
 from scripts.geometry import (
     DEFAULT_PROBE_PROMPTS,
     collect_mlp_out_bank,
     compute_geometry_metrics,
 )
+from scripts.run_artifacts import save_run_artifacts
 from scripts.seed import set_seed
 from scripts.signals import SignalLogger
 
@@ -219,11 +225,12 @@ def generate_continuation(model, prompt: str, max_new_tokens: int = 8) -> str:
     return model.to_string(out[0])
 
 
-def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
+def run_edit(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str, Any]:
     seed = set_seed(int(cfg.get("seed", 0)))
     device = resolve_device(str(cfg.get("device", "auto")))
     edit = cfg["edit"]
     log_cfg = cfg.get("logging", {})
+    eval_cfg = cfg.get("eval", {})
 
     from transformer_lens import HookedTransformer
 
@@ -245,6 +252,13 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
     logger = SignalLogger(
         results_dir=log_cfg.get("results_dir", "results"),
         run_name=log_cfg.get("run_name"),
+    )
+    artifact_paths = save_run_artifacts(
+        logger.root,
+        cfg,
+        seed,
+        source_config=source_config,
+        extra_meta={"model": model_name, "device": device},
     )
 
     diff_cfg = cfg.get("diff", {})
@@ -280,7 +294,16 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
         neighbor_bank_size=int(neighbor_bank.shape[0]),
         neighbor_bank_dim=int(neighbor_bank.shape[1]),
         probe_prompts=probe_prompts,
-        note="track: loss + geometry_*; diff: pre/post edit + step0 vs last v-step",
+        artifacts=artifact_paths,
+        note="track + diff + eval (success/paraphrase/ripple/activation) + frozen config/seed",
+    )
+
+    # Pre-edit behavioral / activation baselines for eval.
+    ripple_before = capture_ripple_state(model, probes=eval_cfg.get("ripple_probes"))
+    fingerprint_before = capture_activation_fingerprint(
+        model,
+        probes=eval_cfg.get("fingerprint_probes"),
+        n_layers=int(eval_cfg.get("fingerprint_n_layers", 8)),
     )
 
     k = extract_key(model, tokens, layer, subject_pos)
@@ -407,6 +430,25 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
                 if save_plot:
                     plot_neighborhood_diff(d, logger.root / f"diff_pre_post_{safe}.png")
 
+    evals = run_edit_evals(
+        model,
+        subject=subject,
+        prompt=prompt,
+        target_old=edit["target_old"],
+        target_new=edit["target_new"],
+        p_old_before=before[target_old_id],
+        p_new_before=before[target_new_id],
+        p_old_after=after[target_old_id],
+        p_new_after=after[target_new_id],
+        ripple_before=ripple_before,
+        fingerprint_before=fingerprint_before,
+        paraphrase_templates=eval_cfg.get("paraphrase_templates"),
+        fingerprint_probes=eval_cfg.get("fingerprint_probes"),
+    )
+    eval_path = logger.root / "eval.json"
+    # Drop non-JSON tensors from any accidental leakage — evals are already plain.
+    eval_path.write_text(json.dumps(evals, indent=2) + "\n")
+
     result = {
         "seed": seed,
         "model": model_name,
@@ -430,9 +472,20 @@ def run_edit(cfg: Dict[str, Any]) -> Dict[str, Any]:
         "v_final_loss": v_losses[-1] if v_losses else None,
         "v_steps_ran": len(v_losses),
         "delta_W_norm": delta_norm,
-        "success": after[target_new_id] > before[target_new_id] and after[target_new_id] > after[target_old_id],
+        "success": evals["edit_success"]["success"],
+        "eval": {
+            "edit_success": evals["edit_success"]["success"],
+            "paraphrase_mean_p_new": evals["paraphrase"]["mean_p_new"],
+            "paraphrase_pass": evals["paraphrase"]["pass_mean_p_new_ge_0_10"],
+            "ripple_mean_kl": evals["ripple"]["mean_kl"],
+            "ripple_pass": evals["ripple"]["pass_mean_kl_lt_0_05"],
+            "activation_mean_cosine": evals["activation_cosine"]["mean_cosine"],
+            "activation_pass": evals["activation_cosine"]["pass_mean_cosine_ge_0_92"],
+        },
         "signals_csv": str(logger.csv_path),
         "meta_json": str(logger.meta_path),
+        "eval_json": str(eval_path),
+        "artifacts": artifact_paths,
         "diffs": diff_paths,
     }
 
@@ -452,11 +505,21 @@ def main() -> None:
     )
     args = parser.parse_args()
     cfg = load_config(args.config)
-    result = run_edit(cfg)
+    result = run_edit(cfg, source_config=args.config)
     print(json.dumps(result, indent=2))
     print("\nDone.")
     print(f"success={result['success']}  p_new {result['before']['p_new']:.4f} → {result['after']['p_new']:.4f}")
+    ev = result.get("eval", {})
+    print(
+        "eval: "
+        f"paraphrase_mean_p_new={ev.get('paraphrase_mean_p_new', 0):.4f} "
+        f"ripple_mean_kl={ev.get('ripple_mean_kl', 0):.4f} "
+        f"activation_cos={ev.get('activation_mean_cosine', 0):.4f}"
+    )
     print(f"wrote {result['result_json']}")
+    print(f"eval_json={result.get('eval_json')}")
+    print(f"frozen_config={result.get('artifacts', {}).get('config_frozen')}")
+    print(f"seed_txt={result.get('artifacts', {}).get('seed_txt')}")
     if result.get("diffs"):
         print("diffs:")
         for name, path in result["diffs"].items():
