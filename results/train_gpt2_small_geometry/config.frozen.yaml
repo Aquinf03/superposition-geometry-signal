@@ -10,7 +10,10 @@ train:
   weight_decay: 0.01
   grad_clip: 1.0
 geometry:
-  layer: 8
+  layers:
+  - 4
+  - 8
+  - 11
   every_n_steps: 1
   bank_positions: last
   top_k_neighbors: 8

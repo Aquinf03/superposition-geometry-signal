@@ -13,7 +13,11 @@
     "grad_clip": 1.0
   },
   "geometry": {
-    "layer": 8,
+    "layers": [
+      4,
+      8,
+      11
+    ],
     "every_n_steps": 1,
     "bank_positions": "last",
     "top_k_neighbors": 8,
@@ -24,6 +28,11 @@
     ],
     "probe_prompts": null
   },
+  "layers": [
+    4,
+    8,
+    11
+  ],
   "n_blocks": 13,
   "artifacts": {
     "config_frozen": "results/train_gpt2_small_geometry/config.frozen.yaml",
@@ -31,5 +40,5 @@
     "config_source": "results/train_gpt2_small_geometry/config.source.yaml",
     "run_manifest": "results/train_gpt2_small_geometry/run_manifest.json"
   },
-  "note": "hero: fine-tune with live loss | geometry"
+  "note": "hero: fine-tune with live loss | multi-layer geometry"
 }

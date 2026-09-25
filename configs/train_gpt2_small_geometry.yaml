@@ -1,4 +1,4 @@
-# Hero run: fine-tune GPT-2 small while logging live loss | geometry
+# Hero run: fine-tune GPT-2 small while logging live loss | multi-layer geometry
 seed: 0
 model: gpt2-small
 device: auto
@@ -13,7 +13,8 @@ train:
   grad_clip: 1.0
 
 geometry:
-  layer: 8
+  # Early / mid / late MLP-out layers (gpt2-small has 0..11)
+  layers: [4, 8, 11]
   every_n_steps: 1          # log geometry on this cadence (same as loss log)
   bank_positions: last      # last-token MLP-out probes (cheap + stable)
   top_k_neighbors: 8

@@ -2,8 +2,8 @@
 
 Uses TransformerLens GPT-2 small + a local text corpus (no edit algorithms).
 
-Example live line:
-  step=12  loss=0.41  |  geometry: interference=0.22  spectral=0.31  coact=0.09
+Example live line (multi-layer):
+  step=12  loss=0.41  |  geometry L4: interference=… spectral=… coact=…  |  L8: …  |  L11: …
 
 Run (you run this):
   python scripts/train_with_geometry.py --config configs/train_gpt2_small_geometry.yaml
@@ -27,7 +27,7 @@ if str(ROOT) not in sys.path:
 
 from scripts.geometry import (
     DEFAULT_PROBE_PROMPTS,
-    collect_mlp_out_bank,
+    collect_mlp_out_banks,
     compute_geometry_metrics,
 )
 from scripts.run_artifacts import save_run_artifacts
@@ -43,6 +43,13 @@ def resolve_device(name: str) -> str:
     if getattr(torch.backends, "mps", None) and torch.backends.mps.is_available():
         return "mps"
     return "cpu"
+
+
+def resolve_layers(geo_cfg: Dict[str, Any]) -> List[int]:
+    """Prefer ``layers: [...]``; fall back to single ``layer``."""
+    if geo_cfg.get("layers"):
+        return [int(L) for L in geo_cfg["layers"]]
+    return [int(geo_cfg.get("layer", 8))]
 
 
 def load_config(path: Path) -> Dict[str, Any]:
@@ -94,26 +101,12 @@ class BlockLoader:
         return self.blocks[idx]
 
 
-@torch.no_grad()
-def measure_geometry(
-    model,
-    *,
-    layer: int,
-    probe_prompts: List[str],
-    positions: str,
-    top_k: int,
-    metrics: List[str],
+def _mean_geometry_on_bank(
+    bank: torch.Tensor, *, top_k: int, metrics: List[str]
 ) -> Dict[str, float]:
-    """Mean geometry across probe last-token queries vs the probe bank."""
-    was_training = model.training
-    model.eval()
-    bank = collect_mlp_out_bank(model, layer=layer, prompts=probe_prompts, positions=positions)
-    # Queries = each row of the bank (last-token probes when positions=last)
     acc = {m: 0.0 for m in metrics}
     n = bank.shape[0]
     if n < 2:
-        if was_training:
-            model.train()
         return {m: 0.0 for m in metrics}
     for i in range(n):
         query = bank[i]
@@ -123,7 +116,30 @@ def measure_geometry(
         )
         for m in metrics:
             acc[m] += vals[m]
-    out = {m: acc[m] / n for m in metrics}
+    return {m: acc[m] / n for m in metrics}
+
+
+@torch.no_grad()
+def measure_geometry_layers(
+    model,
+    *,
+    layers: List[int],
+    probe_prompts: List[str],
+    positions: str,
+    top_k: int,
+    metrics: List[str],
+) -> Dict[str, float]:
+    """Mean geometry per layer; keys are ``L{layer}_{metric}`` for the logger."""
+    was_training = model.training
+    model.eval()
+    banks = collect_mlp_out_banks(
+        model, layers=layers, prompts=probe_prompts, positions=positions
+    )
+    out: Dict[str, float] = {}
+    for L in layers:
+        vals = _mean_geometry_on_bank(banks[L], top_k=top_k, metrics=metrics)
+        for m, v in vals.items():
+            out[f"L{L}_{m}"] = v
     if was_training:
         model.train()
     return out
@@ -164,7 +180,7 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
 
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
 
-    layer = int(geo_cfg.get("layer", 8))
+    layers = resolve_layers(geo_cfg)
     every_n = int(geo_cfg.get("every_n_steps", 1))
     top_k = int(geo_cfg.get("top_k_neighbors", 8))
     positions = str(geo_cfg.get("bank_positions", "last"))
@@ -187,7 +203,12 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
         cfg,
         seed,
         source_config=source_config,
-        extra_meta={"model": model_name, "device": device, "hero": "train_with_geometry"},
+        extra_meta={
+            "model": model_name,
+            "device": device,
+            "hero": "train_with_geometry",
+            "layers": layers,
+        },
     )
     logger.write_meta(
         seed=seed,
@@ -195,9 +216,10 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
         device=device,
         train=train_cfg,
         geometry=geo_cfg,
+        layers=layers,
         n_blocks=int(blocks.shape[0]),
         artifacts=artifacts,
-        note="hero: fine-tune with live loss | geometry",
+        note="hero: fine-tune with live loss | multi-layer geometry",
     )
 
     ckpt_dir = logger.root / "checkpoints"
@@ -220,9 +242,9 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
         last_loss = float(loss.item())
 
         if step % max(every_n, 1) == 0:
-            last_geo = measure_geometry(
+            last_geo = measure_geometry_layers(
                 model,
-                layer=layer,
+                layers=layers,
                 probe_prompts=probes,
                 positions=positions,
                 top_k=top_k,
@@ -243,6 +265,7 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
         "model": model_name,
         "device": device,
         "max_steps": max_steps,
+        "layers": layers,
         "final_loss": last_loss,
         "final_geometry": last_geo,
         "signals_csv": str(logger.csv_path),

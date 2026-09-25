@@ -3,17 +3,20 @@
 Track verb: append (step, loss, geometry_*) every N steps.
 Optionally print a live line:
   step=12  loss=0.41  |  geometry: interference=0.22  spectral=0.31  coact=0.09
+Multi-layer:
+  step=12  loss=0.41  |  geometry L4: interference=… spectral=… coact=…  |  L8: …  |  L11: …
 """
 
 from __future__ import annotations
 
 import csv
 import json
+import re
 import sys
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 
 # Short names for live stdout (still full names in CSV).
@@ -26,6 +29,10 @@ _LIVE_GEO_ALIAS = {
     "geometry_coactivation_overlap": "coact",
 }
 
+_LAYER_KEY_RE = re.compile(
+    r"^(?:geometry_)?L(?P<layer>\d+)_(?P<metric>.+)$"
+)
+
 
 @dataclass
 class StepRecord:
@@ -35,19 +42,50 @@ class StepRecord:
     extra: Dict[str, Any] = field(default_factory=dict)
 
 
+def _short_metric(name: str) -> str:
+    return _LIVE_GEO_ALIAS.get(name, name.removeprefix("geometry_"))
+
+
+def _split_layer_keys(geometry: Dict[str, float]) -> Tuple[Dict[int, Dict[str, float]], Dict[str, float]]:
+    """Partition geometry into {layer: {metric: val}} plus unlayered leftovers."""
+    by_layer: Dict[int, Dict[str, float]] = {}
+    plain: Dict[str, float] = {}
+    for key, value in geometry.items():
+        m = _LAYER_KEY_RE.match(key)
+        if m:
+            L = int(m.group("layer"))
+            by_layer.setdefault(L, {})[m.group("metric")] = float(value)
+        else:
+            plain[key] = float(value)
+    return by_layer, plain
+
+
 def format_live_line(step: int, loss: Optional[float], geometry: Optional[Dict[str, float]] = None) -> str:
-    """Human live metric line: loss beside named geometry."""
+    """Human live metric line: loss beside named geometry (optionally multi-layer)."""
     loss_s = f"{loss:.4f}" if loss is not None else "nan"
     geometry = geometry or {}
     if not geometry:
-        geo_s = "(none)"
-    else:
-        bits = []
-        for key, value in geometry.items():
-            short = _LIVE_GEO_ALIAS.get(key, key.removeprefix("geometry_"))
-            bits.append(f"{short}={float(value):.4f}")
-        geo_s = "  ".join(bits)
-    return f"step={step}  loss={loss_s}  |  geometry: {geo_s}"
+        return f"step={step}  loss={loss_s}  |  geometry: (none)"
+
+    by_layer, plain = _split_layer_keys(geometry)
+    parts: List[str] = []
+
+    if by_layer:
+        for i, L in enumerate(sorted(by_layer)):
+            bits = "  ".join(
+                f"{_short_metric(m)}={by_layer[L][m]:.4f}" for m in by_layer[L]
+            )
+            label = f"geometry L{L}" if i == 0 else f"L{L}"
+            parts.append(f"{label}: {bits}")
+
+    if plain:
+        bits = "  ".join(f"{_short_metric(k)}={v:.4f}" for k, v in plain.items())
+        if by_layer:
+            parts.append(bits)
+        else:
+            parts.append(f"geometry: {bits}")
+
+    return f"step={step}  loss={loss_s}  |  " + "  |  ".join(parts)
 
 
 class SignalLogger:

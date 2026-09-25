@@ -31,7 +31,16 @@ Uses at most ~`d/4` top dimensions (never the full ambient dim), so dense vector
 
 ## Config knobs
 
-See `configs/default.yaml` / `configs/rome_gpt2_small.yaml`:
+Hero train config (`configs/train_gpt2_small_geometry.yaml`):
+
+- `geometry.layers`: e.g. `[4, 8, 11]` — track A/B/C at each MLP-out layer (CSV: `geometry_L{n}_*`)
+- `geometry.layer`: single-layer fallback if `layers` omitted
+- `geometry.every_n_steps`
+- `geometry.top_k_neighbors`
+- `geometry.bank_positions`: `all` | `last`
+- `geometry.probe_prompts` (optional override)
+
+ROME / default configs also use:
 
 - `logging.geometry_metrics`
 - `logging.every_n_steps`
@@ -42,8 +51,10 @@ See `configs/default.yaml` / `configs/rome_gpt2_small.yaml`:
 ## Plot
 
 ```bash
-python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
+python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.csv
 ```
+
+Multi-layer CSVs plot one panel per metric with a line per layer.
 
 ## Diff (selected features / neighborhoods)
 

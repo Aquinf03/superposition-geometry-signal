@@ -196,6 +196,45 @@ DEFAULT_PROBE_PROMPTS: List[str] = [
 ]
 
 
+def _rows_from_acts(acts: torch.Tensor, positions: str) -> List[torch.Tensor]:
+    """Flatten one [seq, d] activation tensor into bank rows."""
+    if positions == "last":
+        return [acts[-1].detach().float().cpu()]
+    if positions == "all":
+        return list(acts.detach().float().cpu())
+    raise ValueError(f"positions must be 'all' or 'last', got {positions!r}")
+
+
+@torch.no_grad()
+def collect_mlp_out_banks(
+    model,
+    layers: Sequence[int],
+    prompts: Iterable[str],
+    positions: str = "all",
+) -> Dict[int, torch.Tensor]:
+    """Gather ``hook_mlp_out`` banks for many layers in one forward per prompt.
+
+    Returns ``{layer: [n, d_model]}``.
+    """
+    layer_list = [int(L) for L in layers]
+    if not layer_list:
+        raise ValueError("layers must be non-empty")
+    hooks = {L: f"blocks.{L}.hook_mlp_out" for L in layer_list}
+    wanted = set(hooks.values())
+    rows: Dict[int, List[torch.Tensor]] = {L: [] for L in layer_list}
+    for prompt in prompts:
+        tokens = model.to_tokens(prompt)
+        _, cache = model.run_with_cache(tokens, names_filter=lambda n: n in wanted)
+        for L, hook in hooks.items():
+            rows[L].extend(_rows_from_acts(cache[hook][0], positions))
+    out: Dict[int, torch.Tensor] = {}
+    for L, rs in rows.items():
+        if not rs:
+            raise ValueError(f"empty neighbor bank at layer {L}")
+        out[L] = torch.stack(rs, dim=0)
+    return out
+
+
 @torch.no_grad()
 def collect_mlp_out_bank(
     model,
@@ -209,18 +248,4 @@ def collect_mlp_out_bank(
       - \"all\": every token position
       - \"last\": final token only
     """
-    hook = f"blocks.{layer}.hook_mlp_out"
-    rows: List[torch.Tensor] = []
-    for prompt in prompts:
-        tokens = model.to_tokens(prompt)
-        _, cache = model.run_with_cache(tokens, names_filter=lambda n: n == hook)
-        acts = cache[hook][0]  # [seq, d]
-        if positions == "last":
-            rows.append(acts[-1].detach().float().cpu())
-        elif positions == "all":
-            rows.extend(list(acts.detach().float().cpu()))
-        else:
-            raise ValueError(f"positions must be 'all' or 'last', got {positions!r}")
-    if not rows:
-        raise ValueError("empty neighbor bank — provide at least one prompt")
-    return torch.stack(rows, dim=0)
+    return collect_mlp_out_banks(model, [layer], prompts, positions=positions)[int(layer)]
