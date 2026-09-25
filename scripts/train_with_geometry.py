@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -25,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.checkpoint_geometry import save_aligned_checkpoint, write_aligned_geometry
 from scripts.geometry import (
     DEFAULT_PROBE_PROMPTS,
     collect_mlp_out_banks,
@@ -223,11 +225,47 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
     )
 
     ckpt_dir = logger.root / "checkpoints"
-    if save_every > 0:
-        ckpt_dir.mkdir(parents=True, exist_ok=True)
+    ckpt_dir.mkdir(parents=True, exist_ok=True)
 
     last_loss = None
     last_geo: Dict[str, float] = {}
+    last_geo_step: Optional[int] = None
+    aligned_ckpts: List[Dict[str, str]] = []
+
+    def ensure_geometry(step: int) -> Dict[str, float]:
+        nonlocal last_geo, last_geo_step
+        if last_geo_step == step and last_geo:
+            return last_geo
+        last_geo = measure_geometry_layers(
+            model,
+            layers=layers,
+            probe_prompts=probes,
+            positions=positions,
+            top_k=top_k,
+            metrics=metrics,
+        )
+        last_geo_step = step
+        return last_geo
+
+    def freeze_aligned(out_dir: Path, step: int, stem: str) -> Dict[str, str]:
+        geo = ensure_geometry(step)
+        paths = save_aligned_checkpoint(
+            out_dir,
+            step=step,
+            model_state=model.state_dict(),
+            seed=seed,
+            loss=last_loss,
+            geometry=geo,
+            layers=layers,
+            metrics=metrics,
+            bank_positions=positions,
+            top_k_neighbors=top_k,
+            probe_prompts=probes,
+            stem=stem,
+            extra={"model": model_name, "device": device},
+        )
+        aligned_ckpts.append(paths)
+        return paths
 
     for step in range(max_steps):
         batch = loader.next().to(device)
@@ -242,23 +280,69 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
         last_loss = float(loss.item())
 
         if step % max(every_n, 1) == 0:
-            last_geo = measure_geometry_layers(
-                model,
-                layers=layers,
-                probe_prompts=probes,
-                positions=positions,
-                top_k=top_k,
-                metrics=metrics,
-            )
-            logger.log(step=step, loss=last_loss, geometry=last_geo)
+            geo = ensure_geometry(step)
+            logger.log(step=step, loss=last_loss, geometry=geo)
 
         if save_every > 0 and (step + 1) % save_every == 0:
-            ckpt_path = ckpt_dir / f"step_{step:05d}.pt"
-            torch.save({"step": step, "model_state": model.state_dict(), "seed": seed}, ckpt_path)
+            paths = freeze_aligned(ckpt_dir, step, f"step_{step:05d}")
+            if bool(log_cfg.get("live_print", True)):
+                print(
+                    f"checkpoint-aligned: step={step}  "
+                    f"weights={paths['weight_path']}  "
+                    f"geometry={paths['geometry_path']}",
+                    flush=True,
+                )
 
-    # Final checkpoint
-    final_path = logger.root / "model_final.pt"
-    torch.save({"step": max_steps - 1, "model_state": model.state_dict(), "seed": seed}, final_path)
+    # Final: ensure an aligned pair under checkpoints/ + convenience aliases at run root
+    final_step = max_steps - 1
+    final_stem = f"step_{final_step:05d}"
+    if not (ckpt_dir / f"{final_stem}.pt").is_file():
+        ckpt_final = freeze_aligned(ckpt_dir, final_step, final_stem)
+        if bool(log_cfg.get("live_print", True)):
+            print(
+                f"checkpoint-aligned: step={final_step}  "
+                f"weights={ckpt_final['weight_path']}  "
+                f"geometry={ckpt_final['geometry_path']}",
+                flush=True,
+            )
+    else:
+        # Already frozen this step (e.g. save_every landed on final); reuse paths
+        geo = ensure_geometry(final_step)
+        ckpt_final = {
+            "weight_path": str(ckpt_dir / f"{final_stem}.pt"),
+            "geometry_path": str(ckpt_dir / f"{final_stem}.geometry.json"),
+            "manifest_path": str(ckpt_dir / "manifest.json"),
+        }
+        # Refresh sidecar in case live log ran after an earlier partial write
+        write_aligned_geometry(
+            Path(ckpt_final["weight_path"]),
+            step=final_step,
+            loss=last_loss,
+            geometry=geo,
+            layers=layers,
+            metrics=metrics,
+            bank_positions=positions,
+            top_k_neighbors=top_k,
+            probe_prompts=probes,
+            seed=seed,
+            extra={"model": model_name, "device": device},
+        )
+
+    final_weight = logger.root / "model_final.pt"
+    shutil.copy2(ckpt_final["weight_path"], final_weight)
+    final_geo = write_aligned_geometry(
+        final_weight,
+        step=final_step,
+        loss=last_loss,
+        geometry=last_geo,
+        layers=layers,
+        metrics=metrics,
+        bank_positions=positions,
+        top_k_neighbors=top_k,
+        probe_prompts=probes,
+        seed=seed,
+        extra={"model": model_name, "device": device, "alias_of": ckpt_final["weight_path"]},
+    )
 
     result = {
         "seed": seed,
@@ -271,7 +355,11 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
         "signals_csv": str(logger.csv_path),
         "meta_json": str(logger.meta_path),
         "artifacts": artifacts,
-        "model_final": str(final_path),
+        "model_final": str(final_weight),
+        "model_final_geometry": str(final_geo),
+        "checkpoints_dir": str(ckpt_dir),
+        "checkpoints_manifest": str(ckpt_dir / "manifest.json"),
+        "aligned_checkpoints": aligned_ckpts,
     }
     out = logger.root / "train_result.json"
     out.write_text(json.dumps(result, indent=2) + "\n")
@@ -294,6 +382,7 @@ def main() -> None:
     print(f"final_loss={result['final_loss']:.4f}")
     print(f"signals={result['signals_csv']}")
     print(f"wrote {result['result_json']}")
+    print(f"checkpoints={result.get('checkpoints_manifest')}")
     print("Plot with:")
     print(f"  python scripts/plot_signals.py --csv {result['signals_csv']}")
 

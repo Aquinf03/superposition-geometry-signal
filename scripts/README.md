@@ -10,6 +10,7 @@ Pipeline: **train** (hero) → **track** → **diff** → thin **act** demo.
 | `signals.py` | **Track logger:** `step`, `loss`, `geometry_*` → `results/` |
 | `plot_signals.py` | Plot loss beside geometry curves |
 | `train_with_geometry.py` | **Hero:** fine-tune + live `loss \| geometry` |
+| `checkpoint_geometry.py` | Aligned weight↔geometry freezes + manifest |
 | `diff_geometry.py` | **Diff:** neighborhood snapshots, pre/post + step vs step |
 | `eval_edit.py` | **Eval:** success / paraphrase / ripple / activation cosine |
 | `run_artifacts.py` | Freeze `config` + `seed` into the run dir |
@@ -30,5 +31,7 @@ python scripts/sanity_entangled_vs_clean_edit.py
 
 Per-run outputs under `results/<run>/`:
 - `signals.csv`, `loss_geometry.png`
+- `checkpoints/step_XXXXX.pt` + `.geometry.json` + `manifest.json`
+- `model_final.pt` + `model_final.geometry.json`
 - `train_result.json` (hero) or `rome_result.json` (demo)
 - `config.frozen.yaml`, `seed.txt`, `run_manifest.json`

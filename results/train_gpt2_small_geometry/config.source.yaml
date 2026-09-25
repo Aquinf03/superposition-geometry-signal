@@ -29,4 +29,5 @@ logging:
   results_dir: results
   run_name: train_gpt2_small_geometry
   live_print: true
-  save_every_n_steps: 20    # optional weight checkpoint for later ckpt diffs
+  # Weight + matching geometry JSON every N steps (and at final)
+  save_every_n_steps: 20

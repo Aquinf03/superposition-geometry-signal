@@ -56,6 +56,16 @@ python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.c
 
 Multi-layer CSVs plot one panel per metric with a line per layer.
 
+## Checkpoint-aligned freezes
+
+On the hero train run, every weight save also writes a geometry sidecar:
+
+- `results/<run>/checkpoints/step_00019.pt`
+- `results/<run>/checkpoints/step_00019.geometry.json` — same step, probes, layers, metrics
+- `results/<run>/checkpoints/manifest.json` — index for ckpt A vs B diffs
+
+`model_final.pt` + `model_final.geometry.json` at the run root are aliases of the last step.
+
 ## Diff (selected features / neighborhoods)
 
 `scripts/diff_geometry.py` snapshots a feature’s summary metrics + top-k neighbor `|cos|`, then diffs two snapshots.

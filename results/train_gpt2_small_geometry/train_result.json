@@ -8,16 +8,16 @@
     8,
     11
   ],
-  "final_loss": 0.02895653247833252,
+  "final_loss": 0.028959443792700768,
   "final_geometry": {
-    "L4_interference_mean": 0.48519181087613106,
-    "L4_spectral_participation": 0.09171978533267976,
-    "L4_coactivation_overlap": 0.1835068273999724,
-    "L8_interference_mean": 0.4557684113581975,
-    "L8_spectral_participation": 0.12604881723721822,
+    "L4_interference_mean": 0.4852859750390053,
+    "L4_spectral_participation": 0.0917491336663564,
+    "L4_coactivation_overlap": 0.18247186574273244,
+    "L8_interference_mean": 0.4558683993915717,
+    "L8_spectral_participation": 0.1261002173026403,
     "L8_coactivation_overlap": 0.13969586946325646,
-    "L11_interference_mean": 0.7480768163998922,
-    "L11_spectral_participation": 0.016806386907895408,
+    "L11_interference_mean": 0.748089537024498,
+    "L11_spectral_participation": 0.016800870498021443,
     "L11_coactivation_overlap": 0.23179957468686282
   },
   "signals_csv": "results/train_gpt2_small_geometry/signals.csv",
@@ -28,5 +28,20 @@
     "config_source": "results/train_gpt2_small_geometry/config.source.yaml",
     "run_manifest": "results/train_gpt2_small_geometry/run_manifest.json"
   },
-  "model_final": "results/train_gpt2_small_geometry/model_final.pt"
+  "model_final": "results/train_gpt2_small_geometry/model_final.pt",
+  "model_final_geometry": "results/train_gpt2_small_geometry/model_final.geometry.json",
+  "checkpoints_dir": "results/train_gpt2_small_geometry/checkpoints",
+  "checkpoints_manifest": "results/train_gpt2_small_geometry/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "results/train_gpt2_small_geometry/checkpoints/step_00019.pt",
+      "geometry_path": "results/train_gpt2_small_geometry/checkpoints/step_00019.geometry.json",
+      "manifest_path": "results/train_gpt2_small_geometry/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "results/train_gpt2_small_geometry/checkpoints/step_00039.pt",
+      "geometry_path": "results/train_gpt2_small_geometry/checkpoints/step_00039.geometry.json",
+      "manifest_path": "results/train_gpt2_small_geometry/checkpoints/manifest.json"
+    }
+  ]
 }

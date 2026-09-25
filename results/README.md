@@ -13,5 +13,8 @@ Each run writes under `results/<run_name>/`:
 | `run_manifest.json` | Seed + timestamps + config paths |
 | `rome_result.json` | Thin edit demo summary |
 | `train_result.json` | **Hero** training summary + final loss/geometry |
-| `model_final.pt` / `checkpoints/` | Weight snapshots (gitignored) |
+| `model_final.pt` / `model_final.geometry.json` | Final weights + aligned geometry freeze |
+| `checkpoints/step_XXXXX.pt` | Weight snapshot |
+| `checkpoints/step_XXXXX.geometry.json` | Geometry frozen at the same step (aligned) |
+| `checkpoints/manifest.json` | Index of aligned weight↔geometry pairs |
 | `meta.json` | Logger meta (model, bank size, etc.) |
