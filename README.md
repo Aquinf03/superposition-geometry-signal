@@ -26,7 +26,7 @@ Watching only loss misses how representation geometry is shifting while the mode
 
 **Superposition geometry belongs beside the loss curve as a training signal you track and diff.**
 
-See `THESIS.md`. Caveats: `failure_notes.md`. Future (after watch ships): `CONTROL_GEO.md`.
+See `THESIS.md`. Quickstart: `QUICKSTART.md`. Caveats: `failure_notes.md`. Future control: `CONTROL_GEO.md`.
 
 ## What we will do
 
@@ -71,12 +71,13 @@ Python **≥ 3.10**. PyTorch + TransformerLens (+ HF).
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-pip install -e .          # spg SDK (Tracker / Diff / plot + CLI)
+pip install -e .          # spg SDK (Tracker / Diff / plot / view + CLI)
 python scripts/tests/check_env.py
 ```
 
 ```bash
 spg plot experiments/results/train_gpt2_small_geometry/signals.csv
+spg view --run-dir experiments/results/train_gpt2_small_geometry --open
 spg --help
 ```
 

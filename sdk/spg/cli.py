@@ -1,4 +1,4 @@
-"""Command-line interface: ``spg track | diff | plot``.
+"""Command-line interface: ``spg track | diff | plot | view``.
 
 Examples::
 
@@ -6,12 +6,14 @@ Examples::
     spg track --config experiments/configs/train_gpt2_small_geometry.yaml
     spg diff --config experiments/configs/train_gpt2_small_geometry.yaml
     spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml
+    spg view --run-dir experiments/results/train_gpt2_small_geometry --open
 """
 
 from __future__ import annotations
 
 import argparse
 import sys
+import webbrowser
 from pathlib import Path
 from typing import List, Optional
 
@@ -44,6 +46,16 @@ def _cmd_track(args: argparse.Namespace) -> int:
     print(f"wrote {result['result_json']}")
     print("Plot with:")
     print(f"  spg plot {result['signals_csv']}")
+    return 0
+
+
+def _cmd_view(args: argparse.Namespace) -> int:
+    from spg.view import write_view_html
+
+    out = write_view_html(Path(args.run_dir), out=args.out)
+    print(f"wrote {out}")
+    if args.open:
+        webbrowser.open(out.resolve().as_uri())
     return 0
 
 
@@ -103,15 +115,17 @@ def build_parser() -> argparse.ArgumentParser:
 
         default_cfg = CONFIGS / "train_gpt2_small_geometry.yaml"
         default_csv = RESULTS / "train_gpt2_small_geometry" / "signals.csv"
+        default_run = RESULTS / "train_gpt2_small_geometry"
     except Exception:
         default_cfg = root / "experiments" / "configs" / "train_gpt2_small_geometry.yaml"
         default_csv = (
             root / "experiments" / "results" / "train_gpt2_small_geometry" / "signals.csv"
         )
+        default_run = root / "experiments" / "results" / "train_gpt2_small_geometry"
 
     parser = argparse.ArgumentParser(
         prog="spg",
-        description="Superposition Geometry — track / diff / plot beside loss",
+        description="Superposition Geometry — track / diff / plot / view beside loss",
     )
     parser.add_argument("--version", action="version", version="spg 0.1.0")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -171,6 +185,30 @@ def build_parser() -> argparse.ArgumentParser:
     p_diff.add_argument("--device", type=str, default=None)
     p_diff.add_argument("--no-plots", action="store_true")
     p_diff.set_defaults(func=_cmd_diff)
+
+    p_view = sub.add_parser(
+        "view",
+        help="Interactive SVG neighborhood scrubber (HTML, Aquin-style morph)",
+    )
+    p_view.add_argument(
+        "--run-dir",
+        type=Path,
+        default=default_run,
+        help="Training run dir with signals.csv (+ optional diffs)",
+    )
+    p_view.add_argument(
+        "-o",
+        "--out",
+        type=Path,
+        default=None,
+        help="Output HTML (default: <run-dir>/neighborhood.html)",
+    )
+    p_view.add_argument(
+        "--open",
+        action="store_true",
+        help="Open the HTML in the default browser",
+    )
+    p_view.set_defaults(func=_cmd_view)
 
     return parser
 

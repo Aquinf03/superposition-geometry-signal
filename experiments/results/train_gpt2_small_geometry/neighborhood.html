@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>spg neighborhood</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%;
+    background: #fff;
+    color: #222;
+    font: 14px/1.45 Helvetica, Arial, sans-serif;
+  }
+  .wrap {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 28px 32px;
+    min-height: 100%;
+  }
+  @media (max-width: 800px) {
+    .wrap { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+  }
+  canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #fff;
+    cursor: grab;
+  }
+  canvas:active { cursor: grabbing; }
+  .side { display: flex; flex-direction: column; gap: 18px; padding-top: 4px; }
+  .thumbs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .thumb {
+    aspect-ratio: 1;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+  }
+  .thumb.active { border-color: #1a73e8; box-shadow: inset 0 0 0 1px #1a73e8; }
+  .thumb canvas { width: 100%; height: 100%; pointer-events: none; }
+  .thumb span {
+    position: absolute; left: 4px; bottom: 2px;
+    font-size: 10px; color: #666; background: rgba(255,255,255,.8);
+  }
+  .playrow { display: flex; align-items: center; gap: 10px; }
+  .iconbtn {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: none; background: #1a73e8; color: #fff;
+    cursor: pointer; display: grid; place-items: center;
+    padding: 0;
+  }
+  .iconbtn:hover { background: #1557b0; }
+  .iconbtn svg { width: 16px; height: 16px; fill: currentColor; }
+  .stepn {
+    font-size: 15px; color: #333;
+    font-variant-numeric: tabular-nums;
+  }
+  .slider {
+    display: grid; gap: 4px;
+  }
+  .slider label {
+    display: flex; justify-content: space-between;
+    font-size: 13px; color: #333;
+  }
+  .slider input[type=range] {
+    width: 100%; margin: 0; accent-color: #1a73e8;
+  }
+  .blurb { font-size: 13px; color: #555; line-height: 1.5; margin: 0; }
+  .metrics { font-size: 12px; color: #444; line-height: 1.55; }
+  .metrics b { font-weight: 600; color: #222; }
+  .diff { font-size: 12px; color: #555; line-height: 1.5; }
+  .diff .rel { color: #0a7; }
+  .diff .unrel { color: #c33; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <canvas id="viz" width="720" height="560"></canvas>
+  <aside class="side">
+    <div class="thumbs" id="thumbs"></div>
+    <div class="playrow">
+      <button type="button" class="iconbtn" id="btnPlay" title="Play / Pause" aria-label="Play">
+        <svg id="iconPlay" viewBox="0 0 16 16"><path d="M4 2l10 6-10 6z"/></svg>
+        <svg id="iconPause" viewBox="0 0 16 16" style="display:none"><path d="M3 2h4v12H3zm6 0h4v12H9z"/></svg>
+      </button>
+      <button type="button" class="iconbtn" id="btnReset" title="Reset" aria-label="Reset">
+        <svg viewBox="0 0 16 16"><path d="M8 2a6 6 0 1 0 5.3 3.2l-1.5.6A4.4 4.4 0 1 1 8 3.6V1l3 2.5L8 6V2z"/></svg>
+      </button>
+      <span class="stepn" id="stepLabel">Step 0</span>
+    </div>
+    <div class="slider">
+      <label><span>Step</span><span id="stepVal">0</span></label>
+      <input type="range" id="scrub" min="0" max="39" step="0.01" value="0"/>
+    </div>
+    <div class="slider">
+      <label><span>Speed</span><span id="speedVal">1.0×</span></label>
+      <input type="range" id="speed" min="0.2" max="4" step="0.1" value="1"/>
+    </div>
+    <div class="slider">
+      <label><span>Spread</span><span id="spreadVal">1.0×</span></label>
+      <input type="range" id="spread" min="0.5" max="2" step="0.05" value="1"/>
+    </div>
+    <p class="blurb" id="blurb">Geometry neighborhoods over training. Scrub or play to morph.</p>
+    <div class="metrics" id="metrics"></div>
+    <div class="diff" id="diff"></div>
+  </aside>
+</div>
+
+<script id="payload" type="application/json">{"run_name":"train_gpt2_small_geometry","layers":[4,8,11],"frames":[{"step":0,"loss":4.577090740203857,"layers":{"4":{"interference":0.47113161782423657,"spectral":0.11656823257605235,"coact":0.18537176041128414},"8":{"interference":0.4822049637635549,"spectral":0.14231833418210346,"coact":0.15393739283270544},"11":{"interference":0.6350155770778656,"spectral":0.1142399658759435,"coact":0.2721278300107899}}},{"step":1,"loss":4.015265941619873,"layers":{"4":{"interference":0.4897010202209155,"spectral":0.11570805013179779,"coact":0.17886519587626318},"8":{"interference":0.4527822422484557,"spectral":0.16018276512622834,"coact":0.14405005208644864},"11":{"interference":0.5634689778089523,"spectral":0.11093508402506509,"coact":0.24413106152373878}}},{"step":2,"loss":3.7749156951904297,"layers":{"4":{"interference":0.49093959232171375,"spectral":0.1062592456738154,"coact":0.1759433790298719},"8":{"interference":0.44697680324316025,"spectral":0.1636351466178894,"coact":0.13270473290252624},"11":{"interference":0.4530450540284316,"spectral":0.16436128020286558,"coact":0.21228584617095095}}},{"step":3,"loss":3.6558032035827637,"layers":{"4":{"interference":0.49026912202437717,"spectral":0.10318545202414194,"coact":0.1912243957397858},"8":{"interference":0.45367836269239586,"spectral":0.14247330526510876,"coact":0.12760888648975646},"11":{"interference":0.3725283319751422,"spectral":0.1575530211130778,"coact":0.1587538931924499}}},{"step":4,"loss":2.1150448322296143,"layers":{"4":{"interference":0.47977080941200256,"spectral":0.09584863483905792,"coact":0.1861767776566191},"8":{"interference":0.4524169402817885,"spectral":0.14313879211743674,"coact":0.12833777356817697},"11":{"interference":0.37539422263701755,"spectral":0.1511934816837311,"coact":0.21483131827360955}}},{"step":5,"loss":2.463066577911377,"layers":{"4":{"interference":0.4727245047688484,"spectral":0.08928076028823852,"coact":0.1775052460155678},"8":{"interference":0.45126964151859283,"spectral":0.14201364715894063,"coact":0.12375009003893757},"11":{"interference":0.40414273863037425,"spectral":0.16607796053091686,"coact":0.19077129043150934}}},{"step":6,"loss":2.359922409057617,"layers":{"4":{"interference":0.4669928004344304,"spectral":0.08416327238082884,"coact":0.18311384379985043},"8":{"interference":0.4543993944923083,"spectral":0.1282286653916041,"coact":0.11935730560116735},"11":{"interference":0.49954671661059064,"spectral":0.10574624637762704,"coact":0.2046788194438486}}},{"step":7,"loss":2.348332166671753,"layers":{"4":{"interference":0.465632834782203,"spectral":0.08388453026612598,"coact":0.18628143744315953},"8":{"interference":0.4422703329473734,"spectral":0.1333206206560135,"coact":0.11705247040828003},"11":{"interference":0.5273218092819055,"spectral":0.0891675631205241,"coact":0.2026154832035737}}},{"step":8,"loss":1.599035382270813,"layers":{"4":{"interference":0.45571468646327656,"spectral":0.0803872287273407,"coact":0.1718332966459529},"8":{"interference":0.43002863104144734,"spectral":0.14483694533507027,"coact":0.11297150534809795},"11":{"interference":0.5389898382127285,"spectral":0.0835668087005615,"coact":0.2083883090922443}}},{"step":9,"loss":0.9091309905052185,"layers":{"4":{"interference":0.451042577624321,"spectral":0.08102924426396688,"coact":0.16472175185973034},"8":{"interference":0.4207749404013157,"spectral":0.1509041984875997,"coact":0.10847155252868275},"11":{"interference":0.5758351410428683,"spectral":0.07964644630750022,"coact":0.21490852336148925}}},{"step":10,"loss":1.7438819408416748,"layers":{"4":{"interference":0.447928536683321,"spectral":0.08273329039414723,"coact":0.14947152282479648},"8":{"interference":0.4146996357788642,"spectral":0.1549692988395691,"coact":0.1115190416516677},"11":{"interference":0.6033573846022288,"spectral":0.06361807584762573,"coact":0.23406984099072656}}},{"step":11,"loss":0.9015717506408691,"layers":{"4":{"interference":0.4456089536348979,"spectral":0.08466904958089193,"coact":0.14868010348636243},"8":{"interference":0.414259135723114,"spectral":0.15597817500432332,"coact":0.10839064419905951},"11":{"interference":0.6286082565784454,"spectral":0.05150610407193502,"coact":0.23558578482162884}}},{"step":12,"loss":1.0181300640106201,"layers":{"4":{"interference":0.442241823921601,"spectral":0.08650113642215729,"coact":0.1416585146271205},"8":{"interference":0.41305807294944924,"spectral":0.1576849619547526,"coact":0.11362568492043816},"11":{"interference":0.6404385231435299,"spectral":0.04947429696718852,"coact":0.22848911284972773}}},{"step":13,"loss":0.7977299094200134,"layers":{"4":{"interference":0.43961425746480626,"spectral":0.0887835423151652,"coact":0.1431928858135027},"8":{"interference":0.40850209693113965,"spectral":0.16010684172312417,"coact":0.11695937229674486},"11":{"interference":0.6432846660415331,"spectral":0.04605458776156107,"coact":0.2229582475402608}}},{"step":14,"loss":0.41708895564079285,"layers":{"4":{"interference":0.43697867666681606,"spectral":0.09132633308569589,"coact":0.14119309913614284},"8":{"interference":0.40599822377165157,"spectral":0.16138435999552408,"coact":0.1155238105235857},"11":{"interference":0.6383884238700072,"spectral":0.04281314512093862,"coact":0.22262228353542937}}},{"step":15,"loss":0.995580792427063,"layers":{"4":{"interference":0.43366845821340877,"spectral":0.09278339743614196,"coact":0.14555395466932158},"8":{"interference":0.4066957986603181,"spectral":0.16214478115240735,"coact":0.10888318241855788},"11":{"interference":0.6378034340838591,"spectral":0.03805813292662303,"coact":0.2203250790469534}}},{"step":16,"loss":0.4755244851112366,"layers":{"4":{"interference":0.43327418093880016,"spectral":0.09595651626586914,"coact":0.14971750701905062},"8":{"interference":0.41005244478583336,"spectral":0.1612435350815455,"coact":0.1102334857373999},"11":{"interference":0.655913844704628,"spectral":0.04315558671951294,"coact":0.2228439265112734}}},{"step":17,"loss":0.34994685649871826,"layers":{"4":{"interference":0.43759332969784737,"spectral":0.09880555967489879,"coact":0.14482152074828655},"8":{"interference":0.41534970452388126,"spectral":0.15909654398759204,"coact":0.11108451028122235},"11":{"interference":0.6833290234208107,"spectral":0.022483503818511965,"coact":0.22428224281011075}}},{"step":18,"loss":0.2718867361545563,"layers":{"4":{"interference":0.44256750494241714,"spectral":0.103604789574941,"coact":0.15098130362120546},"8":{"interference":0.4235297851264477,"spectral":0.15712387561798094,"coact":0.11546901904413469},"11":{"interference":0.7063271502653757,"spectral":0.014554677406946818,"coact":0.23032000472525294}}},{"step":19,"loss":0.5802903175354004,"layers":{"4":{"interference":0.44971593593557674,"spectral":0.1006608565648397,"coact":0.15502425425940056},"8":{"interference":0.42585471520821255,"spectral":0.1565197467803955,"coact":0.11701563669227609},"11":{"interference":0.718524287144343,"spectral":0.012916654348373415,"coact":0.23305888061032345}}},{"step":20,"loss":0.22315530478954315,"layers":{"4":{"interference":0.4579106258849303,"spectral":0.10203182101249696,"coact":0.16666549965683233},"8":{"interference":0.4267680135866006,"spectral":0.15637348691622419,"coact":0.11352931268415806},"11":{"interference":0.7234891007343928,"spectral":0.012426448861757915,"coact":0.22726455706407292}}},{"step":21,"loss":0.1700320839881897,"layers":{"4":{"interference":0.46280759076277417,"spectral":0.10225720306237539,"coact":0.17275524214684598},"8":{"interference":0.42586714774370193,"spectral":0.15777417719364165,"coact":0.1162918475183516},"11":{"interference":0.7242573847373327,"spectral":0.012278304497400918,"coact":0.2307046429448332}}},{"step":22,"loss":0.18579497933387756,"layers":{"4":{"interference":0.4656274790565173,"spectral":0.1036561131477356,"coact":0.1820785578057508},"8":{"interference":0.4261753596365452,"spectral":0.16067912777264912,"coact":0.12070854694789546},"11":{"interference":0.7240608086188635,"spectral":0.012367437283198038,"coact":0.22061326213832896}}},{"step":23,"loss":0.28146350383758545,"layers":{"4":{"interference":0.4672975478072961,"spectral":0.10525598029295603,"coact":0.1855779770158206},"8":{"interference":0.42581408346692723,"spectral":0.16124465266863505,"coact":0.11863571739073427},"11":{"interference":0.7263494382301966,"spectral":0.01221193075180054,"coact":0.22200986861289115}}},{"step":24,"loss":0.1071721538901329,"layers":{"4":{"interference":0.46539516746997833,"spectral":0.10449878970781962,"coact":0.18102099779610906},"8":{"interference":0.42564119522770244,"spectral":0.160491822163264,"coact":0.1212252117699588},"11":{"interference":0.7263993869225184,"spectral":0.012229243914286295,"coact":0.2275205683900177}}},{"step":25,"loss":0.16699662804603577,"layers":{"4":{"interference":0.46242476254701614,"spectral":0.10258895953496294,"coact":0.18774152616547699},"8":{"interference":0.4251052848994732,"spectral":0.15929580728212994,"coact":0.11636987348039879},"11":{"interference":0.7272238582372665,"spectral":0.012097105383872986,"coact":0.22832180821355294}}},{"step":26,"loss":0.06472519040107727,"layers":{"4":{"interference":0.4514899042745431,"spectral":0.10075486401716867,"coact":0.17593240018218337},"8":{"interference":0.425811721632878,"spectral":0.1586738149325053,"coact":0.11773135877391484},"11":{"interference":0.7269269873698553,"spectral":0.012046820918718974,"coact":0.2306971544465177}}},{"step":27,"loss":0.04668349772691727,"layers":{"4":{"interference":0.44872476160526276,"spectral":0.10149045288562775,"coact":0.17001137656825727},"8":{"interference":0.4224947355687618,"spectral":0.15739744702974953,"coact":0.11585257193574648},"11":{"interference":0.7246440102656683,"spectral":0.012142107884089154,"coact":0.23136982495534908}}},{"step":28,"loss":0.10296908766031265,"layers":{"4":{"interference":0.4476036634296179,"spectral":0.09853862722714742,"coact":0.1651766107849724},"8":{"interference":0.42348643640677136,"spectral":0.15476664702097573,"coact":0.1116285148242755},"11":{"interference":0.724294568101565,"spectral":0.012266633907953899,"coact":0.23094043261326716}}},{"step":29,"loss":0.24127286672592163,"layers":{"4":{"interference":0.4480699859559536,"spectral":0.09125822285811107,"coact":0.1657605378527423},"8":{"interference":0.4295455701649189,"spectral":0.15165158609549204,"coact":0.11145687381082682},"11":{"interference":0.7269989550113678,"spectral":0.012388668457667033,"coact":0.23109860484796807}}},{"step":30,"loss":0.03910266235470772,"layers":{"4":{"interference":0.44896966591477394,"spectral":0.08704060018062591,"coact":0.16447208848787478},"8":{"interference":0.43588010718425113,"spectral":0.14737639824549356,"coact":0.117846712207962},"11":{"interference":0.734465683499972,"spectral":0.012388935685157776,"coact":0.23091236135075063}}},{"step":31,"loss":0.06686090677976608,"layers":{"4":{"interference":0.45169752463698387,"spectral":0.08581241766611736,"coact":0.17055332306655346},"8":{"interference":0.4461272830764453,"spectral":0.14307188590367634,"coact":0.12077670789763517},"11":{"interference":0.7454354961713155,"spectral":0.012335809071858725,"coact":0.2278297676966723}}},{"step":32,"loss":0.08751220256090164,"layers":{"4":{"interference":0.45917301749189693,"spectral":0.08647316892941793,"coact":0.1761082336787669},"8":{"interference":0.45649126917123795,"spectral":0.13892245193322497,"coact":0.12230149605197965},"11":{"interference":0.755473330616951,"spectral":0.012309477726618447,"coact":0.2332437956761038}}},{"step":33,"loss":0.04568009823560715,"layers":{"4":{"interference":0.4691588679949443,"spectral":0.08831878701845804,"coact":0.18596303098302713},"8":{"interference":0.46654951696594554,"spectral":0.13562525808811188,"coact":0.13000264503007292},"11":{"interference":0.7615369160970052,"spectral":0.012650038798650105,"coact":0.23868730301844868}}},{"step":34,"loss":0.06563977897167206,"layers":{"4":{"interference":0.4767278420428435,"spectral":0.0918595294157664,"coact":0.19261533284790933},"8":{"interference":0.47312507902582485,"spectral":0.1331487009922663,"coact":0.13334052745716243},"11":{"interference":0.7650050769249598,"spectral":0.013096942504247028,"coact":0.2454153252896741}}},{"step":35,"loss":0.061296604573726654,"layers":{"4":{"interference":0.4858260477582614,"spectral":0.09691179792086284,"coact":0.1975104538081888},"8":{"interference":0.4792383015155792,"spectral":0.13079007466634116,"coact":0.14053927159154625},"11":{"interference":0.7693461775779724,"spectral":0.01344345410664876,"coact":0.24527041636315428}}},{"step":36,"loss":0.045264832675457,"layers":{"4":{"interference":0.4904707930982113,"spectral":0.10807137091954548,"coact":0.1941935734697153},"8":{"interference":0.473453376442194,"spectral":0.12766969402631123,"coact":0.1461229081254479},"11":{"interference":0.7657130608956019,"spectral":0.01437583367029826,"coact":0.24719045930285702}}},{"step":37,"loss":0.01760994829237461,"layers":{"4":{"interference":0.4899742305278778,"spectral":0.10395008623600006,"coact":0.198306593928916},"8":{"interference":0.4675704439481099,"spectral":0.12448479334513345,"coact":0.14680029659572633},"11":{"interference":0.7605650375286738,"spectral":0.015262483557065326,"coact":0.23983193154488813}}},{"step":38,"loss":0.03002125956118107,"layers":{"4":{"interference":0.48607589304447174,"spectral":0.09661742945512136,"coact":0.18263062236163155},"8":{"interference":0.46028483907381695,"spectral":0.12484796245892844,"coact":0.1443541908672051},"11":{"interference":0.7529047926266988,"spectral":0.016170666615168253,"coact":0.2378308733586139}}},{"step":39,"loss":0.028959443792700768,"layers":{"4":{"interference":0.4852859750390053,"spectral":0.0917491336663564,"coact":0.18247186574273244},"8":{"interference":0.4558683993915717,"spectral":0.1261002173026403,"coact":0.13969586946325646},"11":{"interference":0.748089537024498,"spectral":0.016800870498021443,"coact":0.23179957468686282}}}],"feature_diff":{"step":39,"pairs":[{"id":"eiffel_located_in__vs__louvre_located_in","related":true,"scores":{"4":0.008541886054486783,"8":0.023648378004327383,"11":0.026279336370479092},"mean":0.016095132029407083},{"id":"eiffel_located_in__vs__superposition_pack","related":false,"scores":{"4":0.28041111241485395,"8":0.263876163159042,"11":0.031836532827802404},"mean":0.27214363778694795},{"id":"louvre_located_in__vs__superposition_pack","related":false,"scores":{"4":0.27529760605498793,"8":0.26999425087762313,"11":0.02610089890076406},"mean":0.27264592846630553}],"source":"diff_features_step_00039"},"ckpt_diff":{"step_a":19,"step_b":39,"features":[{"id":"eiffel_located_in","layers":{"4":{"summary":0.030131667769833725,"nbr":0.033154383301734924},"8":{"summary":0.06727921075394473,"nbr":0.07925375178456306},"11":{"summary":0.021422689589539648,"nbr":0.03683747351169586}}},{"id":"louvre_located_in","layers":{"4":{"summary":0.025228528996871166,"nbr":0.03230705112218857},"8":{"summary":0.031190246384225104,"nbr":0.059977978467941284},"11":{"summary":0.015120954810686765,"nbr":0.024412669241428375}}},{"id":"superposition_pack","layers":{"4":{"summary":0.09690391812336363,"nbr":0.02892154348748071},"8":{"summary":0.044519147446966355,"nbr":0.025800493359565736},"11":{"summary":0.019911818501429323,"nbr":0.03996895750363668}}}],"aligned_summary":0.021083510207844675,"source":"diff_ckpt_00019_vs_00039"},"checkpoints":[{"step":19,"loss":0.5802903175354004,"weight_path":"results/train_gpt2_small_geometry/checkpoints/step_00019.pt","geometry_path":"results/train_gpt2_small_geometry/checkpoints/step_00019.geometry.json","geometry":{"L4_interference_mean":0.44971593593557674,"L4_spectral_participation":0.1006608565648397,"L4_coactivation_overlap":0.15502425425940056,"L8_interference_mean":0.42585471520821255,"L8_spectral_participation":0.1565197467803955,"L8_coactivation_overlap":0.11701563669227609,"L11_interference_mean":0.718524287144343,"L11_spectral_participation":0.012916654348373415,"L11_coactivation_overlap":0.23305888061032345}},{"step":39,"loss":0.028959443792700768,"weight_path":"results/train_gpt2_small_geometry/checkpoints/step_00039.pt","geometry_path":"results/train_gpt2_small_geometry/checkpoints/step_00039.geometry.json","geometry":{"L4_interference_mean":0.4852859750390053,"L4_spectral_participation":0.0917491336663564,"L4_coactivation_overlap":0.18247186574273244,"L8_interference_mean":0.4558683993915717,"L8_spectral_participation":0.1261002173026403,"L8_coactivation_overlap":0.13969586946325646,"L11_interference_mean":0.748089537024498,"L11_spectral_participation":0.016800870498021443,"L11_coactivation_overlap":0.23179957468686282}}],"meta":{"model":"gpt2-small","note":"hero: fine-tune with live loss | multi-layer geometry","n_steps":40}}</script>
+<script>
+(() => {
+  const DATA = JSON.parse(document.getElementById("payload").textContent);
+  const frames = DATA.frames;
+  const layers = (DATA.layers || []).map(String);
+  const N = frames.length;
+  if (!N) {
+    document.body.textContent = "No frames in signals.csv";
+    return;
+  }
+
+  const canvas = document.getElementById("viz");
+  const ctx = canvas.getContext("2d");
+  const scrub = document.getElementById("scrub");
+  const speedEl = document.getElementById("speed");
+  const spreadEl = document.getElementById("spread");
+  scrub.max = String(N - 1);
+
+  const SPECTRUM = [
+    [0.15, 0.10, 0.55],
+    [0.15, 0.45, 0.95],
+    [0.05, 0.80, 0.85],
+    [0.35, 0.90, 0.25],
+    [0.95, 0.85, 0.10],
+  ];
+  function spectrumRGB(u) {
+    const x = Math.min(1, Math.max(0, u)) * (SPECTRUM.length - 1);
+    const i = Math.floor(x), f = x - i;
+    const a = SPECTRUM[i], b = SPECTRUM[Math.min(i + 1, SPECTRUM.length - 1)];
+    return [
+      Math.round((a[0] + (b[0] - a[0]) * f) * 255),
+      Math.round((a[1] + (b[1] - a[1]) * f) * 255),
+      Math.round((a[2] + (b[2] - a[2]) * f) * 255),
+    ];
+  }
+  function hash(i) {
+    const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function ease(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  // Exaggerate geometry so step→step morph is visibly different.
+  const GRID = 22; // points per side of sheet per layer
+  function cloudForFrame(frame, amplify) {
+    const pts = [];
+    const nL = Math.max(1, layers.length);
+    layers.forEach((L, li) => {
+      const m = frame.layers[L] || { interference: 0.4, spectral: 0.1, coact: 0.1 };
+      // Map metrics → sheet warp (big dynamic range)
+      const pack = Math.pow(m.interference, 0.7);           // collapse
+      const spread = 0.35 + m.spectral * amplify * 3.2;     // expand
+      const ripple = 0.15 + m.coact * amplify * 1.8;        // wave amp
+      const zBase = (li - (nL - 1) / 2) * 0.95;
+      for (let yi = 0; yi < GRID; yi++) {
+        for (let xi = 0; xi < GRID; xi++) {
+          const u = xi / (GRID - 1);
+          const v = yi / (GRID - 1);
+          const g = li * 100003 + yi * 97 + xi;
+          // Start as a grid sheet, then pack toward center + ripple
+          let x = (u - 0.5) * 2.2 * spread;
+          let y = (v - 0.5) * 2.2 * spread;
+          const r = Math.hypot(x, y);
+          const shrink = lerp(1, 0.22, pack);
+          x *= shrink;
+          y *= shrink;
+          // fold / horseshoe based on packing
+          const fold = pack * 1.1;
+          const x2 = x * Math.cos(fold * y) - y * Math.sin(fold * x * 0.4);
+          const y2 = x * Math.sin(fold * y * 0.5) + y * Math.cos(fold * 0.3);
+          const z = zBase
+            + Math.sin(u * Math.PI * 2 + pack * 3) * ripple * 0.55
+            + Math.cos(v * Math.PI * 2) * ripple * 0.35
+            + (hash(g) - 0.5) * 0.06;
+          pts.push({
+            x: x2 + (hash(g + 3) - 0.5) * 0.04,
+            y: y2 + (hash(g + 7) - 0.5) * 0.04,
+            z,
+            u: (li + u) / nL,
+            v,
+          });
+        }
+      }
+    });
+    return pts;
+  }
+
+  // Precompute clouds once (amplify fixed at bake; spread slider scales in project)
+  const clouds = frames.map(f => cloudForFrame(f, 1.35));
+
+  function blended(tf) {
+    const i0 = Math.floor(tf);
+    const i1 = Math.min(N - 1, i0 + 1);
+    const e = ease(tf - i0);
+    const a = clouds[i0], b = clouds[i1];
+    const out = new Array(a.length);
+    for (let i = 0; i < a.length; i++) {
+      const p = a[i], q = b[i];
+      out[i] = {
+        x: lerp(p.x, q.x, e),
+        y: lerp(p.y, q.y, e),
+        z: lerp(p.z, q.z, e),
+        u: p.u,
+        v: p.v,
+      };
+    }
+    return out;
+  }
+
+  let t = 0;
+  let playing = true; // start playing so morph is obvious
+  let rotY = 0.55, rotX = -0.35;
+  let drag = null;
+
+  function project(p, s, scale) {
+    const cy = Math.cos(rotY), sy = Math.sin(rotY);
+    const cx = Math.cos(rotX), sx = Math.sin(rotX);
+    let x = p.x * s, y = p.y * s, z = p.z;
+    const x1 = x * cy + z * sy;
+    const z1 = -x * sy + z * cy;
+    const y1 = y * cx - z1 * sx;
+    const z2 = y * sx + z1 * cx;
+    const persp = 3.0 / (3.0 + z2);
+    return {
+      x: canvas.width * 0.5 + x1 * scale * persp,
+      y: canvas.height * 0.5 + y1 * scale * persp,
+      z: z2,
+      u: p.u,
+    };
+  }
+
+  function paint(target, pts, w, h, scale, s) {
+    const c = target.getContext("2d");
+    c.clearRect(0, 0, w, h);
+    c.fillStyle = "#fff";
+    c.fillRect(0, 0, w, h);
+    const drawn = pts.map(p => project(p, s, scale));
+    drawn.sort((a, b) => a.z - b.z);
+    for (const p of drawn) {
+      const [r, g, b] = spectrumRGB(p.u);
+      c.beginPath();
+      c.fillStyle = `rgb(${r},${g},${b})`;
+      c.arc(p.x * (w / canvas.width), p.y * (h / canvas.height), Math.max(1.1, 2.1 * (w / canvas.width)), 0, Math.PI * 2);
+      c.fill();
+    }
+  }
+
+  function fmt(x) {
+    return Number.isFinite(x) ? x.toFixed(3) : "—";
+  }
+
+  function updateUI(tf) {
+    const i = Math.floor(tf);
+    const fr = frames[i];
+    document.getElementById("stepLabel").textContent = "Step " + i.toLocaleString();
+    document.getElementById("stepVal").textContent = String(i);
+    scrub.value = String(tf);
+    let html = `<div><b>loss</b> ${fmt(fr.loss)}</div>`;
+    layers.forEach(L => {
+      const m = fr.layers[L];
+      html += `<div><b>L${L}</b> i ${fmt(m.interference)} · s ${fmt(m.spectral)} · c ${fmt(m.coact)}</div>`;
+    });
+    document.getElementById("metrics").innerHTML = html;
+
+    const fd = DATA.feature_diff;
+    if (fd && fd.pairs && fd.pairs.length) {
+      document.getElementById("diff").innerHTML = fd.pairs.map(p => {
+        const short = p.id.replace(/__/g, " ↔ ").replace(/_/g, " ");
+        const cls = p.related ? "rel" : "unrel";
+        return `<div><span class="${cls}">${p.related ? "related" : "unrelated"}</span> ${short} · ${fmt(p.mean)}</div>`;
+      }).join("");
+    }
+
+    document.getElementById("blurb").textContent =
+      `${DATA.run_name} · ${DATA.meta.model || "model"} · ${N} steps · layers [${layers.join(", ")}]. ` +
+      `Play to morph neighborhoods as geometry drifts.`;
+  }
+
+  function setPlayIcon(on) {
+    document.getElementById("iconPlay").style.display = on ? "none" : "block";
+    document.getElementById("iconPause").style.display = on ? "block" : "none";
+  }
+
+  function draw() {
+    const s = parseFloat(spreadEl.value);
+    const pts = blended(t);
+    paint(canvas, pts, canvas.width, canvas.height, 165, s);
+    updateUI(t);
+  }
+
+  // Layer thumbs = jump to early / mid / late (and per-layer focus later)
+  const thumbs = document.getElementById("thumbs");
+  const thumbSteps = [0, Math.floor((N - 1) / 2), N - 1];
+  // Also show each layer alone at mid step
+  const thumbSpecs = [
+    ...thumbSteps.map(st => ({ step: st, layer: null, label: "t" + st })),
+    ...layers.map(L => ({ step: thumbSteps[1], layer: L, label: "L" + L })),
+  ].slice(0, 9);
+
+  function cloudLayerOnly(frame, layerId) {
+    const all = cloudForFrame(frame, 1.35);
+    if (layerId == null) return all;
+    const idx = layers.indexOf(String(layerId));
+    const per = GRID * GRID;
+    return all.slice(idx * per, (idx + 1) * per);
+  }
+
+  thumbSpecs.forEach((spec, i) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "thumb" + (i === 0 ? " active" : "");
+    const tc = document.createElement("canvas");
+    tc.width = 64; tc.height = 64;
+    btn.appendChild(tc);
+    const lab = document.createElement("span");
+    lab.textContent = spec.label;
+    btn.appendChild(lab);
+    btn.onclick = () => {
+      playing = false; setPlayIcon(false);
+      t = spec.step;
+      document.querySelectorAll(".thumb").forEach(el => el.classList.remove("active"));
+      btn.classList.add("active");
+      draw();
+    };
+    thumbs.appendChild(btn);
+    // mini paint
+    const pts = cloudLayerOnly(frames[spec.step], spec.layer);
+    // temporarily use mini projection onto thumb
+    const prevW = canvas.width, prevH = canvas.height;
+    // paint helper uses canvas.width for mapping — draw manually small
+    const c = tc.getContext("2d");
+    c.fillStyle = "#fff"; c.fillRect(0, 0, 64, 64);
+    const s = 1;
+    const scale = 18;
+    const cy = Math.cos(0.5), sy = Math.sin(0.5);
+    const cx = Math.cos(-0.3), sx = Math.sin(-0.3);
+    const drawn = pts.map(p => {
+      let x = p.x * s, y = p.y * s, z = p.z;
+      const x1 = x * cy + z * sy;
+      const z1 = -x * sy + z * cy;
+      const y1 = y * cx - z1 * sx;
+      const z2 = y * sx + z1 * cx;
+      const persp = 3 / (3 + z2);
+      return { x: 32 + x1 * scale * persp, y: 32 + y1 * scale * persp, z: z2, u: p.u };
+    });
+    drawn.sort((a, b) => a.z - b.z);
+    for (const p of drawn) {
+      const [r, g, b] = spectrumRGB(p.u);
+      c.fillStyle = `rgb(${r},${g},${b})`;
+      c.fillRect(p.x - 0.8, p.y - 0.8, 1.6, 1.6);
+    }
+  });
+
+  // Drag to rotate
+  canvas.addEventListener("pointerdown", e => {
+    drag = { x: e.clientX, y: e.clientY, rotY, rotX };
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener("pointermove", e => {
+    if (!drag) return;
+    rotY = drag.rotY + (e.clientX - drag.x) * 0.008;
+    rotX = Math.max(-1.2, Math.min(0.6, drag.rotX + (e.clientY - drag.y) * 0.008));
+    draw();
+  });
+  canvas.addEventListener("pointerup", () => { drag = null; });
+  canvas.addEventListener("pointercancel", () => { drag = null; });
+
+  scrub.addEventListener("input", () => {
+    playing = false; setPlayIcon(false);
+    t = parseFloat(scrub.value);
+    draw();
+  });
+  speedEl.addEventListener("input", () => {
+    document.getElementById("speedVal").textContent = parseFloat(speedEl.value).toFixed(1) + "×";
+  });
+  spreadEl.addEventListener("input", () => {
+    document.getElementById("spreadVal").textContent = parseFloat(spreadEl.value).toFixed(1) + "×";
+    draw();
+  });
+
+  document.getElementById("btnPlay").onclick = () => {
+    playing = !playing;
+    setPlayIcon(playing);
+  };
+  document.getElementById("btnReset").onclick = () => {
+    playing = false; setPlayIcon(false);
+    t = 0; rotY = 0.55; rotX = -0.35;
+    draw();
+  };
+
+  setPlayIcon(true);
+  draw();
+
+  // setInterval — reliable scrubber playback (rAF gets throttled in some hosts)
+  setInterval(() => {
+    if (!playing) return;
+    const spd = parseFloat(speedEl.value);
+    t += 0.05 * spd * 3.0; // ~3 steps/sec at 1×
+    if (t >= N - 1) t = 0;
+    rotY += 0.012;
+    draw();
+  }, 50);
+})();
+</script>
+</body>
+</html>

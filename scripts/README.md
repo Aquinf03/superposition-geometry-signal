@@ -14,6 +14,7 @@ spg plot experiments/results/train_gpt2_small_geometry/signals.csv
 spg track --config experiments/configs/train_gpt2_small_geometry.yaml
 spg diff --config experiments/configs/train_gpt2_small_geometry.yaml
 spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml
+spg view --run-dir experiments/results/train_gpt2_small_geometry --open
 ```
 
 See `sdk/README.md` and `experiments/README.md`.

@@ -18,6 +18,7 @@ from __future__ import annotations
 from spg.tracker import Tracker, SignalLogger, StepRecord, format_live_line
 from spg.diff import Diff
 from spg.plot import plot
+from spg.view import write_view_html, build_view_payload
 from spg.geometry import (
     DEFAULT_PROBE_PROMPTS,
     collect_mlp_out_bank,
@@ -32,6 +33,8 @@ __all__ = [
     "Tracker",
     "Diff",
     "plot",
+    "write_view_html",
+    "build_view_payload",
     "SignalLogger",
     "StepRecord",
     "format_live_line",
