@@ -1,0 +1,50 @@
+The Eiffel Tower is located in Paris, France, and is one of the most visited monuments in the world.
+Paris is the capital of France and a center of art, fashion, and cuisine.
+The Louvre Museum is located in Paris and holds thousands of works of art including the Mona Lisa.
+Rome is the capital of Italy and home to the Colosseum and the Vatican.
+The Colosseum is located in Rome and once hosted gladiatorial contests.
+Tokyo is the capital of Japan and one of the largest cities on Earth.
+The currency of Japan is the yen.
+Berlin is the capital of Germany and was divided during the Cold War.
+Water boils at one hundred degrees Celsius at standard atmospheric pressure.
+The chemical symbol for gold is Au and for silver is Ag.
+Machine learning models learn patterns from data by adjusting millions of parameters.
+A language model predicts the next token given the previous tokens in a sequence.
+Superposition allows neural networks to represent more features than they have dimensions.
+Features that share directions can interfere, which makes editing and interpretation harder.
+Geometry of representations changes during training as features move and pack into the residual stream.
+Loss measures how wrong the model is; geometry measures how tangled its features are.
+Scientists study sparse autoencoders to find more monosemantic directions in activations.
+Transformers use attention to route information between tokens across layers.
+Fine-tuning adapts a pretrained model to a narrower distribution of text.
+Reproducible experiments need fixed seeds, frozen configs, and logged metrics every step.
+The president of the United States is elected every four years.
+Mount Everest is located in the Himalayas on the border of Nepal and China.
+The Great Wall of China was built over centuries to protect northern borders.
+Neural networks can memorize rare facts in mid-layer MLP modules.
+Causal language modeling trains the model to minimize cross-entropy on the next token.
+Batch size, learning rate, and sequence length are basic optimization hyperparameters.
+When features become more entangled, interference metrics tend to rise.
+When features separate, local neighborhoods look cleaner under cosine similarity.
+Tracking geometry beside loss makes representation change visible during a run.
+This corpus is intentionally small so a laptop fine-tune finishes quickly for demos.
+The quick brown fox jumps over the lazy dog near the river bank at dawn.
+History, science, and everyday facts sit side by side so the model sees mixed topics.
+Gradient descent follows the loss landscape; geometry tracks the feature landscape.
+A short training loop is enough to show live loss and geometry moving together.
+Selected probe prompts can be reused every log step to keep geometry comparable.
+Checkpoints freeze the weights so geometry can be compared across time later.
+Interactive tools can later scrub through steps and show neighborhoods in 3D.
+The goal is a training signal: geometry next to loss, not only a post-hoc plot.
+Researchers can extend this corpus or swap in WikiText for longer runs.
+End of demo corpus. Repeat lines to fill sequence packs if needed for longer steps.
+The Eiffel Tower is located in Paris, France, and is one of the most visited monuments in the world.
+Paris is the capital of France and a center of art, fashion, and cuisine.
+Rome is the capital of Italy and home to the Colosseum and the Vatican.
+Tokyo is the capital of Japan and one of the largest cities on Earth.
+Machine learning models learn patterns from data by adjusting millions of parameters.
+A language model predicts the next token given the previous tokens in a sequence.
+Superposition allows neural networks to represent more features than they have dimensions.
+Loss measures how wrong the model is; geometry measures how tangled its features are.
+Fine-tuning adapts a pretrained model to a narrower distribution of text.
+Tracking geometry beside loss makes representation change visible during a run.

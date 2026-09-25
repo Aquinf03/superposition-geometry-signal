@@ -1,0 +1,31 @@
+# Hero run: fine-tune GPT-2 small while logging live loss | geometry
+seed: 0
+model: gpt2-small
+device: auto
+
+train:
+  corpus: data/train_corpus.txt
+  seq_len: 64
+  batch_size: 4
+  max_steps: 40
+  lr: 5.0e-5
+  weight_decay: 0.01
+  grad_clip: 1.0
+
+geometry:
+  layer: 8
+  every_n_steps: 1          # log geometry on this cadence (same as loss log)
+  bank_positions: last      # last-token MLP-out probes (cheap + stable)
+  top_k_neighbors: 8
+  metrics:
+    - interference_mean
+    - spectral_participation
+    - coactivation_overlap
+  # null → scripts.geometry.DEFAULT_PROBE_PROMPTS
+  probe_prompts: null
+
+logging:
+  results_dir: results
+  run_name: train_gpt2_small_geometry
+  live_print: true
+  save_every_n_steps: 20    # optional weight checkpoint for later ckpt diffs

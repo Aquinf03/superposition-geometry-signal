@@ -69,11 +69,16 @@ pip install -r requirements.txt
 python scripts/check_env.py
 ```
 
-### Thin demo (optional — not the hero)
+### Hero — train with live geometry
+
+```bash
+python scripts/train_with_geometry.py --config configs/train_gpt2_small_geometry.yaml
+python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.csv
+```
+
+### Thin demo (optional — not the research depth)
 
 ```bash
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
 python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
 ```
-
-Hero next: a real training loop with live `loss | geometry`.

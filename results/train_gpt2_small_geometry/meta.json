@@ -1,0 +1,35 @@
+{
+  "run_name": "train_gpt2_small_geometry",
+  "seed": 0,
+  "model": "gpt2-small",
+  "device": "mps",
+  "train": {
+    "corpus": "data/train_corpus.txt",
+    "seq_len": 64,
+    "batch_size": 4,
+    "max_steps": 40,
+    "lr": 5e-05,
+    "weight_decay": 0.01,
+    "grad_clip": 1.0
+  },
+  "geometry": {
+    "layer": 8,
+    "every_n_steps": 1,
+    "bank_positions": "last",
+    "top_k_neighbors": 8,
+    "metrics": [
+      "interference_mean",
+      "spectral_participation",
+      "coactivation_overlap"
+    ],
+    "probe_prompts": null
+  },
+  "n_blocks": 13,
+  "artifacts": {
+    "config_frozen": "results/train_gpt2_small_geometry/config.frozen.yaml",
+    "seed_txt": "results/train_gpt2_small_geometry/seed.txt",
+    "config_source": "results/train_gpt2_small_geometry/config.source.yaml",
+    "run_manifest": "results/train_gpt2_small_geometry/run_manifest.json"
+  },
+  "note": "hero: fine-tune with live loss | geometry"
+}

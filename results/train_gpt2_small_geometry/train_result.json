@@ -1,0 +1,21 @@
+{
+  "seed": 0,
+  "model": "gpt2-small",
+  "device": "mps",
+  "max_steps": 40,
+  "final_loss": 0.028925247490406036,
+  "final_geometry": {
+    "interference_mean": 0.45586364219586056,
+    "spectral_participation": 0.12609870533148448,
+    "coactivation_overlap": 0.13969586946325646
+  },
+  "signals_csv": "results/train_gpt2_small_geometry/signals.csv",
+  "meta_json": "results/train_gpt2_small_geometry/meta.json",
+  "artifacts": {
+    "config_frozen": "results/train_gpt2_small_geometry/config.frozen.yaml",
+    "seed_txt": "results/train_gpt2_small_geometry/seed.txt",
+    "config_source": "results/train_gpt2_small_geometry/config.source.yaml",
+    "run_manifest": "results/train_gpt2_small_geometry/run_manifest.json"
+  },
+  "model_final": "results/train_gpt2_small_geometry/model_final.pt"
+}

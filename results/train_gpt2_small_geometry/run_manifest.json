@@ -1,0 +1,10 @@
+{
+  "seed": 0,
+  "created_utc": "2026-09-25T16:24:39.108935+00:00",
+  "config_frozen": "config.frozen.yaml",
+  "config_source": "config.source.yaml",
+  "source_config_path": "configs/train_gpt2_small_geometry.yaml",
+  "model": "gpt2-small",
+  "device": "mps",
+  "hero": "train_with_geometry"
+}

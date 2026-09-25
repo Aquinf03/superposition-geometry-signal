@@ -1,0 +1,26 @@
+seed: 0
+model: gpt2-small
+device: auto
+train:
+  corpus: data/train_corpus.txt
+  seq_len: 64
+  batch_size: 4
+  max_steps: 40
+  lr: 5.0e-05
+  weight_decay: 0.01
+  grad_clip: 1.0
+geometry:
+  layer: 8
+  every_n_steps: 1
+  bank_positions: last
+  top_k_neighbors: 8
+  metrics:
+  - interference_mean
+  - spectral_participation
+  - coactivation_overlap
+  probe_prompts: null
+logging:
+  results_dir: results
+  run_name: train_gpt2_small_geometry
+  live_print: true
+  save_every_n_steps: 20
