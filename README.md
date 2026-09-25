@@ -26,7 +26,7 @@ Watching only loss misses how representation geometry is shifting while the mode
 
 **Superposition geometry belongs beside the loss curve as a training signal you track and diff.**
 
-See `THESIS.md`. Caveats when the signal is flat or misleading: `failure_notes.md`.
+See `THESIS.md`. Caveats: `failure_notes.md`. Future (after watch ships): `CONTROL_GEO.md`.
 
 ## What we will do
 
@@ -57,8 +57,9 @@ experiments/
   results/     # signals, diffs, plots
   *.py         # train / diff / validate / demos
 paper/         # LaTeX
+sdk/spg/       # Superposition Geometry package (pip install -e .)
 scripts/
-  helpers/     # library (future SDK guts)
+  helpers/     # shims → spg
   tests/       # sanities + env check
 ```
 
@@ -70,6 +71,7 @@ Python **≥ 3.10**. PyTorch + TransformerLens (+ HF).
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+pip install -e .          # spg SDK (Tracker / Diff / plot)
 python scripts/tests/check_env.py
 ```
 

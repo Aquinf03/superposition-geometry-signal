@@ -6,8 +6,8 @@ Example live line (multi-layer):
   step=12  loss=0.41  |  geometry L4: interference=… spectral=… coact=…  |  L8: …  |  L11: …
 
 Run (you run this):
-  python experiments/train_with_geometry.py --config experiments/experiments/configs/train_gpt2_small_geometry.yaml
-  python -m scripts.helpers.plot_signals --csv experiments/experiments/results/train_gpt2_small_geometry/signals.csv
+  python experiments/train_with_geometry.py --config experiments/configs/train_gpt2_small_geometry.yaml
+  python -m scripts.helpers.plot_signals --csv experiments/results/train_gpt2_small_geometry/signals.csv
 """
 
 from __future__ import annotations
