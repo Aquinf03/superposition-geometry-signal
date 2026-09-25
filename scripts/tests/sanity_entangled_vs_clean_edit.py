@@ -15,8 +15,8 @@ Optional ``--real`` runs two GPT-2 ROME edits (high vs low pre-edit
 interference) and compares their ``diff_pre_post_edit`` scores.
 
 Run:
-  python scripts/sanity_entangled_vs_clean_edit.py
-  python scripts/sanity_entangled_vs_clean_edit.py --real
+  python scripts/tests/sanity_entangled_vs_clean_edit.py
+  python scripts/tests/sanity_entangled_vs_clean_edit.py --real
 """
 
 from __future__ import annotations
@@ -29,13 +29,14 @@ from typing import Any, Dict, List
 
 import torch
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.diff_geometry import diff_snapshots, snapshot_neighborhood
-from scripts.geometry import compute_geometry_metrics, l2_normalize
-from scripts.seed import set_seed
+from scripts.helpers.diff_geometry import diff_snapshots, snapshot_neighborhood
+from scripts.helpers.geometry import compute_geometry_metrics, l2_normalize
+from scripts.helpers.paths import RESULTS
+from scripts.helpers.seed import set_seed
 
 
 def _make_cluster(n: int, d: int, seed: int, noise: float = 0.05) -> torch.Tensor:
@@ -204,8 +205,8 @@ def run_real_sanity(
     Claim: editing Eiffel (shared location geometry) moves geometry on cluster
     neighbors (Louvre / Colosseum / Paris) more than editing Japan-currency.
     """
-    from scripts.geometry import DEFAULT_PROBE_PROMPTS, collect_mlp_out_bank
-    from scripts.rome_edit import (
+    from scripts.helpers.geometry import DEFAULT_PROBE_PROMPTS, collect_mlp_out_bank
+    from experiments.rome_edit import (
         apply_rank_one,
         extract_key,
         find_subject_last_pos,
@@ -213,7 +214,7 @@ def run_real_sanity(
         optimize_v,
         resolve_device,
     )
-    from scripts.diff_geometry import extract_mlp_out_feature
+    from scripts.helpers.diff_geometry import extract_mlp_out_feature
     from transformer_lens import HookedTransformer
 
     set_seed(seed)
@@ -402,7 +403,7 @@ def main() -> None:
     parser.add_argument(
         "--out",
         type=Path,
-        default=ROOT / "results" / "sanity_entangled_vs_clean",
+        default=RESULTS / "sanity_entangled_vs_clean",
     )
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)

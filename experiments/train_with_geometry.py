@@ -6,8 +6,8 @@ Example live line (multi-layer):
   step=12  loss=0.41  |  geometry L4: interference=… spectral=… coact=…  |  L8: …  |  L11: …
 
 Run (you run this):
-  python scripts/train_with_geometry.py --config configs/train_gpt2_small_geometry.yaml
-  python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.csv
+  python experiments/train_with_geometry.py --config experiments/experiments/configs/train_gpt2_small_geometry.yaml
+  python -m scripts.helpers.plot_signals --csv experiments/experiments/results/train_gpt2_small_geometry/signals.csv
 """
 
 from __future__ import annotations
@@ -26,15 +26,16 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.checkpoint_geometry import save_aligned_checkpoint, write_aligned_geometry
-from scripts.geometry import (
+from scripts.helpers.checkpoint_geometry import save_aligned_checkpoint, write_aligned_geometry
+from scripts.helpers.geometry import (
     DEFAULT_PROBE_PROMPTS,
     collect_mlp_out_banks,
     compute_geometry_metrics,
 )
-from scripts.run_artifacts import save_run_artifacts
-from scripts.seed import set_seed
-from scripts.signals import SignalLogger
+from scripts.helpers.paths import CONFIGS, resolve_under_experiments
+from scripts.helpers.run_artifacts import save_run_artifacts
+from scripts.helpers.seed import set_seed
+from scripts.helpers.signals import SignalLogger
 
 
 def resolve_device(name: str) -> str:
@@ -168,7 +169,7 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
     model = HookedTransformer.from_pretrained(model_name, device=device)
     model.train()
 
-    corpus_path = ROOT / train_cfg["corpus"]
+    corpus_path = resolve_under_experiments(train_cfg["corpus"])
     lines = load_corpus_lines(corpus_path)
     seq_len = int(train_cfg.get("seq_len", 64))
     batch_size = int(train_cfg.get("batch_size", 4))
@@ -196,7 +197,7 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
     save_every = int(log_cfg.get("save_every_n_steps", 0) or 0)
 
     logger = SignalLogger(
-        results_dir=log_cfg.get("results_dir", "results"),
+        results_dir=resolve_under_experiments(log_cfg.get("results_dir", "results")),
         run_name=log_cfg.get("run_name"),
         live_print=bool(log_cfg.get("live_print", True)),
     )
@@ -372,7 +373,7 @@ def main() -> None:
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs" / "train_gpt2_small_geometry.yaml",
+        default=CONFIGS / "train_gpt2_small_geometry.yaml",
     )
     args = parser.parse_args()
     cfg = load_config(args.config)
@@ -384,7 +385,7 @@ def main() -> None:
     print(f"wrote {result['result_json']}")
     print(f"checkpoints={result.get('checkpoints_manifest')}")
     print("Plot with:")
-    print(f"  python scripts/plot_signals.py --csv {result['signals_csv']}")
+    print(f"  python -m scripts.helpers.plot_signals --csv {result['signals_csv']}")
 
 
 if __name__ == "__main__":

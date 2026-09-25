@@ -51,6 +51,8 @@ checkpoints/
 *.bin
 *.safetensors
 *.onnx
+experiments/data/raw/
+experiments/data/processed/
 data/raw/
 data/processed/
 artifacts/

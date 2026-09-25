@@ -12,8 +12,8 @@ and coactivation_overlap; spectral_participation should also move up.
 No GPU / HF download needed.
 
 Run (you run this):
-  python scripts/toy_superposition_sanity.py
-  python scripts/toy_superposition_sanity.py --out results/toy_superposition_sanity
+  python scripts/tests/toy_superposition_sanity.py
+  python scripts/tests/toy_superposition_sanity.py --out experiments/results/toy_superposition_sanity
 """
 
 from __future__ import annotations
@@ -26,13 +26,14 @@ from typing import Any, Dict
 
 import torch
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.geometry import compute_geometry_metrics
-from scripts.seed import set_seed
-from scripts.signals import SignalLogger
+from scripts.helpers.geometry import compute_geometry_metrics
+from scripts.helpers.paths import RESULTS
+from scripts.helpers.seed import set_seed
+from scripts.helpers.signals import SignalLogger
 
 
 def near_orthogonal_features(n_features: int, d: int, seed: int) -> torch.Tensor:
@@ -220,7 +221,7 @@ def main() -> None:
     parser.add_argument(
         "--out",
         type=Path,
-        default=ROOT / "results" / "toy_superposition_sanity",
+        default=RESULTS / "toy_superposition_sanity",
     )
     args = parser.parse_args()
 
@@ -236,7 +237,7 @@ def main() -> None:
 
     # Also plot the density sweep signals if present.
     try:
-        from scripts.plot_signals import plot_signals
+        from scripts.helpers.plot_signals import plot_signals
 
         plot_signals(Path(result["signals_csv"]), args.out / "loss_geometry.png")
     except Exception as exc:  # noqa: BLE001 — plot is best-effort

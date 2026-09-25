@@ -14,9 +14,11 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Tuple
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+from scripts.helpers.paths import RESULTS
 
 _LAYER_COL_RE = re.compile(r"^geometry_L(?P<layer>\d+)_(?P<metric>.+)$")
 
@@ -99,7 +101,7 @@ def main() -> None:
     parser.add_argument(
         "--csv",
         type=Path,
-        default=ROOT / "results" / "rome_gpt2_small_baseline" / "signals.csv",
+        default=RESULTS / "rome_gpt2_small_baseline" / "signals.csv",
     )
     parser.add_argument(
         "--out",

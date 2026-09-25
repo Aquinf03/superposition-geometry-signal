@@ -1,7 +1,7 @@
 {
   "mode": "validate_training_geometry",
-  "run_dir": "results/train_gpt2_small_geometry",
-  "signals_csv": "results/train_gpt2_small_geometry/signals.csv",
+  "run_dir": "experiments/results/train_gpt2_small_geometry",
+  "signals_csv": "experiments/results/train_gpt2_small_geometry/signals.csv",
   "n_steps": 40,
   "layers": [
     4,
@@ -182,12 +182,12 @@
       "stats": {
         "related_mean": 0.016095132029407083,
         "unrelated_mean": 0.27239478312662674,
-        "source": "results/train_gpt2_small_geometry/diff_features_step_00039/diff_summary.json"
+        "source": "experiments/results/train_gpt2_small_geometry/diff_features_step_00039/diff_summary.json"
       }
     }
   ],
   "overall_pass": true,
   "scope": "training trajectory + optional feature structure \u2014 not edit locality",
-  "ckpt_diff_summary": "results/train_gpt2_small_geometry/diff_ckpt_00019_vs_00039/diff_summary.json",
-  "cross_feature_summary": "results/train_gpt2_small_geometry/diff_features_step_00039/diff_summary.json"
+  "ckpt_diff_summary": "experiments/results/train_gpt2_small_geometry/diff_ckpt_00019_vs_00039/diff_summary.json",
+  "cross_feature_summary": "experiments/results/train_gpt2_small_geometry/diff_features_step_00039/diff_summary.json"
 }

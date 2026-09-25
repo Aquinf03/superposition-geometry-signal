@@ -43,7 +43,7 @@ diff:
 
 eval:
   fingerprint_n_layers: 8
-  # null → built-in defaults in scripts/eval_edit.py
+  # null → built-in defaults in experiments/eval_edit.py
   paraphrase_templates: null
   ripple_probes: null
   fingerprint_probes: null

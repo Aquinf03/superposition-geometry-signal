@@ -11,8 +11,8 @@ geometry trajectories track real training phenomena:
   6. (optional) related features closer than unrelated at a frozen ckpt
 
 Example:
-  python scripts/validate_training_geometry.py \\
-      --run-dir results/train_gpt2_small_geometry
+  python experiments/validate_training_geometry.py \\
+      --run-dir experiments/results/train_gpt2_small_geometry
 """
 
 from __future__ import annotations
@@ -30,6 +30,8 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+from scripts.helpers.paths import RESULTS
 
 _LAYER_COL_RE = re.compile(r"^geometry_L(?P<layer>\d+)_(?P<metric>.+)$")
 
@@ -442,7 +444,7 @@ def main() -> None:
     parser.add_argument(
         "--run-dir",
         type=Path,
-        default=ROOT / "results" / "train_gpt2_small_geometry",
+        default=RESULTS / "train_gpt2_small_geometry",
     )
     parser.add_argument("--no-plot", action="store_true")
     args = parser.parse_args()

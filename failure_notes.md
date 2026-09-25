@@ -1,6 +1,6 @@
 # Failure notes — when geometry is flat or misleading
 
-Geometry beside loss is useful **when it moves with something real**. It is not a ground-truth entanglement meter. These notes come from the GPT-2 small hero run (`results/train_gpt2_small_geometry/`) plus the toy / controlled sanities.
+Geometry beside loss is useful **when it moves with something real**. It is not a ground-truth entanglement meter. These notes come from the GPT-2 small hero run (`experiments/results/train_gpt2_small_geometry/`) plus the toy / controlled sanities.
 
 ## Flat geometry (signal silent)
 
@@ -57,7 +57,7 @@ If coact sits at ~1 with huge `top_dims`, you are measuring ambient overlap, not
 
 ## How to read a run safely
 
-1. Loss + multi-layer plot first (`plot_signals.py`).
+1. Loss + multi-layer plot first (`python -m scripts.helpers.plot_signals`).
 2. Ask which **layer phase** moved (collapse vs mild drift).
 3. Diff **selected features** at mid layers; treat collapsed late layers as context.
 4. Run `validate_training_geometry.py` — PASS means “tracks real training phenomena,” not “metrics are causal.”

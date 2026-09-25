@@ -4,7 +4,7 @@ Modes:
   - pre_post: compare two snapshots (e.g. before vs after an edit)
   - step_vs_step: compare query geometry at step t vs step t+k (same bank)
 
-Saves JSON under results/<run>/ and optional neighborhood bar plots.
+Saves JSON under experiments/results/<run>/ and optional neighborhood bar plots.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ from typing import Any, Dict, List, Optional, Sequence
 
 import torch
 
-from scripts.geometry import (
+from scripts.helpers.geometry import (
     _drop_self_neighbors,
     abs_cosine_sims,
     compute_geometry_metrics,

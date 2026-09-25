@@ -23,7 +23,7 @@ geometry:
     - interference_mean
     - spectral_participation
     - coactivation_overlap
-  probe_prompts: null
+  probe_prompts: null       # null → scripts.helpers.geometry.DEFAULT_PROBE_PROMPTS
 
 logging:
   results_dir: results

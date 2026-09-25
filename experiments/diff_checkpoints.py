@@ -4,9 +4,9 @@ Loads ckpt A weights → snapshot each selected feature at each layer →
 loads ckpt B → snapshot again → ``diff_snapshots`` (banks refreshed per ckpt).
 
 Example:
-  python scripts/diff_checkpoints.py --config configs/train_gpt2_small_geometry.yaml
-  python scripts/diff_checkpoints.py \\
-      --run-dir results/train_gpt2_small_geometry --step-a 19 --step-b 39
+  python experiments/diff_checkpoints.py --config experiments/configs/train_gpt2_small_geometry.yaml
+  python experiments/diff_checkpoints.py \\
+      --run-dir experiments/results/train_gpt2_small_geometry --step-a 19 --step-b 39
 """
 
 from __future__ import annotations
@@ -24,18 +24,19 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.checkpoint_geometry import (
+from scripts.helpers.checkpoint_geometry import (
     list_aligned_checkpoints,
     load_aligned_geometry,
 )
-from scripts.diff_geometry import (
+from scripts.helpers.diff_geometry import (
     diff_snapshots,
     extract_mlp_out_feature,
     plot_neighborhood_diff,
     save_diff,
     snapshot_neighborhood,
 )
-from scripts.geometry import DEFAULT_PROBE_PROMPTS, collect_mlp_out_banks
+from scripts.helpers.geometry import DEFAULT_PROBE_PROMPTS, collect_mlp_out_banks
+from scripts.helpers.paths import CONFIGS, resolve_under_experiments
 
 
 def resolve_device(name: str) -> str:
@@ -276,14 +277,14 @@ def main() -> None:
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs" / "train_gpt2_small_geometry.yaml",
+        default=CONFIGS / "train_gpt2_small_geometry.yaml",
         help="Train/diff YAML (provides run_name, layers, selected_features)",
     )
     parser.add_argument(
         "--run-dir",
         type=Path,
         default=None,
-        help="Override run dir (default: results/<logging.run_name>)",
+        help="Override run dir (default: experiments/results/<logging.run_name>)",
     )
     parser.add_argument("--step-a", type=int, default=None, help="Earlier checkpoint step")
     parser.add_argument("--step-b", type=int, default=None, help="Later checkpoint step")
@@ -296,7 +297,10 @@ def main() -> None:
     geo_cfg = cfg.get("geometry", {})
     diff_cfg = cfg.get("diff", {})
 
-    run_dir = args.run_dir or (ROOT / log_cfg.get("results_dir", "results") / log_cfg["run_name"])
+    run_dir = args.run_dir or (
+        resolve_under_experiments(log_cfg.get("results_dir", "results"))
+        / log_cfg["run_name"]
+    )
     run_dir = Path(run_dir)
     ckpt_dir = run_dir / "checkpoints"
 

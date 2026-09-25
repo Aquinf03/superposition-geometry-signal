@@ -9,7 +9,7 @@ No covariance cache (full ROME C^{-1}) and no causal-trace layer search yet.
 Default model: gpt2-small. Swap model/layer in the YAML for Pythia later.
 
 Run (you run this):
-  python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
+  python experiments/rome_edit.py --config experiments/configs/rome_gpt2_small.yaml
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.diff_geometry import (
+from scripts.helpers.diff_geometry import (
     diff_snapshots,
     diff_step_queries,
     extract_mlp_out_feature,
@@ -35,19 +35,20 @@ from scripts.diff_geometry import (
     save_diff,
     snapshot_neighborhood,
 )
-from scripts.eval_edit import (
+from experiments.eval_edit import (
     capture_activation_fingerprint,
     capture_ripple_state,
     run_edit_evals,
 )
-from scripts.geometry import (
+from scripts.helpers.geometry import (
     DEFAULT_PROBE_PROMPTS,
     collect_mlp_out_bank,
     compute_geometry_metrics,
 )
-from scripts.run_artifacts import save_run_artifacts
-from scripts.seed import set_seed
-from scripts.signals import SignalLogger
+from scripts.helpers.paths import CONFIGS, resolve_under_experiments
+from scripts.helpers.run_artifacts import save_run_artifacts
+from scripts.helpers.seed import set_seed
+from scripts.helpers.signals import SignalLogger
 
 
 def resolve_device(name: str) -> str:
@@ -276,7 +277,7 @@ def run_edit(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[
     before_text = generate_continuation(model, prompt)
 
     logger = SignalLogger(
-        results_dir=log_cfg.get("results_dir", "results"),
+        results_dir=resolve_under_experiments(log_cfg.get("results_dir", "results")),
         run_name=log_cfg.get("run_name"),
         live_print=bool(log_cfg.get("live_print", True)),
     )
@@ -527,7 +528,7 @@ def main() -> None:
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs" / "rome_gpt2_small.yaml",
+        default=CONFIGS / "rome_gpt2_small.yaml",
         help="Path to YAML config",
     )
     args = parser.parse_args()

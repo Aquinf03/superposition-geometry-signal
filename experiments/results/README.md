@@ -1,6 +1,6 @@
 # Results
 
-Each run writes under `results/<run_name>/`:
+Each run writes under `experiments/results/<run_name>/`:
 
 | Artifact | Role |
 | --- | --- |

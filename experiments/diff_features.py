@@ -4,8 +4,8 @@ Same bank, same weights — asks how differently two features sit in the
 neighborhood (related cluster vs unrelated prompt).
 
 Example:
-  python scripts/diff_features.py --config configs/train_gpt2_small_geometry.yaml
-  python scripts/diff_features.py --config configs/train_gpt2_small_geometry.yaml --step 39
+  python experiments/diff_features.py --config experiments/configs/train_gpt2_small_geometry.yaml
+  python experiments/diff_features.py --config experiments/configs/train_gpt2_small_geometry.yaml --step 39
 """
 
 from __future__ import annotations
@@ -24,15 +24,16 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.checkpoint_geometry import list_aligned_checkpoints, load_aligned_geometry
-from scripts.diff_checkpoints import (
+from scripts.helpers.checkpoint_geometry import list_aligned_checkpoints, load_aligned_geometry
+from experiments.diff_checkpoints import (
     find_ckpt_by_step,
     load_state_into,
     resolve_device,
     snapshot_features_at_ckpt,
 )
-from scripts.diff_geometry import diff_snapshots, plot_neighborhood_diff, save_diff
-from scripts.geometry import DEFAULT_PROBE_PROMPTS
+from scripts.helpers.diff_geometry import diff_snapshots, plot_neighborhood_diff, save_diff
+from scripts.helpers.geometry import DEFAULT_PROBE_PROMPTS
+from scripts.helpers.paths import CONFIGS, resolve_under_experiments
 
 
 def load_config(path: Path) -> Dict[str, Any]:
@@ -183,7 +184,7 @@ def main() -> None:
     parser.add_argument(
         "--config",
         type=Path,
-        default=ROOT / "configs" / "train_gpt2_small_geometry.yaml",
+        default=CONFIGS / "train_gpt2_small_geometry.yaml",
     )
     parser.add_argument("--run-dir", type=Path, default=None)
     parser.add_argument(
@@ -210,7 +211,8 @@ def main() -> None:
     diff_cfg = cfg.get("diff", {})
 
     run_dir = args.run_dir or (
-        ROOT / log_cfg.get("results_dir", "results") / log_cfg["run_name"]
+        resolve_under_experiments(log_cfg.get("results_dir", "results"))
+        / log_cfg["run_name"]
     )
     run_dir = Path(run_dir)
     ckpt_dir = run_dir / "checkpoints"

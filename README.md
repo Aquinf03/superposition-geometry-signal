@@ -26,7 +26,7 @@ Watching only loss misses how representation geometry is shifting while the mode
 
 **Superposition geometry belongs beside the loss curve as a training signal you track and diff.**
 
-See `THESIS.md`. Caveats when the signal is flat or misleading: `docs/failure_notes.md`.
+See `THESIS.md`. Caveats when the signal is flat or misleading: `failure_notes.md`.
 
 ## What we will do
 
@@ -51,12 +51,15 @@ Gap: treat geometry as a **live training metric beside loss**, not only a post-h
 ## Repo layout
 
 ```
-configs/     # run YAML (seed + logging)
-data/        # small fixtures
-docs/        # metrics + failure notes
-paper/       # LaTeX
-results/     # signals, diffs, plots
-scripts/     # track / diff / validate / thin demos
+experiments/
+  configs/     # run YAML
+  data/        # corpora / fixtures
+  results/     # signals, diffs, plots
+  *.py         # train / diff / validate / demos
+paper/         # LaTeX
+scripts/
+  helpers/     # library (future SDK guts)
+  tests/       # sanities + env check
 ```
 
 ## Setup
@@ -67,27 +70,27 @@ Python **≥ 3.10**. PyTorch + TransformerLens (+ HF).
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python scripts/check_env.py
+python scripts/tests/check_env.py
 ```
 
 ### Hero — train with live geometry
 
 ```bash
 # gpt2-small (primary)
-python scripts/train_with_geometry.py --config configs/train_gpt2_small_geometry.yaml
-python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.csv
+python experiments/train_with_geometry.py --config experiments/configs/train_gpt2_small_geometry.yaml
+python -m scripts.helpers.plot_signals --csv experiments/results/train_gpt2_small_geometry/signals.csv
 
 # gpt2-medium (scaled live example — same track+diff, no edits)
-python scripts/train_with_geometry.py --config configs/train_gpt2_medium_geometry.yaml
-python scripts/plot_signals.py --csv results/train_gpt2_medium_geometry/signals.csv
-python scripts/diff_checkpoints.py --config configs/train_gpt2_medium_geometry.yaml
-python scripts/diff_features.py --config configs/train_gpt2_medium_geometry.yaml
-python scripts/validate_training_geometry.py --run-dir results/train_gpt2_medium_geometry
+python experiments/train_with_geometry.py --config experiments/configs/train_gpt2_medium_geometry.yaml
+python -m scripts.helpers.plot_signals --csv experiments/results/train_gpt2_medium_geometry/signals.csv
+python experiments/diff_checkpoints.py --config experiments/configs/train_gpt2_medium_geometry.yaml
+python experiments/diff_features.py --config experiments/configs/train_gpt2_medium_geometry.yaml
+python experiments/validate_training_geometry.py --run-dir experiments/results/train_gpt2_medium_geometry
 ```
 
 ### Thin demo (optional — not the research depth)
 
 ```bash
-python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
-python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
+python experiments/rome_edit.py --config experiments/configs/rome_gpt2_small.yaml
+python -m scripts.helpers.plot_signals --csv experiments/results/rome_gpt2_small_baseline/signals.csv
 ```

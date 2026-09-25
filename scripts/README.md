@@ -1,56 +1,35 @@
 # Scripts
 
-Pipeline: **train** (hero) → **track** → **diff** → thin **act** demo.
+SDK-facing layout:
 
-| File | Role |
-| --- | --- |
-| `seed.py` | Deterministic seeds for every run |
-| `check_env.py` | Verify torch / transformers / transformer_lens |
-| `geometry.py` | **Track metrics** A/B/C + MLP-out neighbor bank |
-| `signals.py` | **Track logger:** `step`, `loss`, `geometry_*` → `results/` |
-| `plot_signals.py` | Plot loss beside geometry curves |
-| `train_with_geometry.py` | **Hero:** fine-tune + live `loss \| geometry` |
-| `checkpoint_geometry.py` | Aligned weight↔geometry freezes + manifest |
-| `diff_checkpoints.py` | **Diff:** ckpt A vs B on selected features |
-| `diff_features.py` | **Diff:** feature A vs B at one checkpoint |
-| `validate_training_geometry.py` | **Validate:** collapse / packing / layer phase on train run |
-| `diff_geometry.py` | **Diff:** neighborhood snapshots, pre/post + step vs step |
-| `eval_edit.py` | **Eval:** success / paraphrase / ripple / activation cosine |
-| `run_artifacts.py` | Freeze `config` + `seed` into the run dir |
-| `rome_edit.py` | Thin edit demo only |
-| `toy_superposition_sanity.py` | Sanity: sparse vs dense packs → metrics must move |
-| `sanity_entangled_vs_clean_edit.py` | Controlled neighbor-Δ sanity |
-
-```bash
-# Hero (gpt2-small)
-python scripts/train_with_geometry.py --config configs/train_gpt2_small_geometry.yaml
-python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.csv
-
-# Scaled (gpt2-medium — same scripts, different YAML)
-python scripts/train_with_geometry.py --config configs/train_gpt2_medium_geometry.yaml
-python scripts/plot_signals.py --csv results/train_gpt2_medium_geometry/signals.csv
-python scripts/diff_checkpoints.py --config configs/train_gpt2_medium_geometry.yaml
-python scripts/diff_features.py --config configs/train_gpt2_medium_geometry.yaml
-python scripts/validate_training_geometry.py --run-dir results/train_gpt2_medium_geometry
-
-# Ckpt A vs B on selected features (defaults: earliest → latest aligned ckpt)
-python scripts/diff_checkpoints.py --config configs/train_gpt2_small_geometry.yaml
-
-# Feature A vs B at one ckpt (default: latest aligned)
-python scripts/diff_features.py --config configs/train_gpt2_small_geometry.yaml
-
-# Validate geometry tracks real training phenomena (not edits)
-python scripts/validate_training_geometry.py --run-dir results/train_gpt2_small_geometry
-
-# Thin edit demo
-python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
-python scripts/toy_superposition_sanity.py
-python scripts/sanity_entangled_vs_clean_edit.py
+```
+scripts/
+  helpers/   # library: geometry, signals, diff, plot, seed, paths
+  tests/     # sanities + env check
+experiments/
+  configs/   # run YAML
+  data/      # corpora / fixtures
+  results/   # outputs
+  *.py       # train / diff / validate / demos
 ```
 
-Per-run outputs under `results/<run>/`:
-- `signals.csv`, `loss_geometry.png`
-- `checkpoints/step_XXXXX.pt` + `.geometry.json` + `manifest.json`
-- `model_final.pt` + `model_final.geometry.json`
-- `train_result.json` (hero) or `rome_result.json` (demo)
-- `config.frozen.yaml`, `seed.txt`, `run_manifest.json`
+| Path | Role |
+| --- | --- |
+| `helpers/geometry.py` | Metrics A/B/C + MLP-out banks |
+| `helpers/signals.py` | Live `loss \| geometry` logger |
+| `helpers/paths.py` | `experiments/{configs,data,results}` resolvers |
+| `helpers/checkpoint_geometry.py` | Aligned weight↔geometry freezes |
+| `helpers/diff_geometry.py` | Neighborhood snapshot + diff |
+| `helpers/plot_signals.py` | Plot loss beside geometry |
+| `helpers/seed.py` / `run_artifacts.py` | Seed + frozen run config |
+| `tests/check_env.py` | Verify torch / transformer_lens |
+| `tests/toy_superposition_sanity.py` | Sparse vs dense packs |
+| `tests/sanity_entangled_vs_clean_edit.py` | Controlled neighbor-Δ sanity |
+
+```bash
+python scripts/tests/check_env.py
+python scripts/tests/toy_superposition_sanity.py
+python -m scripts.helpers.plot_signals --csv experiments/results/train_gpt2_small_geometry/signals.csv
+```
+
+See `experiments/README.md` for training / diff / validate commands.

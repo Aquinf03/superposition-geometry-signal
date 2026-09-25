@@ -16,7 +16,7 @@ logging:
     - spectral_participation  # Metric B
     - coactivation_overlap    # Metric C
   bank_positions: all     # all | last — MLP-out neighbor bank
-  probe_prompts: null     # null → scripts.geometry.DEFAULT_PROBE_PROMPTS
+  probe_prompts: null     # null → scripts.helpers.geometry.DEFAULT_PROBE_PROMPTS
   plot_loss_and_geometry: true
 
 # Diff: compare selected features / neighborhoods

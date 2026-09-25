@@ -8,11 +8,11 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts.seed import set_seed
+from scripts.helpers.seed import set_seed
 
 
 def main() -> None:
@@ -32,7 +32,7 @@ def main() -> None:
     tl_ver = getattr(transformer_lens, "__version__", "unknown")
     print(f"transformer_lens: {tl_ver}")
 
-    from scripts.signals import SignalLogger
+    from scripts.helpers.signals import SignalLogger
 
     print(f"signals: {SignalLogger.__name__}")
     print(f"seed: {seed}")
