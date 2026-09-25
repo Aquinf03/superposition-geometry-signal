@@ -71,8 +71,13 @@ Python **≥ 3.10**. PyTorch + TransformerLens (+ HF).
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-pip install -e .          # spg SDK (Tracker / Diff / plot)
+pip install -e .          # spg SDK (Tracker / Diff / plot + CLI)
 python scripts/tests/check_env.py
+```
+
+```bash
+spg plot experiments/results/train_gpt2_small_geometry/signals.csv
+spg --help
 ```
 
 ### Hero — train with live geometry

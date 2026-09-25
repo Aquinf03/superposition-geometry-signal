@@ -15,14 +15,17 @@ dependencies = [
   "numpy>=1.24",
   "torch>=2.1",
   "matplotlib>=3.8",
+  "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
 full = [
   "transformer-lens>=2.0",
   "transformers>=4.40",
-  "pyyaml>=6.0",
 ]
+
+[project.scripts]
+spg = "spg.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/ashm/super"

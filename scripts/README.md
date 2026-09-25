@@ -10,9 +10,10 @@ experiments/   # configs / data / results + runners
 
 ```bash
 pip install -e .
-python -c "from spg import Tracker, Diff, plot; print(Tracker, Diff, plot)"
-python scripts/tests/check_env.py
-python -m spg.plot_signals --csv experiments/results/train_gpt2_small_geometry/signals.csv
+spg plot experiments/results/train_gpt2_small_geometry/signals.csv
+spg track --config experiments/configs/train_gpt2_small_geometry.yaml
+spg diff --config experiments/configs/train_gpt2_small_geometry.yaml
+spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml
 ```
 
 See `sdk/README.md` and `experiments/README.md`.

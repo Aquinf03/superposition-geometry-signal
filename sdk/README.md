@@ -8,24 +8,24 @@ pip install -e .
 
 ```python
 from spg import Tracker, Diff, plot
-
-tracker = Tracker(results_dir="runs", run_name="demo", live_print=True)
-tracker.log(
-    step=0,
-    loss=1.23,
-    geometry={
-        "interference_mean": 0.41,
-        "spectral_participation": 0.18,
-        "coactivation_overlap": 0.09,
-    },
-)
-plot(tracker.csv_path)
+# …
 ```
 
-| API | Role |
-| --- | --- |
-| `Tracker` | append `step`, `loss`, `geometry_*` (+ live stdout) |
-| `Diff` | neighborhood snapshot / compare / save / plot |
-| `plot` | loss + geometry curves from `signals.csv` |
+## CLI
 
-Package source: `sdk/spg/`. Experiments and helpers import the same code via shims.
+```bash
+spg plot experiments/results/train_gpt2_small_geometry/signals.csv
+spg track --config experiments/configs/train_gpt2_small_geometry.yaml
+spg diff --config experiments/configs/train_gpt2_small_geometry.yaml
+spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml
+```
+
+| Command | Role |
+| --- | --- |
+| `spg track` | fine-tune + live `loss \| geometry` |
+| `spg diff` | ckpt A vs B (default) or `--features` |
+| `spg plot` | loss + geometry curves from `signals.csv` |
+
+Also: `python -m spg …`.
+
+Package source: `sdk/spg/`. Experiments import the same code via `scripts/helpers/` shims.
