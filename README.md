@@ -2,13 +2,15 @@
 
 ## What this is about
 
-Models pack more features than they have dimensions. Features share space. That sharing is *superposition*. The shape of that sharing — angles, clusters, who interferes with whom — is *superposition geometry*.
+Models pack more features than they have dimensions. That sharing is *superposition*. Its shape — angles, interference, who overlaps whom — is *superposition geometry*.
 
-This project does three things:
+**This project treats geometry like loss:** a live metric you track every step, and diff for selected features as training runs.
 
-1. **Track** — log superposition geometry **beside the loss curve** as training / editing runs.
-2. **Diff** — compare that geometry for **selected features** (before vs after, step vs step, target vs neighbors).
-3. **Act** — use track+diff as a signal for cleaner weight edits (first application).
+```text
+step=12  loss=0.41  |  geometry: interference=0.22  spectral=0.31  coact=0.09
+```
+
+Weight editing is only a thin demo that geometry moves when internals change — **not** the research depth.
 
 ## Why it matters
 
@@ -18,55 +20,47 @@ This project does three things:
 | Geometry (track) | how tangled |
 | Feature diff | what changed in the tangle |
 
-Watching only loss misses interference that makes weight edits brittle — change one fact, nearby facts move. Track+diff makes that interference visible around the features you care about.
-
-Then you can:
-
-- prefer cleaner directions
-- constrain the update so it stays in a less-interfering subspace
-- penalize moves that disturb high-interference neighbors
+Watching only loss misses how representation geometry is shifting while the model learns. Geometry beside loss makes that visible live.
 
 ## Core claim
 
-**Superposition geometry is a training signal you track beside loss and diff over selected features — usable to drive more precise weight edits.**
+**Superposition geometry belongs beside the loss curve as a training signal you track and diff.**
 
-See `THESIS.md` for the one-sentence claim and scope freeze.
+See `THESIS.md`.
 
 ## What we will do
 
-1. Define cheap local geometry metrics (angles, interference, spectral localization).
-2. **Track:** log them beside loss / edit objective every step.
-3. **Diff:** selected features / neighborhoods across steps or pre/post edit.
-4. **Act:** geometry-aware edit (choose layer / constrain update / soft geometry penalty).
-5. Compare against standard ROME on hold, generalization, and locality.
-6. Show when track+diff helps, when it does not, and why.
+1. Cheap local geometry metrics (interference / spectral / coactivation).
+2. **Track** them live beside loss on real training runs.
+3. **Diff** selected features across steps / checkpoints.
+4. Validate the signal on real models (not toy-primary).
+5. Ship an SDK (+ optional 3D) and a conference paper.
 
 ## Success looks like
 
-- Geometry curve moves meaningfully beside loss / edit objective (track).
-- Feature diffs show which neighbors got more / less entangled (diff).
-- Geometry-aware edits beat standard edits on locality / ripple without losing edit success or paraphrase generalization (act).
-- Small model first; honest failure cases included.
+- Live `loss | geometry` on a real training run.
+- Feature diffs that show entanglement changing over the run.
+- Outsiders can use the SDK in <20 lines.
+- Paper evidence matches that story.
 
 ## Link to prior work
 
-Builds on Aquin’s experimental weight editor (ROME + validation + locality benchmarks) and recent feature-geometry / interference-weight research. See `REFERENCES.md`.
-
-**Gap:** track geometry beside loss, diff it for selected features, then act — not only inspect interference after the fact.
+Toy superposition, spectral geometry, interference weights — see `REFERENCES.md`.  
+Gap: treat geometry as a **live training metric beside loss**, not only a post-hoc diagnostic.
 
 ## Repo layout
 
 ```
-configs/     # default + per-run YAML (seed + track/diff logging)
-data/        # datasets / fact triples
-paper/       # LaTeX / workshop draft
-results/     # signals (track), feature diffs, figures, tables
-scripts/     # track logger, metrics, diff, ROME baseline, evals
+configs/     # run YAML (seed + logging)
+data/        # small fixtures
+paper/       # LaTeX
+results/     # signals, diffs, plots
+scripts/     # track / diff / plots / thin demos
 ```
 
 ## Setup
 
-Python **≥ 3.10**. Stack: PyTorch + TransformerLens (+ HuggingFace `transformers` as fallback).
+Python **≥ 3.10**. PyTorch + TransformerLens (+ HF).
 
 ```bash
 python -m venv .venv
@@ -75,17 +69,11 @@ pip install -r requirements.txt
 python scripts/check_env.py
 ```
 
-Seed control: `scripts/seed.py`. Track logger: `scripts/signals.py` (`step`, `loss`, `geometry_*`). Defaults in `configs/default.yaml`.
-
-### ROME baseline (act target; track placeholders for now)
-
-```bash
-python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
-```
-
-Edits `The Eiffel Tower is located in` → `Rome` on GPT-2 small (layer 8). Writes track + diff + act artifacts under `results/<run>/`.
+### Thin demo (optional — not the hero)
 
 ```bash
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml
 python scripts/plot_signals.py --csv results/rome_gpt2_small_baseline/signals.csv
 ```
+
+Hero next: a real training loop with live `loss | geometry`.
