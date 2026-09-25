@@ -1,0 +1,41 @@
+{
+  "mode": "ckpt_aligned_summary",
+  "step_before": 19,
+  "step_after": 39,
+  "loss_before": 0.5802903175354004,
+  "loss_after": 0.028959443792700768,
+  "metrics_before": {
+    "L4_interference_mean": 0.44971593593557674,
+    "L4_spectral_participation": 0.1006608565648397,
+    "L4_coactivation_overlap": 0.15502425425940056,
+    "L8_interference_mean": 0.42585471520821255,
+    "L8_spectral_participation": 0.1565197467803955,
+    "L8_coactivation_overlap": 0.11701563669227609,
+    "L11_interference_mean": 0.718524287144343,
+    "L11_spectral_participation": 0.012916654348373415,
+    "L11_coactivation_overlap": 0.23305888061032345
+  },
+  "metrics_after": {
+    "L4_interference_mean": 0.4852859750390053,
+    "L4_spectral_participation": 0.0917491336663564,
+    "L4_coactivation_overlap": 0.18247186574273244,
+    "L8_interference_mean": 0.4558683993915717,
+    "L8_spectral_participation": 0.1261002173026403,
+    "L8_coactivation_overlap": 0.13969586946325646,
+    "L11_interference_mean": 0.748089537024498,
+    "L11_spectral_participation": 0.016800870498021443,
+    "L11_coactivation_overlap": 0.23179957468686282
+  },
+  "delta_metrics": {
+    "L11_coactivation_overlap": -0.0012593059234606296,
+    "L11_interference_mean": 0.029565249880154965,
+    "L11_spectral_participation": 0.0038842161496480277,
+    "L4_coactivation_overlap": 0.027447611483331885,
+    "L4_interference_mean": 0.03557003910342854,
+    "L4_spectral_participation": -0.008911722898483299,
+    "L8_coactivation_overlap": 0.02268023277098037,
+    "L8_interference_mean": 0.030013684183359146,
+    "L8_spectral_participation": -0.030419529477755225
+  },
+  "summary_score": 0.021083510207844675
+}

@@ -31,3 +31,20 @@ logging:
   live_print: true
   # Weight + matching geometry JSON every N steps (and at final)
   save_every_n_steps: 20
+
+# Diff selected features across two aligned checkpoints (ckpt A vs B)
+diff:
+  top_k_neighbors: 8
+  save_neighborhood_plot: true
+  # Defaults: earliest vs latest in checkpoints/manifest.json
+  # Override on CLI: --step-a 19 --step-b 39
+  selected_features:
+    - name: eiffel_located_in
+      prompt: "The Eiffel Tower is located in"
+      position: last
+    - name: louvre_located_in
+      prompt: "The Louvre Museum is located in"
+      position: last
+    - name: superposition_pack
+      prompt: "Superposition allows neural networks to represent more features than"
+      position: last

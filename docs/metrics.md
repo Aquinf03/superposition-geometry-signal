@@ -66,6 +66,22 @@ On the hero train run, every weight save also writes a geometry sidecar:
 
 `model_final.pt` + `model_final.geometry.json` at the run root are aliases of the last step.
 
+## Diff across checkpoints (selected features)
+
+```bash
+python scripts/diff_checkpoints.py --config configs/train_gpt2_small_geometry.yaml
+# or pick steps explicitly:
+python scripts/diff_checkpoints.py --config configs/train_gpt2_small_geometry.yaml --step-a 19 --step-b 39
+```
+
+Writes under `results/<run>/diff_ckpt_XXXXX_vs_YYYYY/`:
+
+| File | Role |
+| --- | --- |
+| `diff_aligned_summary.json` | Δ of frozen sidecar geometry (no reload) |
+| `diff_<feature>_L{n}.json/.png` | Per-feature neighborhood diff at layer n |
+| `diff_summary.json` | Index of all feature×layer scores |
+
 ## Diff (selected features / neighborhoods)
 
 `scripts/diff_geometry.py` snapshots a feature’s summary metrics + top-k neighbor `|cos|`, then diffs two snapshots.
