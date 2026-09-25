@@ -1,6 +1,6 @@
 # Default experiment settings. Override per run; always log the seed used.
 seed: 0
-model: gpt2-small  # start tiny; swap to pythia-70m / pythia-410m later
+model: gpt2-small  # hero: gpt2-small; scaled: gpt2-medium (see train_gpt2_medium_geometry.yaml)
 device: auto       # auto | cpu | cuda | mps
 
 # Track: geometry logged beside loss

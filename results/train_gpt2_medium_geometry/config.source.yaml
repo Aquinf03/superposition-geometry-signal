@@ -1,0 +1,50 @@
+# Scaled live example: GPT-2 medium (~355M, 24 layers) — track + diff only (no edits)
+# Same pipeline as gpt2-small; leaner batch / geometry cadence for laptop memory.
+seed: 0
+model: gpt2-medium
+device: auto
+
+train:
+  corpus: data/train_corpus.txt
+  seq_len: 64
+  batch_size: 2
+  max_steps: 30
+  lr: 3.0e-5
+  weight_decay: 0.01
+  grad_clip: 1.0
+
+geometry:
+  # Early / mid / late MLP-out (gpt2-medium has 0..23)
+  layers: [6, 12, 22]
+  every_n_steps: 2          # slightly coarser — geometry forwards are heavier
+  bank_positions: last
+  top_k_neighbors: 8
+  metrics:
+    - interference_mean
+    - spectral_participation
+    - coactivation_overlap
+  probe_prompts: null
+
+logging:
+  results_dir: results
+  run_name: train_gpt2_medium_geometry
+  live_print: true
+  save_every_n_steps: 15
+
+diff:
+  top_k_neighbors: 8
+  save_neighborhood_plot: true
+  selected_features:
+    - name: eiffel_located_in
+      prompt: "The Eiffel Tower is located in"
+      position: last
+    - name: louvre_located_in
+      prompt: "The Louvre Museum is located in"
+      position: last
+    - name: superposition_pack
+      prompt: "Superposition allows neural networks to represent more features than"
+      position: last
+  cross_feature_pairs:
+    - [eiffel_located_in, louvre_located_in]
+    - [eiffel_located_in, superposition_pack]
+    - [louvre_located_in, superposition_pack]

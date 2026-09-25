@@ -1,0 +1,193 @@
+{
+  "mode": "validate_training_geometry",
+  "run_dir": "results/train_gpt2_small_geometry",
+  "signals_csv": "results/train_gpt2_small_geometry/signals.csv",
+  "n_steps": 40,
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "loss_start": 4.577090740203857,
+  "loss_end": 0.028959443792700768,
+  "claims": [
+    {
+      "id": "geometry_not_flat",
+      "pass": true,
+      "detail": "loss range=4.559; max geometry range=0.3968 (need loss>0.5 and some geometry range>0.03)",
+      "stats": {
+        "loss_range": 4.559480791911483,
+        "max_geometry_range": 0.39681784560283023,
+        "per_series": [
+          {
+            "layer": 4,
+            "metric": "interference_mean",
+            "range": 0.05766541138291359,
+            "std": 0.017634296498157166
+          },
+          {
+            "layer": 4,
+            "metric": "spectral_participation",
+            "range": 0.036181003848711646,
+            "std": 0.009122806816861152
+          },
+          {
+            "layer": 4,
+            "metric": "coactivation_overlap",
+            "range": 0.05711349479277317,
+            "std": 0.016686695275952103
+          },
+          {
+            "layer": 8,
+            "metric": "interference_mean",
+            "range": 0.0762067399919033,
+            "std": 0.021465573440002803
+          },
+          {
+            "layer": 8,
+            "metric": "spectral_participation",
+            "range": 0.03915035327275594,
+            "std": 0.012361929860556968
+          },
+          {
+            "layer": 8,
+            "metric": "coactivation_overlap",
+            "range": 0.045546748633645925,
+            "std": 0.012143174506868505
+          },
+          {
+            "layer": 11,
+            "metric": "interference_mean",
+            "range": 0.39681784560283023,
+            "std": 0.11118937500233989
+          },
+          {
+            "layer": 11,
+            "metric": "spectral_participation",
+            "range": 0.1540311396121979,
+            "std": 0.048366223059328486
+          },
+          {
+            "layer": 11,
+            "metric": "coactivation_overlap",
+            "range": 0.11337393681833999,
+            "std": 0.01749178137205691
+          }
+        ]
+      }
+    },
+    {
+      "id": "correlates_with_loss",
+      "pass": true,
+      "detail": "best |\u03c1(loss, geometry)|=0.900 at L11 spectral_participation (\u03c1=+0.900)",
+      "stats": {
+        "best": {
+          "layer": 11,
+          "metric": "spectral_participation",
+          "pearson_with_loss": 0.9001669204384003
+        },
+        "correlations": [
+          {
+            "layer": 4,
+            "metric": "interference_mean",
+            "pearson_with_loss": 0.33442355433013404
+          },
+          {
+            "layer": 4,
+            "metric": "spectral_participation",
+            "pearson_with_loss": 0.20333657962397766
+          },
+          {
+            "layer": 4,
+            "metric": "coactivation_overlap",
+            "pearson_with_loss": 0.12416994970773715
+          },
+          {
+            "layer": 8,
+            "metric": "interference_mean",
+            "pearson_with_loss": 0.24602983286631885
+          },
+          {
+            "layer": 8,
+            "metric": "spectral_participation",
+            "pearson_with_loss": 0.020243854346892316
+          },
+          {
+            "layer": 8,
+            "metric": "coactivation_overlap",
+            "pearson_with_loss": 0.281105336873843
+          },
+          {
+            "layer": 11,
+            "metric": "interference_mean",
+            "pearson_with_loss": -0.7980211486076333
+          },
+          {
+            "layer": 11,
+            "metric": "spectral_participation",
+            "pearson_with_loss": 0.9001669204384003
+          },
+          {
+            "layer": 11,
+            "metric": "coactivation_overlap",
+            "pearson_with_loss": -0.29362325125311006
+          }
+        ]
+      }
+    },
+    {
+      "id": "late_layer_geometry_phase",
+      "pass": true,
+      "detail": "L11 mode=spectral_collapse  spectral 0.1397\u21920.0152 (\u0394=-0.1244)  interference \u0394=+0.2794",
+      "stats": {
+        "layer": 11,
+        "mode": "spectral_collapse",
+        "spectral_early": 0.13965656658013664,
+        "spectral_late": 0.015210661689440408,
+        "delta_spectral": -0.12444590489069624,
+        "interference_early": 0.47989043270548193,
+        "interference_late": 0.7593237211306889,
+        "delta_interference": 0.279433288425207,
+        "pearson_spectral_with_loss": 0.9001669204384003,
+        "column": "geometry_L11_spectral_participation"
+      }
+    },
+    {
+      "id": "packing_coupling",
+      "pass": true,
+      "detail": "L11 \u0394interference=+0.2794 \u0394spectral=-0.1244 \u03c1(inter,spectral)_late=+0.550",
+      "stats": {
+        "layer": 11,
+        "delta_interference": 0.279433288425207,
+        "delta_spectral": -0.12444590489069624,
+        "pearson_inter_vs_spectral_late": 0.549617089221052
+      }
+    },
+    {
+      "id": "layer_phase_divergence",
+      "pass": true,
+      "detail": "L4 vs L11 spectral \u03c1=-0.008 \u0394=(-0.0081, -0.1244)",
+      "stats": {
+        "early_layer": 4,
+        "late_layer": 11,
+        "pearson_spectral_early_vs_late_layer": -0.008297926763476219,
+        "delta_spectral_early_layer": -0.00805395940939585,
+        "delta_spectral_late_layer": -0.12444590489069624
+      }
+    },
+    {
+      "id": "cross_feature_structure",
+      "pass": true,
+      "detail": "related mean summary=0.0161 < unrelated=0.2724 (from diff_summary.json, mid layers)",
+      "stats": {
+        "related_mean": 0.016095132029407083,
+        "unrelated_mean": 0.27239478312662674,
+        "source": "results/train_gpt2_small_geometry/diff_features_step_00039/diff_summary.json"
+      }
+    }
+  ],
+  "overall_pass": true,
+  "scope": "training trajectory + optional feature structure \u2014 not edit locality",
+  "ckpt_diff_summary": "results/train_gpt2_small_geometry/diff_ckpt_00019_vs_00039/diff_summary.json",
+  "cross_feature_summary": "results/train_gpt2_small_geometry/diff_features_step_00039/diff_summary.json"
+}

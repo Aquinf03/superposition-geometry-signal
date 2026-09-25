@@ -1,0 +1,47 @@
+{
+  "seed": 0,
+  "model": "gpt2-medium",
+  "device": "mps",
+  "max_steps": 30,
+  "layers": [
+    6,
+    12,
+    22
+  ],
+  "final_loss": 0.407657265663147,
+  "final_geometry": {
+    "L6_interference_mean": 0.4620910830174883,
+    "L6_spectral_participation": 0.09379287560780843,
+    "L6_coactivation_overlap": 0.20624869797454984,
+    "L12_interference_mean": 0.41183372276524705,
+    "L12_spectral_participation": 0.1434194048245748,
+    "L12_coactivation_overlap": 0.11557381342555291,
+    "L22_interference_mean": 0.6785580565532049,
+    "L22_spectral_participation": 0.03515697916348775,
+    "L22_coactivation_overlap": 0.13265546461352154
+  },
+  "signals_csv": "results/train_gpt2_medium_geometry/signals.csv",
+  "meta_json": "results/train_gpt2_medium_geometry/meta.json",
+  "artifacts": {
+    "config_frozen": "results/train_gpt2_medium_geometry/config.frozen.yaml",
+    "seed_txt": "results/train_gpt2_medium_geometry/seed.txt",
+    "config_source": "results/train_gpt2_medium_geometry/config.source.yaml",
+    "run_manifest": "results/train_gpt2_medium_geometry/run_manifest.json"
+  },
+  "model_final": "results/train_gpt2_medium_geometry/model_final.pt",
+  "model_final_geometry": "results/train_gpt2_medium_geometry/model_final.geometry.json",
+  "checkpoints_dir": "results/train_gpt2_medium_geometry/checkpoints",
+  "checkpoints_manifest": "results/train_gpt2_medium_geometry/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "results/train_gpt2_medium_geometry/checkpoints/step_00014.pt",
+      "geometry_path": "results/train_gpt2_medium_geometry/checkpoints/step_00014.geometry.json",
+      "manifest_path": "results/train_gpt2_medium_geometry/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "results/train_gpt2_medium_geometry/checkpoints/step_00029.pt",
+      "geometry_path": "results/train_gpt2_medium_geometry/checkpoints/step_00029.geometry.json",
+      "manifest_path": "results/train_gpt2_medium_geometry/checkpoints/manifest.json"
+    }
+  ]
+}

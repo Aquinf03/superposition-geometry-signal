@@ -93,6 +93,36 @@ python scripts/diff_features.py --config configs/train_gpt2_small_geometry.yaml
 
 Writes under `results/<run>/diff_features_step_XXXXX/`. Related pairs (eiffel vs louvre) should usually score closer than unrelated (eiffel vs superposition).
 
+## Validate on a real training run
+
+```bash
+python scripts/validate_training_geometry.py --run-dir results/train_gpt2_small_geometry
+```
+
+Checks (training only — not edit locality):
+
+1. geometry not flat while loss moves  
+2. geometry correlates with loss  
+3. late-layer geometry phase (spectral collapse **or** unpack-from-floor)  
+4. packing coupling (interference ↔ spectral move inversely)  
+5. layer-phase divergence  
+6. optional: related features closer than unrelated (`diff_features`)
+
+Writes `validation.json` + `validation.png`. Exit code 1 on FAIL.
+
+When the signal is flat or lies, see **`docs/failure_notes.md`**.
+
+## Scaled model (gpt2-medium)
+
+Same track + diff + validate pipeline; swap the YAML:
+
+```bash
+python scripts/train_with_geometry.py --config configs/train_gpt2_medium_geometry.yaml
+# … then plot / diff_checkpoints / diff_features / validate on results/train_gpt2_medium_geometry
+```
+
+Layers `[6, 12, 22]`, batch 2, geometry every 2 steps — still no edit depth.
+
 ## Diff (selected features / neighborhoods)
 
 `scripts/diff_geometry.py` snapshots a feature’s summary metrics + top-k neighbor `|cos|`, then diffs two snapshots.

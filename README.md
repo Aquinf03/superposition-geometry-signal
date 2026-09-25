@@ -26,7 +26,7 @@ Watching only loss misses how representation geometry is shifting while the mode
 
 **Superposition geometry belongs beside the loss curve as a training signal you track and diff.**
 
-See `THESIS.md`.
+See `THESIS.md`. Caveats when the signal is flat or misleading: `docs/failure_notes.md`.
 
 ## What we will do
 
@@ -53,9 +53,10 @@ Gap: treat geometry as a **live training metric beside loss**, not only a post-h
 ```
 configs/     # run YAML (seed + logging)
 data/        # small fixtures
+docs/        # metrics + failure notes
 paper/       # LaTeX
 results/     # signals, diffs, plots
-scripts/     # track / diff / plots / thin demos
+scripts/     # track / diff / validate / thin demos
 ```
 
 ## Setup
@@ -72,8 +73,16 @@ python scripts/check_env.py
 ### Hero — train with live geometry
 
 ```bash
+# gpt2-small (primary)
 python scripts/train_with_geometry.py --config configs/train_gpt2_small_geometry.yaml
 python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.csv
+
+# gpt2-medium (scaled live example — same track+diff, no edits)
+python scripts/train_with_geometry.py --config configs/train_gpt2_medium_geometry.yaml
+python scripts/plot_signals.py --csv results/train_gpt2_medium_geometry/signals.csv
+python scripts/diff_checkpoints.py --config configs/train_gpt2_medium_geometry.yaml
+python scripts/diff_features.py --config configs/train_gpt2_medium_geometry.yaml
+python scripts/validate_training_geometry.py --run-dir results/train_gpt2_medium_geometry
 ```
 
 ### Thin demo (optional — not the research depth)

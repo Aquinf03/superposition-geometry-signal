@@ -1,0 +1,44 @@
+{
+  "run_name": "train_gpt2_medium_geometry",
+  "seed": 0,
+  "model": "gpt2-medium",
+  "device": "mps",
+  "train": {
+    "corpus": "data/train_corpus.txt",
+    "seq_len": 64,
+    "batch_size": 2,
+    "max_steps": 30,
+    "lr": 3e-05,
+    "weight_decay": 0.01,
+    "grad_clip": 1.0
+  },
+  "geometry": {
+    "layers": [
+      6,
+      12,
+      22
+    ],
+    "every_n_steps": 2,
+    "bank_positions": "last",
+    "top_k_neighbors": 8,
+    "metrics": [
+      "interference_mean",
+      "spectral_participation",
+      "coactivation_overlap"
+    ],
+    "probe_prompts": null
+  },
+  "layers": [
+    6,
+    12,
+    22
+  ],
+  "n_blocks": 13,
+  "artifacts": {
+    "config_frozen": "results/train_gpt2_medium_geometry/config.frozen.yaml",
+    "seed_txt": "results/train_gpt2_medium_geometry/seed.txt",
+    "config_source": "results/train_gpt2_medium_geometry/config.source.yaml",
+    "run_manifest": "results/train_gpt2_medium_geometry/run_manifest.json"
+  },
+  "note": "hero: fine-tune with live loss | multi-layer geometry"
+}

@@ -1,0 +1,218 @@
+{
+  "mode": "ckpt_a_vs_b",
+  "feature_id_before": "superposition_pack@L22",
+  "feature_id_after": "superposition_pack@L22",
+  "step_before": 14,
+  "step_after": 29,
+  "metrics_before": {
+    "interference_mean": 0.7713711261749268,
+    "spectral_participation": 0.013529062271118164,
+    "coactivation_overlap": 0.14053315105946684
+  },
+  "metrics_after": {
+    "interference_mean": 0.6024264097213745,
+    "spectral_participation": 0.07626420801336115,
+    "coactivation_overlap": 0.16699868596591536
+  },
+  "delta_metrics": {
+    "coactivation_overlap": 0.026465534906448512,
+    "interference_mean": -0.16894471645355225,
+    "spectral_participation": 0.06273514574224298
+  },
+  "summary_score": 0.08604846570074791,
+  "mean_abs_neighbor_delta": 0.16750723123550415,
+  "neighbor_deltas": [
+    {
+      "bank_index": 0,
+      "abs_cos_before": 0.7523839473724365,
+      "abs_cos_after": 0.49972862005233765,
+      "delta_abs_cos": -0.2526553273200989
+    },
+    {
+      "bank_index": 2,
+      "abs_cos_before": 0.7514179944992065,
+      "abs_cos_after": 0.5224577188491821,
+      "delta_abs_cos": -0.22896027565002441
+    },
+    {
+      "bank_index": 5,
+      "abs_cos_before": 0.7826966047286987,
+      "abs_cos_after": 0.6980400681495667,
+      "delta_abs_cos": -0.08465653657913208
+    },
+    {
+      "bank_index": 7,
+      "abs_cos_before": 0.8097666501998901,
+      "abs_cos_after": 0.7210128307342529,
+      "delta_abs_cos": -0.08875381946563721
+    },
+    {
+      "bank_index": 8,
+      "abs_cos_before": 0.7339345216751099,
+      "abs_cos_after": 0.6481015682220459,
+      "delta_abs_cos": -0.08583295345306396
+    },
+    {
+      "bank_index": 11,
+      "abs_cos_before": 0.8456858396530151,
+      "abs_cos_after": 0.5815013647079468,
+      "delta_abs_cos": -0.26418447494506836
+    }
+  ],
+  "neighbors_entered_topk": [
+    1,
+    6
+  ],
+  "neighbors_left_topk": [
+    4,
+    9
+  ],
+  "before": {
+    "feature_id": "superposition_pack@L22",
+    "step": 14,
+    "metrics": {
+      "interference_mean": 0.7713711261749268,
+      "spectral_participation": 0.013529062271118164,
+      "coactivation_overlap": 0.14053315105946684
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 11,
+        "label": null,
+        "abs_cos": 0.8456858396530151
+      },
+      {
+        "rank": 1,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.8097666501998901
+      },
+      {
+        "rank": 2,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.7826966047286987
+      },
+      {
+        "rank": 3,
+        "bank_index": 9,
+        "label": null,
+        "abs_cos": 0.7781376838684082
+      },
+      {
+        "rank": 4,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.7523839473724365
+      },
+      {
+        "rank": 5,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.7514179944992065
+      },
+      {
+        "rank": 6,
+        "bank_index": 8,
+        "label": null,
+        "abs_cos": 0.7339345216751099
+      },
+      {
+        "rank": 7,
+        "bank_index": 4,
+        "label": null,
+        "abs_cos": 0.716945469379425
+      }
+    ],
+    "query_norm": 177.3655242919922,
+    "bank_size": 12,
+    "extra": {
+      "prompt": "Superposition allows neural networks to represent more features than",
+      "position": 10,
+      "layer": 22,
+      "ckpt_step": 14
+    }
+  },
+  "after": {
+    "feature_id": "superposition_pack@L22",
+    "step": 29,
+    "metrics": {
+      "interference_mean": 0.6024264097213745,
+      "spectral_participation": 0.07626420801336115,
+      "coactivation_overlap": 0.16699868596591536
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.7210128307342529
+      },
+      {
+        "rank": 1,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.6980400681495667
+      },
+      {
+        "rank": 2,
+        "bank_index": 8,
+        "label": null,
+        "abs_cos": 0.6481015682220459
+      },
+      {
+        "rank": 3,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.6213592886924744
+      },
+      {
+        "rank": 4,
+        "bank_index": 11,
+        "label": null,
+        "abs_cos": 0.5815013647079468
+      },
+      {
+        "rank": 5,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.5272095799446106
+      },
+      {
+        "rank": 6,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.5224577188491821
+      },
+      {
+        "rank": 7,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.49972862005233765
+      }
+    ],
+    "query_norm": 150.90359497070312,
+    "bank_size": 12,
+    "extra": {
+      "prompt": "Superposition allows neural networks to represent more features than",
+      "position": 10,
+      "layer": 22,
+      "ckpt_step": 29
+    }
+  },
+  "layer": 22,
+  "feature": "superposition_pack",
+  "ckpt_a": {
+    "step": 14,
+    "weight_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00014.pt",
+    "geometry_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00014.geometry.json",
+    "loss": 1.1936088800430298
+  },
+  "ckpt_b": {
+    "step": 29,
+    "weight_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00029.pt",
+    "geometry_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00029.geometry.json",
+    "loss": 0.407657265663147
+  }
+}

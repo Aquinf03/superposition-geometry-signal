@@ -1,0 +1,224 @@
+{
+  "mode": "ckpt_a_vs_b",
+  "feature_id_before": "louvre_located_in@L6",
+  "feature_id_after": "louvre_located_in@L6",
+  "step_before": 14,
+  "step_after": 29,
+  "metrics_before": {
+    "interference_mean": 0.646725058555603,
+    "spectral_participation": 0.09047923088073731,
+    "coactivation_overlap": 0.21518288474810215
+  },
+  "metrics_after": {
+    "interference_mean": 0.6283252239227295,
+    "spectral_participation": 0.09113398790359498,
+    "coactivation_overlap": 0.2705638158173423
+  },
+  "delta_metrics": {
+    "coactivation_overlap": 0.055380931069240136,
+    "interference_mean": -0.018399834632873535,
+    "spectral_participation": 0.000654757022857666
+  },
+  "summary_score": 0.02481184090832378,
+  "mean_abs_neighbor_delta": 0.03569699823856354,
+  "neighbor_deltas": [
+    {
+      "bank_index": 0,
+      "abs_cos_before": 0.9564528465270996,
+      "abs_cos_after": 0.948796272277832,
+      "delta_abs_cos": -0.007656574249267578
+    },
+    {
+      "bank_index": 1,
+      "abs_cos_before": 0.9368274211883545,
+      "abs_cos_after": 0.854128360748291,
+      "delta_abs_cos": -0.08269906044006348
+    },
+    {
+      "bank_index": 2,
+      "abs_cos_before": 0.9425341486930847,
+      "abs_cos_after": 0.9106022119522095,
+      "delta_abs_cos": -0.031931936740875244
+    },
+    {
+      "bank_index": 3,
+      "abs_cos_before": 0.9080278873443604,
+      "abs_cos_after": 0.8285131454467773,
+      "delta_abs_cos": -0.07951474189758301
+    },
+    {
+      "bank_index": 4,
+      "abs_cos_before": 0.34562546014785767,
+      "abs_cos_after": 0.3727593421936035,
+      "delta_abs_cos": 0.02713388204574585
+    },
+    {
+      "bank_index": 5,
+      "abs_cos_before": 0.36062851548194885,
+      "abs_cos_after": 0.3460437059402466,
+      "delta_abs_cos": -0.01458480954170227
+    },
+    {
+      "bank_index": 6,
+      "abs_cos_before": 0.37364453077316284,
+      "abs_cos_after": 0.3999185264110565,
+      "delta_abs_cos": 0.026273995637893677
+    },
+    {
+      "bank_index": 7,
+      "abs_cos_before": 0.3500595688819885,
+      "abs_cos_after": 0.3658405542373657,
+      "delta_abs_cos": 0.015780985355377197
+    }
+  ],
+  "neighbors_entered_topk": [],
+  "neighbors_left_topk": [],
+  "before": {
+    "feature_id": "louvre_located_in@L6",
+    "step": 14,
+    "metrics": {
+      "interference_mean": 0.646725058555603,
+      "spectral_participation": 0.09047923088073731,
+      "coactivation_overlap": 0.21518288474810215
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.9564528465270996
+      },
+      {
+        "rank": 1,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.9425341486930847
+      },
+      {
+        "rank": 2,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.9368274211883545
+      },
+      {
+        "rank": 3,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.9080278873443604
+      },
+      {
+        "rank": 4,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.37364453077316284
+      },
+      {
+        "rank": 5,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.36062851548194885
+      },
+      {
+        "rank": 6,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.3500595688819885
+      },
+      {
+        "rank": 7,
+        "bank_index": 4,
+        "label": null,
+        "abs_cos": 0.34562546014785767
+      }
+    ],
+    "query_norm": 24.493661880493164,
+    "bank_size": 11,
+    "extra": {
+      "prompt": "The Louvre Museum is located in",
+      "position": 7,
+      "layer": 6,
+      "ckpt_step": 14
+    }
+  },
+  "after": {
+    "feature_id": "louvre_located_in@L6",
+    "step": 29,
+    "metrics": {
+      "interference_mean": 0.6283252239227295,
+      "spectral_participation": 0.09113398790359498,
+      "coactivation_overlap": 0.2705638158173423
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.948796272277832
+      },
+      {
+        "rank": 1,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.9106022119522095
+      },
+      {
+        "rank": 2,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.854128360748291
+      },
+      {
+        "rank": 3,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.8285131454467773
+      },
+      {
+        "rank": 4,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.3999185264110565
+      },
+      {
+        "rank": 5,
+        "bank_index": 4,
+        "label": null,
+        "abs_cos": 0.3727593421936035
+      },
+      {
+        "rank": 6,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.3658405542373657
+      },
+      {
+        "rank": 7,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.3460437059402466
+      }
+    ],
+    "query_norm": 22.523317337036133,
+    "bank_size": 11,
+    "extra": {
+      "prompt": "The Louvre Museum is located in",
+      "position": 7,
+      "layer": 6,
+      "ckpt_step": 29
+    }
+  },
+  "layer": 6,
+  "feature": "louvre_located_in",
+  "ckpt_a": {
+    "step": 14,
+    "weight_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00014.pt",
+    "geometry_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00014.geometry.json",
+    "loss": 1.1936088800430298
+  },
+  "ckpt_b": {
+    "step": 29,
+    "weight_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00029.pt",
+    "geometry_path": "/Users/ashm/work/super/results/train_gpt2_medium_geometry/checkpoints/step_00029.geometry.json",
+    "loss": 0.407657265663147
+  }
+}

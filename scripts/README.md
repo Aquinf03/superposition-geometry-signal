@@ -13,6 +13,7 @@ Pipeline: **train** (hero) → **track** → **diff** → thin **act** demo.
 | `checkpoint_geometry.py` | Aligned weight↔geometry freezes + manifest |
 | `diff_checkpoints.py` | **Diff:** ckpt A vs B on selected features |
 | `diff_features.py` | **Diff:** feature A vs B at one checkpoint |
+| `validate_training_geometry.py` | **Validate:** collapse / packing / layer phase on train run |
 | `diff_geometry.py` | **Diff:** neighborhood snapshots, pre/post + step vs step |
 | `eval_edit.py` | **Eval:** success / paraphrase / ripple / activation cosine |
 | `run_artifacts.py` | Freeze `config` + `seed` into the run dir |
@@ -21,15 +22,25 @@ Pipeline: **train** (hero) → **track** → **diff** → thin **act** demo.
 | `sanity_entangled_vs_clean_edit.py` | Controlled neighbor-Δ sanity |
 
 ```bash
-# Hero
+# Hero (gpt2-small)
 python scripts/train_with_geometry.py --config configs/train_gpt2_small_geometry.yaml
 python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.csv
+
+# Scaled (gpt2-medium — same scripts, different YAML)
+python scripts/train_with_geometry.py --config configs/train_gpt2_medium_geometry.yaml
+python scripts/plot_signals.py --csv results/train_gpt2_medium_geometry/signals.csv
+python scripts/diff_checkpoints.py --config configs/train_gpt2_medium_geometry.yaml
+python scripts/diff_features.py --config configs/train_gpt2_medium_geometry.yaml
+python scripts/validate_training_geometry.py --run-dir results/train_gpt2_medium_geometry
 
 # Ckpt A vs B on selected features (defaults: earliest → latest aligned ckpt)
 python scripts/diff_checkpoints.py --config configs/train_gpt2_small_geometry.yaml
 
 # Feature A vs B at one ckpt (default: latest aligned)
 python scripts/diff_features.py --config configs/train_gpt2_small_geometry.yaml
+
+# Validate geometry tracks real training phenomena (not edits)
+python scripts/validate_training_geometry.py --run-dir results/train_gpt2_small_geometry
 
 # Thin edit demo
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml

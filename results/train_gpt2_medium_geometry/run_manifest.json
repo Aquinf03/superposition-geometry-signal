@@ -1,0 +1,15 @@
+{
+  "seed": 0,
+  "created_utc": "2026-09-25T16:50:31.869412+00:00",
+  "config_frozen": "config.frozen.yaml",
+  "config_source": "config.source.yaml",
+  "source_config_path": "configs/train_gpt2_medium_geometry.yaml",
+  "model": "gpt2-medium",
+  "device": "mps",
+  "hero": "train_with_geometry",
+  "layers": [
+    6,
+    12,
+    22
+  ]
+}
