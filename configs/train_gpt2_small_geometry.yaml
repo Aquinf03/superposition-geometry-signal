@@ -48,3 +48,8 @@ diff:
     - name: superposition_pack
       prompt: "Superposition allows neural networks to represent more features than"
       position: last
+  # Cross-feature pairs at one ckpt (related vs unrelated). Omit → all combinations.
+  cross_feature_pairs:
+    - [eiffel_located_in, louvre_located_in]      # related location cluster
+    - [eiffel_located_in, superposition_pack]     # unrelated
+    - [louvre_located_in, superposition_pack]     # unrelated

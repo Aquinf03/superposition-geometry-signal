@@ -12,6 +12,7 @@ Pipeline: **train** (hero) → **track** → **diff** → thin **act** demo.
 | `train_with_geometry.py` | **Hero:** fine-tune + live `loss \| geometry` |
 | `checkpoint_geometry.py` | Aligned weight↔geometry freezes + manifest |
 | `diff_checkpoints.py` | **Diff:** ckpt A vs B on selected features |
+| `diff_features.py` | **Diff:** feature A vs B at one checkpoint |
 | `diff_geometry.py` | **Diff:** neighborhood snapshots, pre/post + step vs step |
 | `eval_edit.py` | **Eval:** success / paraphrase / ripple / activation cosine |
 | `run_artifacts.py` | Freeze `config` + `seed` into the run dir |
@@ -26,6 +27,9 @@ python scripts/plot_signals.py --csv results/train_gpt2_small_geometry/signals.c
 
 # Ckpt A vs B on selected features (defaults: earliest → latest aligned ckpt)
 python scripts/diff_checkpoints.py --config configs/train_gpt2_small_geometry.yaml
+
+# Feature A vs B at one ckpt (default: latest aligned)
+python scripts/diff_features.py --config configs/train_gpt2_small_geometry.yaml
 
 # Thin edit demo
 python scripts/rome_edit.py --config configs/rome_gpt2_small.yaml

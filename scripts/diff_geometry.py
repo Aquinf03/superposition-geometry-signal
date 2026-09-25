@@ -170,15 +170,28 @@ def plot_neighborhood_diff(diff: Dict[str, Any], out_path: Path) -> Path:
 
     x = range(len(metrics))
     width = 0.35
-    axes[0].bar([i - width / 2 for i in x], before_vals, width, label="before", color="#444")
-    axes[0].bar([i + width / 2 for i in x], after_vals, width, label="after", color="#4C78A8")
+    if diff.get("mode") == "feature_a_vs_b":
+        label_a = str(diff.get("feature_a") or diff.get("feature_id_before") or "A")
+        label_b = str(diff.get("feature_b") or diff.get("feature_id_after") or "B")
+        # Shorten @L tags for legend
+        label_a = label_a.split("@")[0]
+        label_b = label_b.split("@")[0]
+    else:
+        label_a, label_b = "before", "after"
+    axes[0].bar([i - width / 2 for i in x], before_vals, width, label=label_a, color="#444")
+    axes[0].bar([i + width / 2 for i in x], after_vals, width, label=label_b, color="#4C78A8")
     axes[0].set_xticks(list(x))
     axes[0].set_xticklabels(metrics, rotation=15, ha="right")
     axes[0].set_ylabel("metric")
-    axes[0].set_title(
-        f"diff [{diff.get('mode')}]  {diff.get('feature_id_before')}  "
-        f"summary={diff.get('summary_score', 0):.3f}"
-    )
+    title_bits = f"diff [{diff.get('mode')}]"
+    if diff.get("mode") == "feature_a_vs_b":
+        title_bits += f"  {label_a} vs {label_b}"
+    else:
+        title_bits += f"  {diff.get('feature_id_before')}"
+    if diff.get("layer") is not None:
+        title_bits += f"  L{diff.get('layer')}"
+    title_bits += f"  summary={diff.get('summary_score', 0):.3f}"
+    axes[0].set_title(title_bits)
     axes[0].legend(frameon=False)
 
     if nbr:

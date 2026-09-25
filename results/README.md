@@ -18,4 +18,5 @@ Each run writes under `results/<run_name>/`:
 | `checkpoints/step_XXXXX.geometry.json` | Geometry frozen at the same step (aligned) |
 | `checkpoints/manifest.json` | Index of aligned weight↔geometry pairs |
 | `diff_ckpt_*_vs_*/` | Ckpt A vs B feature diffs + plots |
+| `diff_features_step_*/` | Feature A vs B diffs at one ckpt |
 | `meta.json` | Logger meta (model, bank size, etc.) |

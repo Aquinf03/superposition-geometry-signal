@@ -82,6 +82,17 @@ Writes under `results/<run>/diff_ckpt_XXXXX_vs_YYYYY/`:
 | `diff_<feature>_L{n}.json/.png` | Per-feature neighborhood diff at layer n |
 | `diff_summary.json` | Index of all feature×layer scores |
 
+## Cross-feature diff (feature A vs B)
+
+Same checkpoint, shared neighbor bank — compare how two features sit:
+
+```bash
+python scripts/diff_features.py --config configs/train_gpt2_small_geometry.yaml
+# optional: --step 39  --pair eiffel_located_in louvre_located_in
+```
+
+Writes under `results/<run>/diff_features_step_XXXXX/`. Related pairs (eiffel vs louvre) should usually score closer than unrelated (eiffel vs superposition).
+
 ## Diff (selected features / neighborhoods)
 
 `scripts/diff_geometry.py` snapshots a feature’s summary metrics + top-k neighbor `|cos|`, then diffs two snapshots.
