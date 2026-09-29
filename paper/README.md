@@ -1,11 +1,8 @@
 # Paper
 
-Workshop draft lives here (LaTeX).
+Source only. No PDF builds in this repo.
 
-Target: Mechanistic Interpretability Workshop (short 4 / long 8 pages, ICML template).
+- **LaTeX:** [`main.tex`](main.tex) + [`refs.bib`](refs.bib)
+- **Figures:** [`figures/`](figures/) (PNG + table markdown/CSV). Regenerate with `python experiments/paper_figures.py`.
 
-Must match `../THESIS.md`:
-
-1. **Track** figure — loss + geometry beside each other
-2. **Diff** figure — selected feature neighborhood pre/post (or step vs step)
-3. **Act** table — geometry-aware edit vs ROME (success / paraphrase / locality)
+Thesis: geometry beside loss (live) then soft control, validated out-of-metric. See root `THESIS.md` / `CONTROL_GEO.md`.
