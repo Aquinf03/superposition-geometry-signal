@@ -31,7 +31,22 @@ def read_signals(path: Path) -> Dict[str, List[float]]:
     cols = rows[0].keys()
     out: Dict[str, List[float]] = {}
     for col in cols:
-        out[col] = [float(r[col]) if r.get(col) not in (None, "") else float("nan") for r in rows]
+        vals: List[float] = []
+        ok = True
+        for r in rows:
+            raw = r.get(col)
+            if raw in (None, ""):
+                vals.append(float("nan"))
+                continue
+            try:
+                vals.append(float(raw))
+            except ValueError:
+                ok = False
+                break
+        if ok:
+            out[col] = vals
+    if "step" not in out or "loss" not in out:
+        raise ValueError(f"signals.csv missing numeric step/loss columns: {path}")
     return out
 
 

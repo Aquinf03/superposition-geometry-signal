@@ -82,3 +82,4 @@ Thumbs.db
 _minted*/
 paper/*.pdf
 !paper/main.pdf
+experiments/data/wikitext2/*.txt

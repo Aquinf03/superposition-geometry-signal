@@ -2,7 +2,7 @@
 
 Quickstart::
 
-    from spg import Tracker, Diff, plot
+    from spg import Tracker, Diff, plot, GeoControl
 
     tracker = Tracker(results_dir="runs", run_name="demo", live_print=True)
     tracker.log(step=0, loss=1.2, geometry={
@@ -19,6 +19,14 @@ from spg.tracker import Tracker, SignalLogger, StepRecord, format_live_line
 from spg.diff import Diff
 from spg.plot import plot
 from spg.view import write_view_html, build_view_payload
+from spg.control import (
+    GeoControl,
+    ControlStatus,
+    FeatureRelativeControl,
+    FeatureRelativeStatus,
+)
+from spg.live import format_control_line
+from spg.grad_geometry import collect_mlp_out_bank_grad, mean_interference_tensor
 from spg.geometry import (
     DEFAULT_PROBE_PROMPTS,
     collect_mlp_out_bank,
@@ -27,12 +35,19 @@ from spg.geometry import (
 )
 from spg.seed import set_seed
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "Tracker",
     "Diff",
     "plot",
+    "GeoControl",
+    "ControlStatus",
+    "FeatureRelativeControl",
+    "FeatureRelativeStatus",
+    "format_control_line",
+    "collect_mlp_out_bank_grad",
+    "mean_interference_tensor",
     "write_view_html",
     "build_view_payload",
     "SignalLogger",

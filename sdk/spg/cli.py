@@ -1,12 +1,16 @@
-"""Command-line interface: ``spg track | diff | plot | view``.
+"""Command-line interface: ``spg track | diff | plot | view | control-demo | edit-demo``.
 
 Examples::
 
     spg plot experiments/results/train_gpt2_small_geometry/signals.csv
     spg track --config experiments/configs/train_gpt2_small_geometry.yaml
+    spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml
+    spg track --config experiments/configs/train_gpt2_small_geometry_control_band.yaml
     spg diff --config experiments/configs/train_gpt2_small_geometry.yaml
     spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml
     spg view --run-dir experiments/results/train_gpt2_small_geometry --open
+    spg control-demo
+    spg edit-demo
 """
 
 from __future__ import annotations
@@ -108,6 +112,88 @@ def _cmd_diff(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_control_demo(_args: argparse.Namespace) -> int:
+    """Toy sanity: GeoControl point + band + FeatureRelativeControl (no model)."""
+    from spg import FeatureRelativeControl, GeoControl, format_control_line
+
+    print("spg control-demo — point target → interference=0.35 @ L8\n")
+    control = GeoControl(
+        layer=8,
+        metric="interference_mean",
+        target=0.35,
+        weight=1e-2,
+        enabled=True,
+    )
+    for step, cur in enumerate([0.55, 0.48, 0.40, 0.36, 0.35, 0.35]):
+        geo = {
+            "L8_interference_mean": cur,
+            "L8_spectral_participation": 0.2,
+            "L4_interference_mean": 0.4,
+        }
+        pen = control.penalty(geo)
+        st = control.status(geo)
+        loss = 1.0 + float(pen)
+        print(format_control_line(step=step, loss=loss, geometry=geo, control=st))
+        print(f"         penalty.item()={float(pen):.6f}")
+
+    print("\nspg control-demo — band [0.30, 0.40] (hinge outside)\n")
+    band = GeoControl(
+        layer=8,
+        metric="interference_mean",
+        target=0.35,
+        weight=1e-2,
+        mode="band",
+        lo=0.30,
+        hi=0.40,
+        enabled=True,
+    )
+    for step, cur in enumerate([0.22, 0.28, 0.35, 0.42, 0.50]):
+        geo = {"L8_interference_mean": cur}
+        pen = band.penalty(geo)
+        st = band.status(geo)
+        print(format_control_line(step=step, loss=float(pen), geometry=geo, control=st))
+        print(f"         penalty.item()={float(pen):.6f}")
+
+    print("\nspg control-demo — feature-relative (shrink related, margin on unrelated)\n")
+    feat = FeatureRelativeControl(
+        weight_related=1e-2,
+        weight_unrelated=1e-2,
+        margin=0.15,
+        enabled=True,
+    )
+    for step, (rel, unrel) in enumerate(
+        [(0.40, 0.05), (0.25, 0.10), (0.10, 0.18), (0.05, 0.22)]
+    ):
+        pen = feat.penalty(rel, unrel)
+        st = feat.status(rel, unrel)
+        print(
+            f"step={step}  related={rel:.2f} unrelated={unrel:.2f}  "
+            f"pen={st.penalty:.4g}  (margin={st.margin})"
+        )
+        print(f"         penalty.item()={float(pen):.6f}")
+
+    print("\nok — hero train: loss = lm_loss + control.penalty_on_value(metric_t)")
+    print("    edit-time: spg edit-demo")
+    return 0
+
+
+def _cmd_edit_demo(args: argparse.Namespace) -> int:
+    """Thin edit-time GeoControl nudge (one MLP W_out)."""
+    _ensure_repo_on_path()
+    from experiments.edit_geo_nudge import main as edit_main
+
+    argv: List[str] = []
+    if args.config is not None:
+        argv += ["--config", str(args.config)]
+    old = sys.argv
+    try:
+        sys.argv = ["spg-edit-demo", *argv]
+        edit_main()
+    finally:
+        sys.argv = old
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     root = _ensure_repo_on_path()
     try:
@@ -125,9 +211,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     parser = argparse.ArgumentParser(
         prog="spg",
-        description="Superposition Geometry — track / diff / plot / view beside loss",
+        description="Superposition Geometry — track / diff / plot / view / control",
     )
-    parser.add_argument("--version", action="version", version="spg 0.1.0")
+    parser.add_argument("--version", action="version", version="spg 0.1.1")
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_plot = sub.add_parser("plot", help="Plot loss + geometry from signals.csv")
@@ -209,6 +295,32 @@ def build_parser() -> argparse.ArgumentParser:
         help="Open the HTML in the default browser",
     )
     p_view.set_defaults(func=_cmd_view)
+
+    p_demo = sub.add_parser(
+        "control-demo",
+        help="Toy GeoControl: point / band / feature-relative (no model)",
+    )
+    p_demo.set_defaults(func=_cmd_control_demo)
+
+    try:
+        from spg.paths import CONFIGS as _CONFIGS
+
+        default_edit_cfg = _CONFIGS / "edit_geo_nudge.yaml"
+    except Exception:
+        default_edit_cfg = root / "experiments" / "configs" / "edit_geo_nudge.yaml"
+
+    p_edit = sub.add_parser(
+        "edit-demo",
+        help="Thin edit-time geo nudge (one MLP W_out → target/band)",
+    )
+    p_edit.add_argument(
+        "-c",
+        "--config",
+        type=Path,
+        default=default_edit_cfg,
+        help="Edit YAML under experiments/configs/",
+    )
+    p_edit.set_defaults(func=_cmd_edit_demo)
 
     return parser
 

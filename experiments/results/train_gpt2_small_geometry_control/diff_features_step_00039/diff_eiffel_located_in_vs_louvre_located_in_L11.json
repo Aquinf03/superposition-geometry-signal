@@ -1,0 +1,219 @@
+{
+  "mode": "feature_a_vs_b",
+  "feature_id_before": "eiffel_located_in@L11",
+  "feature_id_after": "louvre_located_in@L11",
+  "step_before": 39,
+  "step_after": 39,
+  "metrics_before": {
+    "interference_mean": 0.8100705146789551,
+    "spectral_participation": 0.025828063488006592,
+    "coactivation_overlap": 0.24717507866444038
+  },
+  "metrics_after": {
+    "interference_mean": 0.7642742395401001,
+    "spectral_participation": 0.03460252285003662,
+    "coactivation_overlap": 0.22038654566956456
+  },
+  "delta_metrics": {
+    "coactivation_overlap": -0.026788532994875824,
+    "interference_mean": -0.04579627513885498,
+    "spectral_participation": 0.00877445936203003
+  },
+  "summary_score": 0.027119755831920278,
+  "mean_abs_neighbor_delta": 0.045796267688274384,
+  "neighbor_deltas": [
+    {
+      "bank_index": 0,
+      "abs_cos_before": 0.8922989964485168,
+      "abs_cos_after": 0.8922989964485168,
+      "delta_abs_cos": 0.0
+    },
+    {
+      "bank_index": 1,
+      "abs_cos_before": 0.8692445755004883,
+      "abs_cos_after": 0.7929894924163818,
+      "delta_abs_cos": -0.07625508308410645
+    },
+    {
+      "bank_index": 2,
+      "abs_cos_before": 0.7625386714935303,
+      "abs_cos_after": 0.7218160033226013,
+      "delta_abs_cos": -0.040722668170928955
+    },
+    {
+      "bank_index": 3,
+      "abs_cos_before": 0.905083954334259,
+      "abs_cos_after": 0.8263756036758423,
+      "delta_abs_cos": -0.07870835065841675
+    },
+    {
+      "bank_index": 4,
+      "abs_cos_before": 0.7849461436271667,
+      "abs_cos_after": 0.7534821033477783,
+      "delta_abs_cos": -0.03146404027938843
+    },
+    {
+      "bank_index": 5,
+      "abs_cos_before": 0.7861688733100891,
+      "abs_cos_after": 0.7329858541488647,
+      "delta_abs_cos": -0.053183019161224365
+    },
+    {
+      "bank_index": 6,
+      "abs_cos_before": 0.7592591047286987,
+      "abs_cos_after": 0.7066593170166016,
+      "delta_abs_cos": -0.05259978771209717
+    },
+    {
+      "bank_index": 7,
+      "abs_cos_before": 0.7210238575935364,
+      "abs_cos_after": 0.6875866651535034,
+      "delta_abs_cos": -0.03343719244003296
+    }
+  ],
+  "neighbors_entered_topk": [],
+  "neighbors_left_topk": [],
+  "before": {
+    "feature_id": "eiffel_located_in@L11",
+    "step": 39,
+    "metrics": {
+      "interference_mean": 0.8100705146789551,
+      "spectral_participation": 0.025828063488006592,
+      "coactivation_overlap": 0.24717507866444038
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.905083954334259
+      },
+      {
+        "rank": 1,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.8922989964485168
+      },
+      {
+        "rank": 2,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.8692445755004883
+      },
+      {
+        "rank": 3,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.7861688733100891
+      },
+      {
+        "rank": 4,
+        "bank_index": 4,
+        "label": null,
+        "abs_cos": 0.7849461436271667
+      },
+      {
+        "rank": 5,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.7625386714935303
+      },
+      {
+        "rank": 6,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.7592591047286987
+      },
+      {
+        "rank": 7,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.7210238575935364
+      }
+    ],
+    "query_norm": 137.1770782470703,
+    "bank_size": 11,
+    "extra": {
+      "prompt": "The Eiffel Tower is located in",
+      "position": 8,
+      "layer": 11,
+      "ckpt_step": 39
+    }
+  },
+  "after": {
+    "feature_id": "louvre_located_in@L11",
+    "step": 39,
+    "metrics": {
+      "interference_mean": 0.7642742395401001,
+      "spectral_participation": 0.03460252285003662,
+      "coactivation_overlap": 0.22038654566956456
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.8922989964485168
+      },
+      {
+        "rank": 1,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.8263756036758423
+      },
+      {
+        "rank": 2,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.7929894924163818
+      },
+      {
+        "rank": 3,
+        "bank_index": 4,
+        "label": null,
+        "abs_cos": 0.7534821033477783
+      },
+      {
+        "rank": 4,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.7329858541488647
+      },
+      {
+        "rank": 5,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.7218160033226013
+      },
+      {
+        "rank": 6,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.7066593170166016
+      },
+      {
+        "rank": 7,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.6875866651535034
+      }
+    ],
+    "query_norm": 124.18439483642578,
+    "bank_size": 11,
+    "extra": {
+      "prompt": "The Louvre Museum is located in",
+      "position": 7,
+      "layer": 11,
+      "ckpt_step": 39
+    }
+  },
+  "feature_a": "eiffel_located_in",
+  "feature_b": "louvre_located_in",
+  "layer": 11,
+  "ckpt": {
+    "step": 39,
+    "weight_path": "experiments/results/train_gpt2_small_geometry_control/checkpoints/step_00039.pt",
+    "geometry_path": "experiments/results/train_gpt2_small_geometry_control/checkpoints/step_00039.geometry.json",
+    "loss": 0.010339937172830105
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "run_name": "train_gpt2_small_geometry_control_quality_s0",
+  "seed": 0,
+  "model": "gpt2-small",
+  "device": "mps",
+  "train": {
+    "corpus": "data/train_corpus_extended.txt",
+    "seq_len": 64,
+    "batch_size": 4,
+    "max_steps": 200,
+    "lr": 2e-05,
+    "weight_decay": 0.01,
+    "grad_clip": 1.0
+  },
+  "geometry": {
+    "layers": [
+      4,
+      8,
+      11
+    ],
+    "every_n_steps": 5,
+    "bank_positions": "last",
+    "top_k_neighbors": 8,
+    "metrics": [
+      "interference_mean",
+      "spectral_participation",
+      "coactivation_overlap"
+    ],
+    "probe_prompts": null
+  },
+  "control": {
+    "enabled": true,
+    "layer": 8,
+    "metric": "interference_mean",
+    "mode": "point",
+    "target": 0.35,
+    "weight": 0.01,
+    "every_n_steps": 1,
+    "warmup_steps": 10,
+    "abort_on_warmup_fail": true,
+    "abort_on_warn": false
+  },
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "n_blocks": 93,
+  "artifacts": {
+    "config_frozen": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s0/config.frozen.yaml",
+    "seed_txt": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s0/seed.txt",
+    "config_source": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s0/config.source.yaml",
+    "run_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s0/run_manifest.json"
+  },
+  "note": "hero: fine-tune with live loss | multi-layer geometry + spg soft geo control"
+}

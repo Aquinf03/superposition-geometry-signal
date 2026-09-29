@@ -54,10 +54,22 @@ def read_signals(path: Path) -> Dict[str, np.ndarray]:
         raise ValueError(f"empty signals: {path}")
     out: Dict[str, np.ndarray] = {}
     for col in rows[0].keys():
-        out[col] = np.array(
-            [float(r[col]) if r.get(col) not in (None, "") else np.nan for r in rows],
-            dtype=float,
-        )
+        vals: List[float] = []
+        ok = True
+        for r in rows:
+            raw = r.get(col)
+            if raw in (None, ""):
+                vals.append(np.nan)
+                continue
+            try:
+                vals.append(float(raw))
+            except ValueError:
+                ok = False
+                break
+        if ok:
+            out[col] = np.array(vals, dtype=float)
+    if "loss" not in out or "step" not in out:
+        raise ValueError(f"signals missing numeric step/loss: {path}")
     return out
 
 

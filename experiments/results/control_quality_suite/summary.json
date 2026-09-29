@@ -1,0 +1,69 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "steps": 200,
+  "corpus": "/Users/ashm/work/super/experiments/data/train_corpus_extended.txt",
+  "eval_corpus": "/Users/ashm/work/super/experiments/data/eval_corpus.txt",
+  "n_seeds": 3,
+  "n_control_wins_vs_baseline": 2,
+  "mean_delta_eval_loss": -0.03390428755018456,
+  "per_seed": [
+    {
+      "seed": 0,
+      "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_quality_s0",
+      "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s0",
+      "eval_loss_pretrained": 4.234208106994629,
+      "eval_loss_baseline": 5.631758371988933,
+      "eval_loss_control": 5.634658972422282,
+      "eval_ppl_pretrained": 69.00701092157568,
+      "eval_ppl_baseline": 279.1525403414788,
+      "eval_ppl_control": 279.96342577976,
+      "delta_eval_loss": 0.0029006004333496094,
+      "control_wins_vs_baseline": false,
+      "no_harm_vs_baseline": true,
+      "eval_json": "/Users/ashm/work/super/experiments/results/control_quality_suite/held_out_lm_eval_s0.json",
+      "control_closer_to_pretrained_than_baseline": false,
+      "control_beats_pretrained": false
+    },
+    {
+      "seed": 1,
+      "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_quality_s1",
+      "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1",
+      "eval_loss_pretrained": 4.234208106994629,
+      "eval_loss_baseline": 5.756606260935466,
+      "eval_loss_control": 5.683298587799072,
+      "eval_ppl_pretrained": 69.00701092157568,
+      "eval_ppl_baseline": 316.27315695542006,
+      "eval_ppl_control": 293.91734483636986,
+      "delta_eval_loss": -0.07330767313639353,
+      "control_wins_vs_baseline": true,
+      "no_harm_vs_baseline": true,
+      "eval_json": "/Users/ashm/work/super/experiments/results/control_quality_suite/held_out_lm_eval_s1.json",
+      "control_closer_to_pretrained_than_baseline": true,
+      "control_beats_pretrained": false
+    },
+    {
+      "seed": 2,
+      "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_quality_s2",
+      "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s2",
+      "eval_loss_pretrained": 4.234208106994629,
+      "eval_loss_baseline": 5.530048211415608,
+      "eval_loss_control": 5.498742421468099,
+      "eval_ppl_pretrained": 69.00701092157568,
+      "eval_ppl_baseline": 252.1560675314391,
+      "eval_ppl_control": 244.384406352797,
+      "delta_eval_loss": -0.031305789947509766,
+      "control_wins_vs_baseline": true,
+      "no_harm_vs_baseline": true,
+      "eval_json": "/Users/ashm/work/super/experiments/results/control_quality_suite/held_out_lm_eval_s2.json",
+      "control_closer_to_pretrained_than_baseline": true,
+      "control_beats_pretrained": false
+    }
+  ],
+  "claim": "control beat baseline on held-out LM loss in 2/3 seeds (mean \u0394=-0.0339)",
+  "n_control_closer_to_pretrained_than_baseline": 2,
+  "n_control_beats_pretrained": 0
+}

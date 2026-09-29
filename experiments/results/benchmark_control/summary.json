@@ -1,0 +1,33 @@
+{
+  "seeds": [
+    0
+  ],
+  "steps": 400,
+  "wiki_dir": "/Users/ashm/work/super/experiments/data/wikitext2",
+  "max_hellaswag": 1000,
+  "aggregates": {
+    "wikitext2_test": {
+      "n": 1,
+      "n_control_wins": 0,
+      "mean_delta": 0.0003652915124163769
+    },
+    "wikitext2_valid": {
+      "n": 1,
+      "n_control_wins": 0,
+      "mean_delta": 1.7205461254832244e-05
+    },
+    "lambada": {
+      "n": 1,
+      "n_control_wins": 0,
+      "mean_delta": 0.0
+    },
+    "hellaswag": {
+      "n": 1,
+      "n_control_wins": 0,
+      "mean_delta": 0.0
+    }
+  },
+  "per_seed_paths": [
+    "/Users/ashm/work/super/experiments/results/benchmark_control/benchmarks_s0.json"
+  ]
+}

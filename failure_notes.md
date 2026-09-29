@@ -55,13 +55,25 @@ ROME / weight-edit demos move geometry because weights changed. That is a **thin
 
 If coact sits at ~1 with huge `top_dims`, you are measuring ambient overlap, not sparse sharing. The implementation caps top dims (~`d/4`); still watch for saturation.
 
+### 9. Soft geo-control can look “good” on the train bank only
+
+Matched pair (`control_vs_baseline_seed0`, λ=1e-2 on L8 interference→0.35):
+
+- **Train-bank / live L8** moved closer to target than baseline (compare.json).
+- **Held-out probes** (disjoint prompts) did **not** improve toward the target — only “no big regression.” Optimizing the control bank can look like success while held-out geometry barely follows.
+- Cross-feature related≪unrelated and downstream LM loss still **PASS**ed under control — structure wasn’t destroyed, but don’t equate “hit geo_target on train probes” with representation-wide control.
+- **Held-out LM eval** (`eval_control_lm.py`, `data/eval_corpus.txt`): control slightly beat baseline on eval loss (Δ≈−0.019), but **both** sat well above pretrained gpt2-small — the short fine-tune overfits `train_corpus.txt` (train PPL≈1.02). A tiny Δ on a tiny overfit run is a directional hint, not proof of a better model; need multi-seed / longer data before claiming quality wins.
+
+**Check:** `python experiments/validate_control_geometry.py` + `python experiments/eval_control_lm.py`. PASS / WIN ≠ causal control or strong quality claim.
+
 ## How to read a run safely
 
 1. Loss + multi-layer plot first (`python -m scripts.helpers.plot_signals`).
 2. Ask which **layer phase** moved (collapse vs mild drift).
 3. Diff **selected features** at mid layers; treat collapsed late layers as context.
 4. Run `validate_training_geometry.py` — PASS means “tracks real training phenomena,” not “metrics are causal.”
-5. Write claims with the failure mode in mind (overfit, bank bias, collapse).
+5. If control is on: run `validate_control_geometry.py` and `eval_control_lm.py`; read held-out claims before claiming the knob worked or improved quality.
+6. Write claims with the failure mode in mind (overfit, bank bias, collapse, gamed control bank).
 
 ## Paper-facing one-liner
 

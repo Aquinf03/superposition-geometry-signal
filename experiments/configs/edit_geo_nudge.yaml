@@ -1,0 +1,44 @@
+# Thin edit-time geometry nudge (existence proof — not the research depth).
+#
+#   python experiments/edit_geo_nudge.py --config experiments/configs/edit_geo_nudge.yaml
+#   spg edit-demo
+seed: 0
+model: gpt2-small
+device: auto
+
+edit:
+  layer: 8
+  n_steps: 12
+  lr: 5.0e-4
+  bank_positions: last
+  top_k_neighbors: 8
+  # null → DEFAULT_PROBE_PROMPTS
+  probe_prompts: null
+  related_prompts:
+    - "The Eiffel Tower is located in"
+    - "The Louvre Museum is located in"
+  unrelated_prompts:
+    - "The Eiffel Tower is located in"
+    - "Superposition allows neural networks to represent more features than"
+
+# Point target or band. Band = hinge outside [lo, hi].
+control:
+  enabled: true
+  layer: 8
+  metric: interference_mean
+  mode: band
+  lo: 0.30
+  hi: 0.40
+  target: 0.35          # used if mode: point (or as band center default)
+  weight: 1.0           # edit-only loss — stronger than train λ
+
+# Optional: shrink related-pair Δ, keep unrelated Δ above margin.
+feature_relative:
+  enabled: false
+  weight_related: 1.0e-2
+  weight_unrelated: 1.0e-2
+  margin: 0.15
+
+logging:
+  results_dir: results
+  run_name: edit_geo_nudge

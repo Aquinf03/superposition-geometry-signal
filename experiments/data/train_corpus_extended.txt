@@ -1,0 +1,413 @@
+Stainless steel resists corrosion better than ordinary carbon steel in many environments.
+The circulatory system transports oxygen and nutrients through arteries and veins.
+Latitude lines run east to west while longitude lines run north to south.
+A prime number is greater than one and divisible only by one and itself.
+The Renaissance began in Italy and reshaped European art and science.
+Osmosis is the movement of water across a semipermeable membrane.
+Hard drives store data magnetically while SSDs use flash memory.
+The Kelvin scale starts at absolute zero where molecular motion is minimal.
+Democracy relies on free elections and protected civil liberties.
+Plate tectonics explains how continents drift on Earth's mantle.
+An algorithm is a finite sequence of instructions for solving a problem.
+The liver detoxifies blood and produces bile for digestion.
+Infrared light has longer wavelengths than visible red light.
+Supply and demand interact to set prices in competitive markets.
+A hypothesis is a testable statement that guides scientific experiments.
+The Mediterranean climate features mild wet winters and dry summers.
+Encryption protects messages by transforming plaintext into ciphertext.
+Mitochondria generate ATP which cells use as chemical energy.
+The barometer measures atmospheric pressure to help forecast weather.
+Poetry uses meter imagery and sound to compress meaning into lines.
+Friction converts kinetic energy into heat when surfaces rub together.
+The United Nations was founded after World War II to promote peace.
+Bacteria can be helpful in yogurt production or harmful as pathogens.
+A database indexes records so queries can retrieve them efficiently.
+The equator receives more direct sunlight than the polar regions.
+Cognitive bias can distort judgment even when evidence is available.
+Wind turbines convert kinetic energy of air into electricity.
+The judicial branch interprets laws while the legislature writes them.
+Proteins are chains of amino acids folded into functional shapes.
+A metaphor compares two things without using the words like or as.
+Satellites orbit Earth and relay communications or observe weather.
+Acidic solutions have a pH below seven on the logarithmic pH scale.
+The steam engine powered factories and trains during industrialization.
+Neurons communicate across synapses using chemical neurotransmitters.
+Cartography is the practice of making accurate maps of places.
+Renewable energy sources include solar wind hydro and geothermal power.
+The comma splice incorrectly joins two independent clauses with only a comma.
+Bone marrow produces blood cells including red cells and platelets.
+Refraction bends light as it passes between materials of different density.
+Colonial trade routes linked Europe Africa and the Americas for centuries.
+Garbage collection frees unused memory in managed programming languages.
+The troposphere is the lowest layer of Earth's atmosphere where weather occurs.
+Statues in ancient Greece often idealized the human form in marble.
+Antibodies bind to antigens marking pathogens for destruction.
+A vector has both magnitude and direction unlike a scalar quantity.
+The printing of paper money requires security features against counterfeiting.
+Evaporation cools a surface as liquid molecules escape into the air.
+Primary sources include letters diaries and firsthand accounts of events.
+Cache memory stores frequently used data closer to the CPU for speed.
+Deserts can be hot or cold but all receive very little annual rainfall.
+Alleles are alternative forms of a gene that may produce different traits.
+Perspective drawing makes distant objects appear smaller on a flat canvas.
+Torque is a rotational force equal to force times lever arm distance.
+Treaties are formal agreements between sovereign states under international law.
+Fermentation by yeast produces carbon dioxide that makes bread rise.
+Bandwidth limits how much data a network link can carry per second.
+Floodplains are fertile because rivers deposit nutrient rich sediment.
+Syntax errors prevent a program from compiling while logic errors do not.
+The adrenal glands release hormones that mediate the stress response.
+Conduction transfers heat through direct contact between materials.
+Oral history preserves memories of people through recorded interviews.
+Pixels are the smallest addressable elements in a digital image.
+Tundra biomes have permafrost and short growing seasons for plants.
+Enzymes lower activation energy so biochemical reactions proceed faster.
+A quatrain is a four line stanza used in many poetic forms.
+Inertia keeps an object moving at constant velocity unless a force acts.
+Federalism divides power between national and regional governments.
+Chlorophyll absorbs light energy that drives photosynthesis in leaves.
+Latency is the delay before a system responds to a request.
+Sedimentary rocks form from compressed layers of deposited particles.
+Dialogue reveals character and advances plot in fiction writing.
+Potential energy depends on an object's position in a force field.
+Citizenship often includes rights to vote and duties such as jury service.
+Ribosomes assemble proteins by reading messenger RNA sequences.
+A hyperlink connects documents on the web by referencing a URL.
+Monsoons are seasonal wind patterns that bring heavy rains to South Asia.
+Mutation introduces genetic variation that natural selection can act upon.
+Alliteration repeats initial consonant sounds for emphasis in a phrase.
+Ampere's law relates magnetic fields to the electric currents that produce them.
+Archives store historical records for researchers and the public.
+Virtual machines isolate software stacks on shared physical hardware.
+Estuaries mix fresh river water with salt water from the ocean.
+Homeostasis keeps internal conditions stable despite external changes.
+Irony contrasts expectation with reality for literary or rhetorical effect.
+Centripetal force keeps an object moving in a curved path.
+Habeas corpus protects against unlawful detention without court review.
+Stem cells can differentiate into specialized cell types in the body.
+A bitmap stores an image as a grid of colored pixels.
+Taiga forests are dominated by conifers in cold northern climates.
+Hormones travel through blood to regulate distant organs and tissues.
+Assonance repeats vowel sounds within nearby words in a line.
+Work equals force times displacement in the direction of the force.
+Checks and balances prevent any single branch from dominating government.
+Lysosomes contain enzymes that digest worn out organelles and debris.
+Packet switching breaks messages into chunks routed independently on a network.
+Canyons form when rivers cut deeply into rock over long periods.
+Phenotype is the observable trait produced by genotype and environment.
+Free verse poetry does not follow a fixed meter or rhyme scheme.
+Kinetic energy of a mass equals one half mass times velocity squared.
+Civil society includes voluntary associations independent of the state.
+The endoplasmic reticulum folds and transports proteins within the cell.
+Compression reduces file size by removing redundant information.
+Wetlands filter water and provide habitat for many bird species.
+Epigenetics studies heritable changes that do not alter DNA sequence.
+A couplet is a pair of successive rhyming lines in a poem.
+Momentum is conserved in an isolated system with no external forces.
+Due process requires fair procedures before the government deprives rights.
+Cytoplasm is the jelly like fluid that fills the interior of a cell.
+A router forwards packets between computer networks using IP addresses.
+Savannas are grasslands with scattered trees and distinct wet dry seasons.
+Transcription copies DNA into RNA inside the cell nucleus.
+Onomatopoeia uses words that imitate the sounds they describe.
+Power is the rate at which work is done or energy is transferred.
+Judicial review allows courts to strike down unconstitutional laws.
+The Golgi apparatus packages proteins for delivery inside or outside the cell.
+Cloud computing rents scalable compute and storage over the internet.
+Fjord landscapes were carved by glaciers that later filled with seawater.
+Translation builds a protein from an RNA template at the ribosome.
+Personification gives human qualities to nonhuman objects or ideas.
+Acceleration is the rate of change of velocity with respect to time.
+Separation of powers assigns lawmaking enforcement and judging to different branches.
+Cell membranes are selective barriers made largely of lipid bilayers.
+A firewall filters network traffic according to security rules.
+Mangrove forests protect coasts and shelter juvenile fish in their roots.
+Meiosis produces gametes with half the chromosome number of body cells.
+Hyperbole exaggerates for emphasis rather than literal truth.
+Frequency is the number of wave cycles that pass a point per second.
+Impeachment is a formal process for charging a public official with misconduct.
+Vacuoles store water nutrients or waste products inside plant cells.
+An API lets software components communicate through defined interfaces.
+Prairie ecosystems once covered large areas of central North America.
+Mitosis creates two genetically identical daughter cells for growth and repair.
+Symbolism uses concrete objects to stand for abstract ideas in literature.
+Wavelength is the distance between successive peaks of a wave.
+A constitution is the supreme law that structures a political system.
+Chloroplasts contain chlorophyll and carry out photosynthesis in plants.
+Version control tracks changes to source code across collaborators.
+Rainforests host high biodiversity and cycle large amounts of water vapor.
+Diploid cells contain two sets of chromosomes one from each parent.
+Theme is the central insight or idea explored by a literary work.
+Amplitude measures how far a wave oscillates from its rest position.
+Suffrage is the right to vote in public elections.
+Cell walls give plants structural support that animal cells lack.
+Unit tests check that individual functions behave as expected.
+Coral bleaching occurs when stressed corals expel their symbiotic algae.
+Haploid cells contain a single set of chromosomes as in sperm or eggs.
+Foreshadowing hints at events that will occur later in a narrative.
+Period is the time required for one complete cycle of a repeating wave.
+A republic elects representatives to make decisions on behalf of citizens.
+Plasmodesmata allow plant cells to share materials through wall channels.
+Continuous integration automatically builds and tests code after each change.
+Kelp forests provide habitat and food along temperate rocky coastlines.
+Crossing over during meiosis shuffles alleles between homologous chromosomes.
+Conflict drives plot by placing characters against opposing forces.
+Decibels measure sound intensity on a logarithmic scale.
+A bicameral legislature has two chambers that must agree on bills.
+Centrioles help organize the spindle during animal cell division.
+Containers package applications with their dependencies for portable deployment.
+Peatlands store carbon in waterlogged soils for thousands of years.
+Independent assortment means different genes segregate separately during meiosis.
+Setting is the time and place in which a story unfolds.
+Resonance occurs when a system oscillates strongly at a natural frequency.
+Federal courts hear cases involving national laws and the constitution.
+Cytokinesis divides the cytoplasm after the chromosomes have separated.
+A pull request proposes merging a branch of code into another branch.
+Bogs are acidic wetlands that accumulate partially decayed plant matter.
+Linked genes sit close on a chromosome and tend to be inherited together.
+Point of view determines who narrates a story and how much they know.
+Constructive interference increases amplitude when waves meet in phase.
+A veto lets an executive reject legislation passed by the legislature.
+The spindle apparatus pulls chromosomes apart during mitosis and meiosis.
+Microservices split a large application into independently deployable services.
+Salt marshes buffer storms and filter nutrients along sheltered coasts.
+A karyotype displays an organism's chromosomes arranged by size and shape.
+Tone is the author's attitude toward the subject conveyed through style.
+Destructive interference reduces amplitude when waves meet out of phase.
+Confirming a treaty often requires approval by a legislative chamber.
+Interphase is the stage when a cell grows and duplicates its DNA.
+Observability tools collect logs metrics and traces from running systems.
+Seagrass beds stabilize sediments and support fisheries in shallow waters.
+Nondisjunction errors can produce gametes with too many or too few chromosomes.
+Mood is the emotional atmosphere a text creates for the reader.
+The Doppler shift changes observed frequency when source and observer move.
+Local governments manage cities and counties under state authority.
+Checkpoints in the cell cycle halt division if DNA damage is detected.
+A load balancer spreads traffic across multiple servers for reliability.
+Deltas form where rivers deposit sediment as they enter standing water.
+Polyploidy is having more than two complete sets of chromosomes.
+Irony of situation occurs when outcomes contradict what characters expect.
+Standing waves form when traveling waves reflect and interfere in place.
+Ordinances are laws enacted by municipal or local governments.
+Apoptosis is programmed cell death that removes damaged or unneeded cells.
+Edge computing processes data near the source to reduce latency.
+Barrier islands protect mainland coasts from ocean waves and storms.
+A pedigree chart traces inheritance of a trait through family generations.
+Suspense keeps readers uncertain about what will happen next.
+Beats are heard when two sound waves of nearly equal frequency interfere.
+Initiative and referendum let citizens propose or approve laws directly.
+Telomeres protect chromosome ends and shorten with successive cell divisions.
+A content delivery network caches static assets close to users worldwide.
+Tide pools host organisms adapted to changing salinity and exposure.
+Codominance expresses both alleles visibly in the heterozygous phenotype.
+Climax is the turning point of highest tension in a dramatic plot.
+Timbre distinguishes sounds that share pitch and loudness but differ in quality.
+Recall elections allow voters to remove an official before the term ends.
+The nucleolus assembles ribosomal subunits inside the cell nucleus.
+Object storage keeps unstructured data as objects addressed by keys.
+Upwelling brings nutrient rich deep water to the surface supporting fisheries.
+Incomplete dominance blends parental traits in the heterozygous phenotype.
+Resolution follows the climax and settles the main conflicts of a story.
+Ultrasound uses high frequency sound waves to image soft tissues.
+A charter city operates under a local charter rather than general state law.
+Peroxisomes break down fatty acids and detoxify certain harmful compounds.
+Message queues decouple producers and consumers in asynchronous systems.
+Hydrothermal vents support ecosystems that rely on chemical energy not sunlight.
+Sex linked traits are carried on sex chromosomes and show distinctive inheritance.
+Flashbacks interrupt chronological order to reveal earlier events.
+The inverse square law says intensity falls with the square of distance.
+Zoning laws regulate how land in a city may be used and developed.
+The cytoskeleton gives cells shape and helps move organelles internally.
+A service mesh manages traffic security and observability between microservices.
+Abyssal plains are flat regions of the deep ocean floor covered by sediment.
+Epistasis occurs when one gene masks or modifies the effect of another gene.
+Parallel plots follow multiple storylines that may converge later.
+Polarization filters light waves oscillating in a particular direction.
+Eminent domain allows government to take private property for public use with compensation.
+Flagella and cilia move cells or move fluid across cell surfaces.
+Infrastructure as code defines servers and networks in versioned templates.
+Seamounts are underwater mountains that can host rich marine communities.
+Pleiotropy is when one gene influences multiple seemingly unrelated traits.
+An unreliable narrator may mislead readers through bias or limited knowledge.
+Diffraction bends waves around obstacles or through narrow openings.
+A city council typically passes local ordinances and adopts budgets.
+Gap junctions allow ions and small molecules to pass between animal cells.
+Chaos engineering deliberately injects failures to test system resilience.
+The continental shelf is the shallow underwater extension of a continent.
+Quantitative traits vary continuously and are often influenced by many genes.
+Frame stories nest one narrative inside another framing narrative.
+Snell's law relates angles of incidence and refraction at an interface.
+Special districts provide focused services like water or fire protection.
+Endocytosis brings materials into a cell by engulfing them in membrane vesicles.
+Blue green deployments release new software versions with low downtime.
+Trenches are deep narrow valleys in the ocean floor near subduction zones.
+Heritability estimates how much trait variation is due to genetic differences.
+Stream of consciousness mimics the continuous flow of a character's thoughts.
+Total internal reflection traps light inside a denser medium at shallow angles.
+A mayor is often the elected chief executive of a city government.
+Exocytosis releases materials from a cell by fusing vesicles with the membrane.
+Feature flags toggle unfinished features without redeploying an entire system.
+Guyots are flat topped seamounts eroded by waves before sinking deeper.
+Genetic drift changes allele frequencies by random sampling in small populations.
+In medias res begins a story in the middle of the action.
+The critical angle is the incidence angle beyond which total reflection occurs.
+Home rule grants cities power to govern local affairs within state limits.
+Phagocytosis is a form of endocytosis that engulfs large particles or cells.
+Canary releases send a new version to a small slice of traffic first.
+Mid ocean ridges mark spreading centers where new oceanic crust forms.
+Gene flow moves alleles between populations through migration and mating.
+A prologue introduces background before the main action of a narrative.
+Fiber optics guide light by repeated total internal reflection along a cable.
+County governments often administer courts elections and land records.
+Pinocytosis takes in extracellular fluid through small membrane vesicles.
+Rollback restores a previous software version after a failed deployment.
+Transform faults offset mid ocean ridges and allow plates to slide past.
+Founder effects occur when a small group starts a new population with limited alleles.
+An epilogue comments on events after the main story has ended.
+Lenses refract light to form focused images of objects.
+Public utilities provide essential services such as water gas and electricity.
+Receptor mediated endocytosis selectively imports molecules bound to surface receptors.
+A runbook documents steps operators follow during incidents and recoveries.
+Hotspots create volcanic island chains as tectonic plates move over a mantle plume.
+Bottleneck events sharply reduce population size and genetic diversity.
+A motif is a recurring image symbol or idea that reinforces theme.
+A concave lens diverges light rays while a convex lens can converge them.
+Bond measures raise public funds for infrastructure projects over many years.
+Signal transduction cascades relay messages from receptors to cellular responses.
+SRE practices aim to keep services reliable through error budgets and automation.
+Atolls are ring shaped coral reefs surrounding a central lagoon.
+Sexual selection favors traits that improve mating success more than survival alone.
+Allegory uses characters and events as extended symbols for moral or political ideas.
+The focal length of a lens determines how strongly it bends incoming light.
+Property taxes are a primary revenue source for many local governments.
+Second messengers amplify signals inside cells after a receptor is activated.
+A postmortem analyzes an outage to prevent similar failures in the future.
+Continental slopes descend from the shelf edge toward the deep ocean floor.
+Kin selection explains altruism toward relatives who share genes.
+Satire ridicules human vices or institutions through humor and exaggeration.
+Magnification describes how much larger an image appears than the object.
+Sales taxes are levied on purchases and collected by retailers for government.
+Feedback loops can stabilize or amplify physiological processes in living systems.
+Distributed tracing follows a request across services to find latency bottlenecks.
+Turbidity currents carry sediment down continental slopes into deep ocean basins.
+Mutualism is a symbiotic relationship in which both species benefit.
+Parody imitates the style of a work to amuse or critique.
+Resolution of an optical system is its ability to distinguish close details.
+User fees charge people who consume a particular government service.
+Positive feedback accelerates a process while negative feedback dampens it.
+Capacity planning estimates future load so systems scale before they break.
+Abyssal hills are small elevations that cover much of the deep seafloor.
+Commensalism benefits one species while the other is largely unaffected.
+Farce relies on exaggerated improbable situations for comic effect.
+The aperture of a lens or pupil controls how much light enters an instrument.
+Grants transfer money from higher governments to fund local programs.
+Circadian rhythms are roughly twenty four hour cycles in biological processes.
+Autoscaling adds or removes compute capacity as demand changes.
+Black smokers are hydrothermal vents that emit dark mineral rich fluids.
+Parasitism benefits one organism at the expense of its host.
+Tragedy depicts serious actions that typically end in suffering or death.
+Chromatic aberration occurs when a lens focuses different colors at different points.
+Debt service is the cost of paying interest and principal on borrowed funds.
+Hibernation is a seasonal state of reduced metabolism in some animals.
+Caching stores expensive results so later requests can be served faster.
+Chemosynthesis builds organic molecules using chemical energy rather than sunlight.
+Predation is an interaction where one organism hunts and consumes another.
+Comedy ends in reconciliation or celebration after conflicts are resolved.
+Spherical aberration blurs images because rays far from the axis focus differently.
+A balanced budget matches planned revenues with planned expenditures.
+Migration allows animals to track seasonal resources across long distances.
+Idempotent operations can be retried safely without unintended duplicate effects.
+Bioluminescence is light produced by living organisms through chemical reactions.
+Competition occurs when organisms vie for limited shared resources.
+Drama presents conflict through dialogue and action intended for performance.
+Astigmatism causes blurred vision when the cornea or lens is unevenly curved.
+Fiscal years are twelve month accounting periods used by governments and firms.
+Camouflage helps organisms avoid detection by predators or prey.
+Exactly once delivery is hard in distributed systems so designers reason about duplicates.
+Phosphorescence continues to emit light after the excitation source is removed.
+Amensalism harms one species while the other is unaffected.
+Melodrama exaggerates emotion and plot for sensational effect.
+Myopia is nearsightedness where distant objects focus in front of the retina.
+Audits examine financial records to verify accuracy and compliance.
+Mimicry evolves when one species resembles another for protection or advantage.
+Consensus algorithms help distributed nodes agree on shared state.
+Fluorescence emits light promptly while a material is being illuminated.
+Neutralism describes species that coexist with negligible interaction.
+Epic poetry narrates heroic deeds on a grand cultural scale.
+Hyperopia is farsightedness where near objects focus behind the retina.
+Internal controls reduce fraud and error in organizational accounting.
+Warning coloration advertises that an organism is toxic or dangerous.
+Leader election chooses which node coordinates work in a cluster.
+Incandescence is light from a hot object emitting thermal radiation.
+Facilitation occurs when one species makes the environment better for another.
+A ballad is a narrative poem or song that tells a compact story.
+Presbyopia is age related loss of near focusing ability in the eye.
+Depreciation spreads the cost of an asset over its useful life.
+Territorial behavior defends a space used for feeding or breeding.
+Sharding partitions data across nodes so each holds only a subset.
+Chemiluminescence produces light from a chemical reaction without much heat.
+Succession is the ordered change of communities after disturbance.
+A limerick is a five line humorous poem with a distinctive rhyme scheme.
+Color blindness reduces the ability to distinguish certain color differences.
+Accrual accounting records revenues and expenses when earned or incurred.
+Courtship displays help animals attract mates through ritualized signals.
+Replication copies data to multiple nodes for durability and availability.
+Triboluminescence creates light from mechanical action like crushing crystals.
+Climax communities are relatively stable late stages of ecological succession.
+A haiku traditionally captures a moment in nature in three short lines.
+Depth perception combines cues so the brain estimates distance in three dimensions.
+Cash accounting records transactions only when money changes hands.
+Parental care increases offspring survival at a cost to the parent's resources.
+A write ahead log records changes before they are applied for crash recovery.
+Sonoluminescence emits brief light flashes from collapsing bubbles in liquid.
+Disturbance regimes shape ecosystems through fire flood or grazing patterns.
+An ode is a formal lyric poem that addresses a person or idea.
+Binocular vision uses slightly different images from each eye for depth.
+Double entry bookkeeping records every transaction as both debit and credit.
+Altruistic behaviors benefit others at a cost to the actor's direct fitness.
+Snapshot isolation reduces anomalies by reading a consistent database version.
+Radioluminescence produces light from the excitation of a material by radiation.
+Keystone species have outsized effects on community structure relative to their abundance.
+An elegy mourns a person or reflects solemnly on loss.
+Monocular cues like perspective and occlusion also convey depth in scenes.
+A balance sheet reports assets liabilities and equity at a point in time.
+Reciprocal altruism can evolve when favors are exchanged over time.
+Eventual consistency allows temporary divergence that later converges across replicas.
+Cathodoluminescence is light emitted when a material is struck by electrons.
+Invasive species can disrupt ecosystems after introduction outside their native range.
+A sonnet sequence links multiple sonnets into a longer poetic argument.
+Accommodation changes lens shape so the eye can focus at different distances.
+An income statement reports revenues expenses and profit over a period.
+Eusocial insects cooperate in colonies with reproductive division of labor.
+Two phase commit coordinates a distributed transaction across multiple participants.
+Electroluminescence converts electrical energy directly into light in some materials.
+Biodiversity supports ecosystem services that humans depend on for survival.
+Blank verse is unrhymed iambic pentameter often used in English drama.
+The blind spot is where the optic nerve exits leaving no photoreceptors.
+A cash flow statement tracks money moving in and out of an organization.
+Inclusive fitness counts an individual's genes passed on through relatives as well.
+Saga patterns break long transactions into local steps with compensating actions.
+Thermoluminescence releases stored energy as light when a material is heated.
+Habitat fragmentation divides continuous habitat into isolated patches.
+Villanelle is a nineteen line form with repeating lines and a fixed rhyme.
+Rods detect dim light while cones support color vision in brighter light.
+Working capital is current assets minus current liabilities.
+Hamilton's rule predicts altruism when relatedness times benefit exceeds cost.
+Circuit breakers stop calling a failing dependency to prevent cascading outages.
+Photoluminescence includes fluorescence and phosphorescence after photon absorption.
+Corridors can reconnect fragmented habitats and allow wildlife movement.
+A sestina repeats end words of six stanzas in a rotating pattern.
+Dark adaptation takes time as eyes adjust to low light conditions.
+Liquidity measures how quickly assets can be converted into cash.
+Group selection theories debate whether selection acts above the individual level.
+Bulkheads isolate failures so one component crash does not take down all others.
+Scintillation is flashes of light produced when ionizing radiation hits certain materials.
+Ecotones are transition zones between ecological communities with mixed species.
+Pantoum repeats lines so each stanza reuses lines from the previous one.
+Light adaptation reduces sensitivity as eyes adjust from dark to bright conditions.
+Solvency is the ability to meet long term financial obligations.
+Cultural evolution studies how behaviors and knowledge spread through learning.
+Retries with backoff reduce load while recovering from transient failures.
+Cherenkov radiation is a bluish glow from charged particles exceeding light speed in a medium.
+Edge effects change habitat conditions near the boundaries of fragments.
+Ghazal is a lyric form of couplets that often share a refrain.

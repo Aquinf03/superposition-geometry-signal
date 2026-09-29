@@ -1,7 +1,7 @@
 {
   "aligned": true,
   "step": 39,
-  "loss": 0.028959443792700768,
+  "loss": 0.028932712972164154,
   "seed": 0,
   "layers": [
     4,
@@ -30,21 +30,21 @@
     "Water boils at"
   ],
   "geometry": {
-    "L4_interference_mean": 0.4852859750390053,
-    "L4_spectral_participation": 0.0917491336663564,
+    "L4_interference_mean": 0.4853318780660629,
+    "L4_spectral_participation": 0.09176493684450786,
     "L4_coactivation_overlap": 0.18247186574273244,
-    "L8_interference_mean": 0.4558683993915717,
-    "L8_spectral_participation": 0.1261002173026403,
-    "L8_coactivation_overlap": 0.13969586946325646,
-    "L11_interference_mean": 0.748089537024498,
-    "L11_spectral_participation": 0.016800870498021443,
+    "L8_interference_mean": 0.4559096383551757,
+    "L8_spectral_participation": 0.12612220843633018,
+    "L8_coactivation_overlap": 0.13969671332374942,
+    "L11_interference_mean": 0.7480929245551428,
+    "L11_spectral_participation": 0.016797108451525374,
     "L11_coactivation_overlap": 0.23179957468686282
   },
   "weight_file": "model_final.pt",
-  "weight_path": "results/train_gpt2_small_geometry/model_final.pt",
+  "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry/model_final.pt",
   "extra": {
     "model": "gpt2-small",
     "device": "mps",
-    "alias_of": "results/train_gpt2_small_geometry/checkpoints/step_00039.pt"
+    "alias_of": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry/checkpoints/step_00039.pt"
   }
 }

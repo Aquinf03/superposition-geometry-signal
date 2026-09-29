@@ -1,0 +1,16 @@
+{
+  "seed": 0,
+  "created_utc": "2026-09-28T08:38:01.731902+00:00",
+  "config_frozen": "config.frozen.yaml",
+  "config_source": "config.source.yaml",
+  "source_config_path": "/Users/ashm/work/super/experiments/configs/train_gpt2_small_wikitext.yaml",
+  "model": "gpt2-small",
+  "device": "mps",
+  "hero": "train_with_geometry",
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "control_enabled": false
+}

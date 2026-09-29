@@ -1,8 +1,8 @@
-# Controlling geometry (future)
+# Controlling geometry
 
-**Status:** parked until the track + diff + SDK path ships.  
-**Today:** geometry is *watched* beside loss (`Tracker` / `Diff` / `plot`).  
-**Next act:** geometry is *set* — a controllable training signal, not only a dashboard.
+**Status:** promoted into stable **`spg`** (`from spg import GeoControl`).  
+**Today:** geometry is *watched* beside loss **and** can be *set* via an opt-in soft regularizer.  
+Checklist: `TODO.md` → Paper.
 
 ## Idea
 
@@ -15,64 +15,73 @@ Same cadence as loss. Same live line. Extra term (or constraint) on A/B/C — or
 step=12  loss=0.41  |  geometry: interference=0.22  spectral=0.31  coact=0.09  |  geo_target: …
 ```
 
-## Why wait
-
-We already know the signal can be flat or misleading (`failure_notes.md`):
-
-- wrong layer / post-collapse washout
-- bank- and probe-dependent neighborhoods
-- tiny-corpus overfit looks like “structure”
-- late-layer phase can be collapse *or* unpack-from-floor
-
-If we optimize geometry before the watch path is solid, we will game the metric and call it science.
-
-## What “set geo” could mean
+## What “set geo” means
 
 | Mode | Mechanism | Use |
 | --- | --- | --- |
-| Soft regularizer | add `λ · geo_penalty` to the train loss | discourage runaway interference / encourage mid-layer structure |
-| Target band | keep metric(s) inside `[lo, hi]` via hinge / barrier | stabilize packing while fine-tuning |
-| Feature-relative | shrink related-pair Δ, grow unrelated-pair Δ | structure the tangle, not just scalars |
-| Edit-time (thin) | one-liner demo: nudge weights so geometry moves toward a target | existence proof only — not the research depth |
+| Soft regularizer (point) | `λ · (metric − target)²` on the train loss | discourage runaway interference / encourage mid-layer structure |
+| Target band | hinge outside `[lo, hi]` (`mode: band`) | stabilize packing while fine-tuning |
+| Feature-relative | `FeatureRelativeControl`: shrink related-pair Δ, keep unrelated Δ above a margin | structure the tangle, not just scalars |
+| Edit-time (thin) | `spg edit-demo` — nudge one MLP `W_out` toward a target/band | existence proof only — not the research depth |
 
 Start with **one layer + one metric + one λ**. Multi-objective geo soup later.
 
-## Safety rails (required if we build this)
+## Safety rails
 
 1. Always log **loss and geo** live — control must not hide the watch dashboard.
 2. Freeze probe bank + layers in the run config (same as aligned checkpoints).
-3. Validate with **out-of-metric** checks (downstream loss, cross-feature structure, held-out probes) — not “geo went to target ⇒ success.”
+3. Validate with **out-of-metric** checks (`validate_control_geometry.py`) — not “geo went to target ⇒ success.”
 4. Abort / warn if geo is flat or saturated before enabling the regularizer.
-5. Keep control **off by default** in `spg`; opt-in API only.
+5. **Watch warmup:** `control.warmup_steps` logs geometry with λ=0, then `GeoControl.gate_enable` must pass before the regularizer arms.
+6. Control **off by default** (`control.enabled: false`).
 
-## Sketch API (do not implement yet)
+## API
 
 ```python
-from spg import Tracker, GeoControl  # future
+from spg import GeoControl, FeatureRelativeControl, format_control_line
 
-tracker = Tracker(...)
+# Point target
 control = GeoControl(
-    layers=[8],
-    metric="interference_mean",
-    target=0.35,
-    weight=1e-3,
+    layer=8, metric="interference_mean", target=0.35, weight=1e-2, enabled=True
 )
 
-loss = lm_loss + control.penalty(geometry)
-tracker.log(step=t, loss=loss, geometry=geometry, geo_control=control.status())
+# Band [lo, hi] — zero penalty inside, hinge outside
+band = GeoControl(
+    layer=8, metric="interference_mean", mode="band", lo=0.30, hi=0.40,
+    weight=1e-2, enabled=True,
+)
+
+# Feature-relative (Diff-style scores: lower = closer)
+feat = FeatureRelativeControl(
+    weight_related=1e-2, weight_unrelated=1e-2, margin=0.15, enabled=True
+)
+# pen = feat.penalty_on_scores(related_t, unrelated_t)
+
+# differentiable path in the train loop:
+# metric_t = mean_interference_tensor(bank_grad, top_k=…)
+# loss = lm_loss + control.penalty_on_value(metric_t)
+print(format_control_line(step=t, loss=float(lm_loss), geometry=geometry, control=control.status(geometry)))
 ```
 
-## When to pick this up
+```bash
+spg control-demo
+spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml
+spg track --config experiments/configs/train_gpt2_small_geometry_control_band.yaml
+spg edit-demo   # thin edit-time nudge
+python experiments/validate_control_geometry.py
+```
 
-After:
+## Matched pair (seed 0)
 
-- [x] live track + multi-layer + ckpt/feature diffs + validation
-- [x] `spg` package (`Tracker` / `Diff` / `plot`)
-- [ ] CLI + quickstart
-- [ ] paper figures from the *watch* story
+See `experiments/results/control_vs_baseline_seed0/` — compare.json + out_of_metric_validation.json.
 
-Then: one controlled fine-tune on the hero corpus vs baseline, same validation suite, failure notes updated for “gamed geometry.”
+```bash
+spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml
+python experiments/validate_control_geometry.py
+```
 
-## Paper one-liner (later)
+Caveat: train-bank L8 moved toward target; held-out probes / quality claims need care (`failure_notes.md` §9).
 
-> We first treat superposition geometry as a live companion to loss; we then show it can be softly controlled as a training regularizer without collapsing the watch signal.
+## Paper one-liner
+
+> We first treat superposition geometry as a live companion to loss; we then show it can be softly controlled as a training regularizer without collapsing the watch signal — validated out-of-metric (loss, cross-feature, held-out probes), not by hitting the geo target alone.

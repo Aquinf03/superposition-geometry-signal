@@ -1,0 +1,55 @@
+{
+  "model": "gpt2-small",
+  "device": "mps",
+  "seed": 0,
+  "layer": 8,
+  "n_steps": 3,
+  "control": {
+    "enabled": true,
+    "layer": 8,
+    "metric": "interference_mean",
+    "target": 0.35,
+    "weight": 1.0,
+    "current": 0.36698225140571594,
+    "error": 0.0,
+    "penalty": 0.0,
+    "warned": null,
+    "mode": "band",
+    "lo": 0.3,
+    "hi": 0.4
+  },
+  "interference_before": 0.5271974205970764,
+  "interference_after": 0.36698225140571594,
+  "delta_interference": -0.16021516919136047,
+  "related_before": 0.18675613403320312,
+  "related_after": 0.2333536148071289,
+  "unrelated_before": 0.7113426327705383,
+  "unrelated_after": 0.7295302152633667,
+  "feature_relative": {
+    "enabled": false,
+    "related_score": 0.2333536148071289,
+    "unrelated_score": 0.7295302152633667,
+    "margin": 0.15,
+    "weight_related": 0.01,
+    "weight_unrelated": 0.01,
+    "penalty": 0.0
+  },
+  "history": [
+    {
+      "step": 1.0,
+      "interference": 0.5271974802017212,
+      "penalty": 0.016179196536540985
+    },
+    {
+      "step": 2.0,
+      "interference": 0.45326414704322815,
+      "penalty": 0.002837068634107709
+    },
+    {
+      "step": 3.0,
+      "interference": 0.39853331446647644,
+      "penalty": 0.0
+    }
+  ],
+  "note": "thin edit-time demo \u2014 not the research depth"
+}

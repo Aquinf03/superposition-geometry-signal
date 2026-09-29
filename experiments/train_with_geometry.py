@@ -5,8 +5,18 @@ Uses TransformerLens GPT-2 small + a local text corpus (no edit algorithms).
 Example live line (multi-layer):
   step=12  loss=0.41  |  geometry L4: interference=… spectral=… coact=…  |  L8: …  |  L11: …
 
+Optional soft control (``spg.GeoControl``, off by default)::
+
+  control:
+    enabled: true
+    layer: 8
+    metric: interference_mean
+    target: 0.35
+    weight: 1.0e-2
+
 Run (you run this):
   python experiments/train_with_geometry.py --config experiments/configs/train_gpt2_small_geometry.yaml
+  python experiments/train_with_geometry.py --config experiments/configs/train_gpt2_small_geometry_control.yaml
   python -m scripts.helpers.plot_signals --csv experiments/results/train_gpt2_small_geometry/signals.csv
 """
 
@@ -36,6 +46,63 @@ from scripts.helpers.paths import CONFIGS, resolve_under_experiments
 from scripts.helpers.run_artifacts import save_run_artifacts
 from scripts.helpers.seed import set_seed
 from scripts.helpers.signals import SignalLogger
+
+
+def resolve_probe_prompts(geo_cfg: Dict[str, Any]) -> List[str]:
+    """Resolve watch/control probe bank.
+
+    Priority:
+      1. ``probe_prompts`` list in YAML
+      2. ``probe_prompts_file`` — JSON list of strings, or list of
+         ``{prompt: ...}`` objects
+      3. ``DEFAULT_PROBE_PROMPTS``
+
+    Optional ``max_probes`` keeps the first N (deterministic) so control
+    stays tied to the task bank without exploding step cost.
+    """
+    probes: List[str] = []
+    raw = geo_cfg.get("probe_prompts")
+    if raw:
+        probes = [str(p) for p in raw]
+    else:
+        file_key = geo_cfg.get("probe_prompts_file")
+        if file_key:
+            path = resolve_under_experiments(str(file_key))
+            blob = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(blob, list):
+                for item in blob:
+                    if isinstance(item, str):
+                        probes.append(item)
+                    elif isinstance(item, dict) and item.get("prompt"):
+                        probes.append(str(item["prompt"]))
+            elif isinstance(blob, dict) and "prompts" in blob:
+                probes = [str(p) for p in blob["prompts"]]
+            else:
+                raise ValueError(f"unrecognized probe_prompts_file format: {path}")
+            if not probes:
+                raise ValueError(f"no prompts in {path}")
+        else:
+            probes = list(DEFAULT_PROBE_PROMPTS)
+
+    max_n = geo_cfg.get("max_probes")
+    if max_n is not None:
+        probes = probes[: int(max_n)]
+    if len(probes) < 2:
+        raise ValueError(f"need ≥2 probe prompts for geometry, got {len(probes)}")
+    return probes
+
+
+def _load_geocontrol(ctrl_cfg: Optional[Dict[str, Any]]):
+    """Import GeoControl from stable ``spg``."""
+    from spg import (
+        GeoControl,
+        collect_mlp_out_bank_grad,
+        format_control_line,
+        mean_interference_tensor,
+    )
+
+    control = GeoControl.from_config(ctrl_cfg)
+    return control, collect_mlp_out_bank_grad, mean_interference_tensor, format_control_line
 
 
 def resolve_device(name: str) -> str:
@@ -162,6 +229,35 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
     train_cfg = cfg["train"]
     geo_cfg = cfg.get("geometry", {})
     log_cfg = cfg.get("logging", {})
+    ctrl_cfg = cfg.get("control") or {}
+
+    control = None
+    collect_bank_grad = None
+    mean_interference_t = None
+    format_control_line = None
+    control_every = 1
+    abort_on_warn = False
+    warmup_steps = 0
+    abort_on_warmup_fail = True
+    if ctrl_cfg.get("enabled", False):
+        control, collect_bank_grad, mean_interference_t, format_control_line = _load_geocontrol(
+            ctrl_cfg
+        )
+        if control.metric != "interference_mean":
+            raise ValueError(
+                "spg soft regularizer currently supports metric=interference_mean only "
+                f"(got {control.metric!r})"
+            )
+        control_every = int(ctrl_cfg.get("every_n_steps", geo_cfg.get("every_n_steps", 1)))
+        abort_on_warn = bool(ctrl_cfg.get("abort_on_warn", False))
+        warmup_steps = max(0, int(ctrl_cfg.get("warmup_steps", 0)))
+        # Default: fail closed on a bad warmup when warmup_steps > 0
+        abort_on_warmup_fail = bool(
+            ctrl_cfg.get(
+                "abort_on_warmup_fail",
+                True if warmup_steps > 0 else abort_on_warn,
+            )
+        )
 
     from transformer_lens import HookedTransformer
 
@@ -193,13 +289,25 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
             ["interference_mean", "spectral_participation", "coactivation_overlap"],
         )
     )
-    probes = list(geo_cfg.get("probe_prompts") or DEFAULT_PROBE_PROMPTS)
     save_every = int(log_cfg.get("save_every_n_steps", 0) or 0)
-
+    want_live = bool(log_cfg.get("live_print", True))
+    probes = resolve_probe_prompts(geo_cfg)
+    if want_live:
+        src = (
+            "probe_prompts_file"
+            if geo_cfg.get("probe_prompts_file")
+            else (
+                "probe_prompts"
+                if geo_cfg.get("probe_prompts")
+                else "DEFAULT_PROBE_PROMPTS"
+            )
+        )
+        print(f"geometry probes: n={len(probes)}  source={src}", flush=True)
+    # When control is on we print via format_control_line (includes geo_target).
     logger = SignalLogger(
         results_dir=resolve_under_experiments(log_cfg.get("results_dir", "results")),
         run_name=log_cfg.get("run_name"),
-        live_print=bool(log_cfg.get("live_print", True)),
+        live_print=want_live and control is None,
     )
     artifacts = save_run_artifacts(
         logger.root,
@@ -211,18 +319,23 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
             "device": device,
             "hero": "train_with_geometry",
             "layers": layers,
+            "control_enabled": bool(control and control.enabled),
         },
     )
+    note = "hero: fine-tune with live loss | multi-layer geometry"
+    if control and control.enabled:
+        note += " + spg soft geo control"
     logger.write_meta(
         seed=seed,
         model=model_name,
         device=device,
         train=train_cfg,
         geometry=geo_cfg,
+        control=ctrl_cfg if control and control.enabled else {"enabled": False},
         layers=layers,
         n_blocks=int(blocks.shape[0]),
         artifacts=artifacts,
-        note="hero: fine-tune with live loss | multi-layer geometry",
+        note=note,
     )
 
     ckpt_dir = logger.root / "checkpoints"
@@ -231,7 +344,11 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
     last_loss = None
     last_geo: Dict[str, float] = {}
     last_geo_step: Optional[int] = None
+    last_control_status: Optional[Dict[str, Any]] = None
     aligned_ckpts: List[Dict[str, str]] = []
+    # After warmup gate passes, regularizer may apply; stays False if gate fails soft.
+    regularizer_armed = warmup_steps == 0
+    control_phase = "off"
 
     def ensure_geometry(step: int) -> Dict[str, float]:
         nonlocal last_geo, last_geo_step
@@ -263,30 +380,162 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
             top_k_neighbors=top_k,
             probe_prompts=probes,
             stem=stem,
-            extra={"model": model_name, "device": device},
+            extra={
+                "model": model_name,
+                "device": device,
+                "control": last_control_status,
+            },
         )
         aligned_ckpts.append(paths)
         return paths
 
+    if control is not None and control.enabled and want_live:
+        if control.mode == "band" and control.lo is not None and control.hi is not None:
+            goal = f"[{control.lo:g},{control.hi:g}]"
+        else:
+            goal = f"{control.target}"
+        if warmup_steps > 0:
+            print(
+                f"geo_control: watch warmup for {warmup_steps} steps, "
+                f"then gate before λ on L{control.layer} {control.metric}→{goal} "
+                f"(mode={control.mode})",
+                flush=True,
+            )
+        else:
+            print(
+                f"geo_control: regularizer armed from step 0 "
+                f"(L{control.layer} {control.metric}→{goal}, "
+                f"mode={control.mode}, λ={control.weight:g})",
+                flush=True,
+            )
+            control_phase = "active"
+
     for step in range(max_steps):
         batch = loader.next().to(device)
         logits = model(batch)
-        loss = causal_lm_loss(logits, batch)
+        lm_loss = causal_lm_loss(logits, batch)
+        pen = lm_loss.new_zeros(())
+        ctrl_metric_val: Optional[float] = None
+
+        if control is not None and control.enabled:
+            if step < warmup_steps:
+                control_phase = "warmup"
+            elif not regularizer_armed:
+                # Gate once on watch geometry after warmup (no penalty yet this step).
+                geo_gate = ensure_geometry(step)
+                # Ensure history includes this gate sample if logging cadence skipped it.
+                gate_reason = control.gate_enable(geo_gate)
+                # If history is short, record status once then re-gate.
+                if gate_reason == "warmup_too_short":
+                    control.status(geo_gate)
+                    gate_reason = control.gate_enable(geo_gate)
+                if gate_reason is None:
+                    regularizer_armed = True
+                    control_phase = "active"
+                    if want_live:
+                        print(
+                            f"geo_control: warmup OK at step={step} — regularizer ON",
+                            flush=True,
+                        )
+                else:
+                    control_phase = "blocked"
+                    msg = (
+                        f"geo_control: warmup gate FAILED ({gate_reason}) at step={step} "
+                        "— regularizer stays OFF"
+                    )
+                    if abort_on_warmup_fail:
+                        raise RuntimeError(msg)
+                    if want_live:
+                        print(msg, flush=True)
+
+        apply_penalty = (
+            control is not None
+            and control.enabled
+            and regularizer_armed
+            and control_phase == "active"
+            and step % max(control_every, 1) == 0
+        )
+        if apply_penalty:
+            assert collect_bank_grad is not None and mean_interference_t is not None
+            bank = collect_bank_grad(
+                model,
+                control.layer,
+                probes,
+                positions=positions,
+            )
+            metric_t = mean_interference_t(bank, top_k=top_k)
+            pen = control.penalty_on_value(metric_t)
+            ctrl_metric_val = float(metric_t.detach().item())
+
+        loss = lm_loss + pen
         loss.backward()
         if grad_clip and grad_clip > 0:
             torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
         opt.step()
         opt.zero_grad(set_to_none=True)
 
-        last_loss = float(loss.item())
+        last_loss = float(lm_loss.item())
+        pen_f = float(pen.detach().item())
 
         if step % max(every_n, 1) == 0:
             geo = ensure_geometry(step)
-            logger.log(step=step, loss=last_loss, geometry=geo)
+            extras: Dict[str, Any] = {}
+            st = None
+            if control is not None and control.enabled:
+                st = control.status(geo)
+                # Prefer the differentiable metric used in the loss (same step).
+                if ctrl_metric_val is not None:
+                    st.current = ctrl_metric_val
+                    if (
+                        control.mode == "band"
+                        and control.lo is not None
+                        and control.hi is not None
+                    ):
+                        if ctrl_metric_val < control.lo:
+                            st.error = ctrl_metric_val - control.lo
+                        elif ctrl_metric_val > control.hi:
+                            st.error = ctrl_metric_val - control.hi
+                        else:
+                            st.error = 0.0
+                    else:
+                        st.error = ctrl_metric_val - control.target
+                # Live/CSV penalty = what was actually added to the loss (0 in warmup).
+                st.penalty = pen_f
+                last_control_status = {**st.as_dict(), "phase": control_phase}
+                extras = {
+                    "control_penalty": pen_f,
+                    "control_total_loss": float(loss.detach().item()),
+                    "control_target": control.target,
+                    "control_weight": control.weight,
+                    "control_layer": control.layer,
+                    "control_metric": control.metric,
+                    "control_mode": control.mode,
+                    "control_lo": "" if control.lo is None else control.lo,
+                    "control_hi": "" if control.hi is None else control.hi,
+                    "control_current": st.current,
+                    "control_warned": st.warned or "",
+                    "control_phase": control_phase,
+                    "control_armed": int(regularizer_armed),
+                }
+                if st.warned and control_phase == "active":
+                    msg = f"geo_control WARN={st.warned} at step={step}"
+                    if abort_on_warn:
+                        raise RuntimeError(msg)
+                    if want_live:
+                        print(msg, flush=True)
+            logger.log(step=step, loss=last_loss, geometry=geo, **extras)
+            if want_live and control is not None and control.enabled and st is not None:
+                assert format_control_line is not None
+                line = format_control_line(
+                    step=step, loss=last_loss, geometry=geo, control=st
+                )
+                if control_phase != "active":
+                    line = f"{line}  |  control_phase={control_phase}"
+                print(line, flush=True)
 
         if save_every > 0 and (step + 1) % save_every == 0:
             paths = freeze_aligned(ckpt_dir, step, f"step_{step:05d}")
-            if bool(log_cfg.get("live_print", True)):
+            if want_live:
                 print(
                     f"checkpoint-aligned: step={step}  "
                     f"weights={paths['weight_path']}  "
@@ -353,6 +602,7 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
         "layers": layers,
         "final_loss": last_loss,
         "final_geometry": last_geo,
+        "control": last_control_status,
         "signals_csv": str(logger.csv_path),
         "meta_json": str(logger.meta_path),
         "artifacts": artifacts,
@@ -375,8 +625,24 @@ def main() -> None:
         type=Path,
         default=CONFIGS / "train_gpt2_small_geometry.yaml",
     )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=None,
+        help="Override YAML seed (for multi-seed suites)",
+    )
+    parser.add_argument(
+        "--run-name",
+        type=str,
+        default=None,
+        help="Override logging.run_name",
+    )
     args = parser.parse_args()
     cfg = load_config(args.config)
+    if args.seed is not None:
+        cfg["seed"] = int(args.seed)
+    if args.run_name is not None:
+        cfg.setdefault("logging", {})["run_name"] = args.run_name
     result = train(cfg, source_config=args.config)
     print(json.dumps(result, indent=2))
     print("\nDone (hero training run).")

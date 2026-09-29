@@ -1,0 +1,58 @@
+{
+  "seed": 0,
+  "model": "gpt2-small",
+  "device": "mps",
+  "max_steps": 400,
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "final_loss": 3.8124120235443115,
+  "final_geometry": {
+    "L4_interference_mean": 0.4441109672188759,
+    "L4_spectral_participation": 0.09695321420828502,
+    "L4_coactivation_overlap": 0.19208352554143723,
+    "L8_interference_mean": 0.47440272321303684,
+    "L8_spectral_participation": 0.12901521225770315,
+    "L8_coactivation_overlap": 0.15400819580695063,
+    "L11_interference_mean": 0.780369833111763,
+    "L11_spectral_participation": 0.03393316268920899,
+    "L11_coactivation_overlap": 0.32107660582316955
+  },
+  "control": null,
+  "signals_csv": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/signals.csv",
+  "meta_json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/meta.json",
+  "artifacts": {
+    "config_frozen": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/config.frozen.yaml",
+    "seed_txt": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/seed.txt",
+    "config_source": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/config.source.yaml",
+    "run_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/run_manifest.json"
+  },
+  "model_final": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/model_final.pt",
+  "model_final_geometry": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/model_final.geometry.json",
+  "checkpoints_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints",
+  "checkpoints_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00099.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00099.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00199.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00199.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00299.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00299.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00399.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/step_00399.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0/checkpoints/manifest.json"
+    }
+  ]
+}

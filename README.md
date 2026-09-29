@@ -102,3 +102,8 @@ python experiments/validate_training_geometry.py --run-dir experiments/results/t
 python experiments/rome_edit.py --config experiments/configs/rome_gpt2_small.yaml
 python -m scripts.helpers.plot_signals --csv experiments/results/rome_gpt2_small_baseline/signals.csv
 ```
+
+## License
+
+Copyright 2025 Aquin Labs Private Limited  
+Licensed under the Apache License, Version 2.0 — see [`LICENSE`](LICENSE).

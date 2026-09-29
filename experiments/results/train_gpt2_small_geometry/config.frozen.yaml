@@ -27,3 +27,34 @@ logging:
   run_name: train_gpt2_small_geometry
   live_print: true
   save_every_n_steps: 20
+control:
+  enabled: false
+  layer: 8
+  metric: interference_mean
+  mode: point
+  target: 0.35
+  weight: 0.001
+  every_n_steps: 1
+  warmup_steps: 5
+  abort_on_warmup_fail: true
+  abort_on_warn: false
+diff:
+  top_k_neighbors: 8
+  save_neighborhood_plot: true
+  selected_features:
+  - name: eiffel_located_in
+    prompt: The Eiffel Tower is located in
+    position: last
+  - name: louvre_located_in
+    prompt: The Louvre Museum is located in
+    position: last
+  - name: superposition_pack
+    prompt: Superposition allows neural networks to represent more features than
+    position: last
+  cross_feature_pairs:
+  - - eiffel_located_in
+    - louvre_located_in
+  - - eiffel_located_in
+    - superposition_pack
+  - - louvre_located_in
+    - superposition_pack

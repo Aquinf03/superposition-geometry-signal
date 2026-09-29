@@ -1,0 +1,42 @@
+# Held-out LM eval corpus — disjoint from train_corpus.txt.
+# Used to ask: does soft geo-control improve next-token quality off the train set?
+The Amazon River is the largest river by discharge volume in the world.
+Photosynthesis in plants converts carbon dioxide and water into sugars.
+The speed of sound in dry air is about three hundred forty meters per second.
+Jupiter is the largest planet in the solar system and has dozens of moons.
+The printing press invented by Gutenberg helped spread books across Europe.
+A black hole is a region of spacetime where gravity is so strong that light cannot escape.
+The immune system protects the body against pathogens using white blood cells.
+Python is a popular programming language used for data science and automation.
+The Sahara is a vast desert covering much of northern Africa.
+Electric current is measured in amperes and voltage is measured in volts.
+Coral reefs support diverse marine ecosystems but are threatened by warming oceans.
+The Fibonacci sequence begins one one two three five eight and so on.
+Antibiotics treat bacterial infections but do not work against viruses.
+The ozone layer absorbs much of the Sun's ultraviolet radiation.
+A sonnet is a fourteen-line poem often written in iambic pentameter.
+Neutrons and protons form the nucleus of an atom while electrons orbit it.
+The International Space Station orbits Earth roughly every ninety minutes.
+Honey never spoils when stored properly because of its low water activity.
+The Magna Carta limited the power of the English monarch in twelve fifteen.
+Volcanoes erupt when magma rises through cracks in the Earth's crust.
+Binary search finds an item in a sorted list in logarithmic time.
+The human genome contains roughly three billion base pairs of DNA.
+Tea is the second most consumed beverage in the world after water.
+A capacitor stores electric charge and releases it when needed in a circuit.
+The Arctic Circle marks the southernmost latitude where midnight sun can occur.
+Chess originated in India and later spread to Persia and Europe.
+Glaciers carve valleys and deposit moraines as they advance and retreat.
+The Doppler effect changes the pitch of a siren as an ambulance passes by.
+Open source software lets anyone inspect modify and redistribute the code.
+The Library of Alexandria was one of the largest libraries of the ancient world.
+A hash table maps keys to values with average constant-time lookups.
+Earthquakes release energy along faults and are measured on the Richter scale.
+The moon's gravity causes tides in Earth's oceans.
+Vaccines train the immune system to recognize a pathogen without causing disease.
+The periodic table organizes elements by atomic number and chemical properties.
+A compiler translates source code into machine code a processor can execute.
+The Silk Road connected trade between East Asia and the Mediterranean.
+Entropy measures disorder and tends to increase in closed physical systems.
+Birds are warm-blooded vertebrates with feathers and most species can fly.
+The invention of writing allowed civilizations to record laws and histories.

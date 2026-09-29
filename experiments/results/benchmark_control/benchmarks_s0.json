@@ -1,0 +1,114 @@
+{
+  "seed": 0,
+  "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_s0",
+  "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_wikitext_control_s0",
+  "benchmarks": {
+    "pretrained": {
+      "wikitext2_valid": {
+        "mean_nll": 4.142396409420149,
+        "perplexity": 62.95350319760416,
+        "n_tokens": 237617,
+        "n_blocks": 1871,
+        "seq_len": 128
+      },
+      "wikitext2_test": {
+        "mean_nll": 4.133570564510568,
+        "perplexity": 62.400330042908415,
+        "n_tokens": 271907,
+        "n_blocks": 2141,
+        "seq_len": 128
+      },
+      "lambada": {
+        "accuracy": 0.33921987191927033,
+        "correct": 1748,
+        "n": 5153
+      },
+      "hellaswag": {
+        "accuracy": 0.328,
+        "correct": 328,
+        "n": 1000
+      }
+    },
+    "baseline": {
+      "wikitext2_valid": {
+        "mean_nll": 3.553153729473599,
+        "perplexity": 34.92328258197321,
+        "n_tokens": 237617,
+        "n_blocks": 1871,
+        "seq_len": 128
+      },
+      "wikitext2_test": {
+        "mean_nll": 3.5324665833018978,
+        "perplexity": 34.208241114544215,
+        "n_tokens": 271907,
+        "n_blocks": 2141,
+        "seq_len": 128
+      },
+      "lambada": {
+        "accuracy": 0.32660586066369107,
+        "correct": 1683,
+        "n": 5153
+      },
+      "hellaswag": {
+        "accuracy": 0.332,
+        "correct": 332,
+        "n": 1000
+      }
+    },
+    "control": {
+      "wikitext2_valid": {
+        "mean_nll": 3.553154222137969,
+        "perplexity": 34.923299787434466,
+        "n_tokens": 237617,
+        "n_blocks": 1871,
+        "seq_len": 128
+      },
+      "wikitext2_test": {
+        "mean_nll": 3.532477261710087,
+        "perplexity": 34.20860640605663,
+        "n_tokens": 271907,
+        "n_blocks": 2141,
+        "seq_len": 128
+      },
+      "lambada": {
+        "accuracy": 0.32660586066369107,
+        "correct": 1683,
+        "n": 5153
+      },
+      "hellaswag": {
+        "accuracy": 0.332,
+        "correct": 332,
+        "n": 1000
+      }
+    }
+  },
+  "verdict": {
+    "wikitext2_valid": {
+      "baseline_ppl": 34.92328258197321,
+      "control_ppl": 34.923299787434466,
+      "delta_ppl": 1.7205461254832244e-05,
+      "control_wins": false
+    },
+    "wikitext2_test": {
+      "baseline_ppl": 34.208241114544215,
+      "control_ppl": 34.20860640605663,
+      "delta_ppl": 0.0003652915124163769,
+      "control_wins": false,
+      "pretrained_ppl": 62.400330042908415,
+      "control_beats_pretrained": true,
+      "baseline_beats_pretrained": true
+    },
+    "lambada": {
+      "baseline_acc": 0.32660586066369107,
+      "control_acc": 0.32660586066369107,
+      "delta_acc": 0.0,
+      "control_wins": false
+    },
+    "hellaswag": {
+      "baseline_acc": 0.332,
+      "control_acc": 0.332,
+      "delta_acc": 0.0,
+      "control_wins": false
+    }
+  }
+}

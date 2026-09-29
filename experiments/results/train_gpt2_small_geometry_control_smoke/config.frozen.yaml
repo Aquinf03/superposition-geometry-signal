@@ -1,0 +1,57 @@
+seed: 0
+model: gpt2-small
+device: auto
+train:
+  corpus: data/train_corpus.txt
+  seq_len: 64
+  batch_size: 4
+  max_steps: 3
+  lr: 5.0e-05
+  weight_decay: 0.01
+  grad_clip: 1.0
+geometry:
+  layers:
+  - 4
+  - 8
+  - 11
+  every_n_steps: 1
+  bank_positions: last
+  top_k_neighbors: 8
+  metrics:
+  - interference_mean
+  - spectral_participation
+  - coactivation_overlap
+  probe_prompts: null
+logging:
+  results_dir: results
+  run_name: train_gpt2_small_geometry_control_smoke
+  live_print: true
+  save_every_n_steps: 0
+control:
+  enabled: true
+  layer: 8
+  metric: interference_mean
+  target: 0.35
+  weight: 0.01
+  every_n_steps: 1
+  abort_on_warn: false
+diff:
+  top_k_neighbors: 8
+  save_neighborhood_plot: true
+  selected_features:
+  - name: eiffel_located_in
+    prompt: The Eiffel Tower is located in
+    position: last
+  - name: louvre_located_in
+    prompt: The Louvre Museum is located in
+    position: last
+  - name: superposition_pack
+    prompt: Superposition allows neural networks to represent more features than
+    position: last
+  cross_feature_pairs:
+  - - eiffel_located_in
+    - louvre_located_in
+  - - eiffel_located_in
+    - superposition_pack
+  - - louvre_located_in
+    - superposition_pack

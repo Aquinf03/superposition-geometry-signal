@@ -1,0 +1,37 @@
+{
+  "model": "gpt2-small",
+  "device": "mps",
+  "seq_len": 128,
+  "benchmarks": {
+    "pretrained": {
+      "step": -1,
+      "weight_path": null,
+      "run_dir": null,
+      "wikitext2_valid": {
+        "mean_nll": 4.067568064612041,
+        "perplexity": 58.41472886407294,
+        "n_tokens": 3810,
+        "n_blocks": 30,
+        "seq_len": 128
+      },
+      "wikitext2_test": {
+        "mean_nll": 4.168582818138944,
+        "perplexity": 64.62380349925787,
+        "n_tokens": 3810,
+        "n_blocks": 30,
+        "seq_len": 128
+      },
+      "lambada": {
+        "accuracy": 0.4,
+        "correct": 20,
+        "n": 50
+      },
+      "hellaswag": {
+        "accuracy": 0.34,
+        "correct": 17,
+        "n": 50
+      }
+    }
+  },
+  "verdict": {}
+}

@@ -1,0 +1,50 @@
+{
+  "aligned": true,
+  "step": 199,
+  "loss": 0.35172417759895325,
+  "seed": 2,
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "metrics": [
+    "interference_mean",
+    "spectral_participation",
+    "coactivation_overlap"
+  ],
+  "bank_positions": "last",
+  "top_k_neighbors": 8,
+  "probe_prompts": [
+    "The Eiffel Tower is located in",
+    "The Louvre Museum is located in",
+    "The Great Wall of China is located in",
+    "Mount Everest is located in",
+    "The Colosseum is located in",
+    "Paris is the capital of",
+    "Rome is the capital of",
+    "Berlin is the capital of",
+    "Tokyo is the capital of",
+    "The president of the United States is",
+    "The currency of Japan is",
+    "Water boils at"
+  ],
+  "geometry": {
+    "L4_interference_mean": 0.41417694340149563,
+    "L4_spectral_participation": 0.09174288113911948,
+    "L4_coactivation_overlap": 0.1516688717673644,
+    "L8_interference_mean": 0.3183804688354333,
+    "L8_spectral_participation": 0.16422053774197898,
+    "L8_coactivation_overlap": 0.098207813062411,
+    "L11_interference_mean": 0.5197573155164719,
+    "L11_spectral_participation": 0.04869752327601115,
+    "L11_coactivation_overlap": 0.18292856048592987
+  },
+  "weight_file": "model_final.pt",
+  "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_quality_s2/model_final.pt",
+  "extra": {
+    "model": "gpt2-small",
+    "device": "mps",
+    "alias_of": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_quality_s2/checkpoints/step_00199.pt"
+  }
+}

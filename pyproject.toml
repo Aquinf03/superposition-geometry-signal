@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spg"
-version = "0.1.0"
-description = "Superposition Geometry — live geometry beside loss (track, diff, plot)"
+version = "0.1.1"
+description = "Superposition Geometry — live geometry beside loss (track, diff, plot, control)"
 readme = "sdk/README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { text = "Apache-2.0" }
 authors = [{ name = "spg contributors" }]
 keywords = ["superposition", "geometry", "interpretability", "training", "metrics"]
 dependencies = [

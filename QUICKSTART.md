@@ -21,12 +21,16 @@ print("Δ summary", round(d["summary_score"], 4))
 plot(t.csv_path)  # → runs/quickstart/loss_geometry.png
 ```
 
-That’s it: **Tracker** logs live `loss | geometry`, **Diff** compares neighborhoods, **plot** draws the curves.
+That’s it: **Tracker** logs live `loss | geometry`, **Diff** compares neighborhoods, **plot** draws the curves. Soft control: `from spg import GeoControl` (opt-in; see `CONTROL_GEO.md`).
 
 ```bash
 spg plot runs/quickstart/signals.csv
 spg view --run-dir experiments/results/train_gpt2_small_geometry --open
+spg control-demo
+spg edit-demo
 ```
 
 Real training: `spg track --config experiments/configs/train_gpt2_small_geometry.yaml`  
-Caveats: `failure_notes.md` · Control (later): `CONTROL_GEO.md`
+Control: `spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml`  
+Band: `spg track --config experiments/configs/train_gpt2_small_geometry_control_band.yaml`  
+Caveats: `failure_notes.md` · Control: `CONTROL_GEO.md`

@@ -28,6 +28,9 @@
     ],
     "probe_prompts": null
   },
+  "control": {
+    "enabled": false
+  },
   "layers": [
     4,
     8,
@@ -35,10 +38,10 @@
   ],
   "n_blocks": 13,
   "artifacts": {
-    "config_frozen": "results/train_gpt2_small_geometry/config.frozen.yaml",
-    "seed_txt": "results/train_gpt2_small_geometry/seed.txt",
-    "config_source": "results/train_gpt2_small_geometry/config.source.yaml",
-    "run_manifest": "results/train_gpt2_small_geometry/run_manifest.json"
+    "config_frozen": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry/config.frozen.yaml",
+    "seed_txt": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry/seed.txt",
+    "config_source": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry/config.source.yaml",
+    "run_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry/run_manifest.json"
   },
   "note": "hero: fine-tune with live loss | multi-layer geometry"
 }

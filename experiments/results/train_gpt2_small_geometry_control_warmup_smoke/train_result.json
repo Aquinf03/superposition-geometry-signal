@@ -1,0 +1,54 @@
+{
+  "seed": 0,
+  "model": "gpt2-small",
+  "device": "mps",
+  "max_steps": 8,
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "final_loss": 2.3482825756073,
+  "final_geometry": {
+    "L4_interference_mean": 0.4647487240533034,
+    "L4_spectral_participation": 0.08351796567440034,
+    "L4_coactivation_overlap": 0.18845717861128627,
+    "L8_interference_mean": 0.43782797393699485,
+    "L8_spectral_participation": 0.13470745086669922,
+    "L8_coactivation_overlap": 0.11637155706072151,
+    "L11_interference_mean": 0.5255270370592674,
+    "L11_spectral_participation": 0.08981138169765472,
+    "L11_coactivation_overlap": 0.198680804798769
+  },
+  "control": {
+    "enabled": true,
+    "layer": 8,
+    "metric": "interference_mean",
+    "target": 0.35,
+    "weight": 0.01,
+    "current": 0.4512058198451996,
+    "error": 0.10120581984519961,
+    "penalty": 0.00010242619464406744,
+    "warned": null,
+    "phase": "active"
+  },
+  "signals_csv": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/signals.csv",
+  "meta_json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/meta.json",
+  "artifacts": {
+    "config_frozen": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/config.frozen.yaml",
+    "seed_txt": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/seed.txt",
+    "config_source": "",
+    "run_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/run_manifest.json"
+  },
+  "model_final": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/model_final.pt",
+  "model_final_geometry": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/model_final.geometry.json",
+  "checkpoints_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/checkpoints",
+  "checkpoints_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/checkpoints/step_00007.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/checkpoints/step_00007.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_warmup_smoke/checkpoints/manifest.json"
+    }
+  ]
+}

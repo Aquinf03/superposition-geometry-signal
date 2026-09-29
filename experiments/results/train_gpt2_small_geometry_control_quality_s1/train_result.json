@@ -1,0 +1,72 @@
+{
+  "seed": 1,
+  "model": "gpt2-small",
+  "device": "mps",
+  "max_steps": 200,
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "final_loss": 0.38103941082954407,
+  "final_geometry": {
+    "L4_interference_mean": 0.36755331605672836,
+    "L4_spectral_participation": 0.09320813616116841,
+    "L4_coactivation_overlap": 0.15320237970077324,
+    "L8_interference_mean": 0.31858305012186366,
+    "L8_spectral_participation": 0.14946081936359404,
+    "L8_coactivation_overlap": 0.07778294910637894,
+    "L11_interference_mean": 0.6061202411850294,
+    "L11_spectral_participation": 0.05062198936939239,
+    "L11_coactivation_overlap": 0.20099794849142427
+  },
+  "control": {
+    "enabled": true,
+    "layer": 8,
+    "metric": "interference_mean",
+    "target": 0.35,
+    "weight": 0.01,
+    "current": 0.3172970712184906,
+    "error": -0.03270292878150938,
+    "penalty": 1.0694810953282285e-05,
+    "warned": null,
+    "mode": "point",
+    "lo": null,
+    "hi": null,
+    "phase": "active"
+  },
+  "signals_csv": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/signals.csv",
+  "meta_json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/meta.json",
+  "artifacts": {
+    "config_frozen": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/config.frozen.yaml",
+    "seed_txt": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/seed.txt",
+    "config_source": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/config.source.yaml",
+    "run_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/run_manifest.json"
+  },
+  "model_final": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/model_final.pt",
+  "model_final_geometry": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/model_final.geometry.json",
+  "checkpoints_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints",
+  "checkpoints_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00049.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00049.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00099.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00099.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00149.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00149.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00199.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/step_00199.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_control_quality_s1/checkpoints/manifest.json"
+    }
+  ]
+}

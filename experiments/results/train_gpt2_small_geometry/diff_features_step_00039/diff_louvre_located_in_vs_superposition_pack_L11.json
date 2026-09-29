@@ -5,64 +5,64 @@
   "step_before": 39,
   "step_after": 39,
   "metrics_before": {
-    "interference_mean": 0.7574325203895569,
-    "spectral_participation": 0.03526624441146851,
+    "interference_mean": 0.7575168609619141,
+    "spectral_participation": 0.03524329662322998,
     "coactivation_overlap": 0.20841403016763727
   },
   "metrics_after": {
-    "interference_mean": 0.7793024182319641,
-    "spectral_participation": 0.009747407653115013,
+    "interference_mean": 0.7793672680854797,
+    "spectral_participation": 0.009733871980146929,
     "coactivation_overlap": 0.1775000680661058
   },
   "delta_metrics": {
     "coactivation_overlap": -0.030913962101531467,
-    "interference_mean": 0.021869897842407227,
-    "spectral_participation": -0.025518836758353494
+    "interference_mean": 0.021850407123565674,
+    "spectral_participation": -0.025509424643083055
   },
-  "summary_score": 0.02610089890076406,
-  "mean_abs_neighbor_delta": 0.07267616476331439,
+  "summary_score": 0.026091264622726734,
+  "mean_abs_neighbor_delta": 0.07268531833376203,
   "neighbor_deltas": [
     {
       "bank_index": 0,
-      "abs_cos_before": 0.8860968351364136,
-      "abs_cos_after": 0.8195136785507202,
-      "delta_abs_cos": -0.06658315658569336
+      "abs_cos_before": 0.886094868183136,
+      "abs_cos_after": 0.8193358182907104,
+      "delta_abs_cos": -0.06675904989242554
     },
     {
       "bank_index": 1,
-      "abs_cos_before": 0.7883652448654175,
-      "abs_cos_after": 0.7204051613807678,
-      "delta_abs_cos": -0.06796008348464966
+      "abs_cos_before": 0.7883270978927612,
+      "abs_cos_after": 0.720429003238678,
+      "delta_abs_cos": -0.06789809465408325
     },
     {
       "bank_index": 2,
-      "abs_cos_before": 0.7180218696594238,
-      "abs_cos_after": 0.8234894871711731,
-      "delta_abs_cos": 0.10546761751174927
+      "abs_cos_before": 0.7179959416389465,
+      "abs_cos_after": 0.8234778642654419,
+      "delta_abs_cos": 0.10548192262649536
     },
     {
       "bank_index": 4,
-      "abs_cos_before": 0.7446869015693665,
-      "abs_cos_after": 0.8383774161338806,
-      "delta_abs_cos": 0.09369051456451416
+      "abs_cos_before": 0.7449067831039429,
+      "abs_cos_after": 0.8383201360702515,
+      "delta_abs_cos": 0.0934133529663086
     },
     {
       "bank_index": 5,
-      "abs_cos_before": 0.7308216691017151,
-      "abs_cos_after": 0.7676267623901367,
-      "delta_abs_cos": 0.03680509328842163
+      "abs_cos_before": 0.7310155034065247,
+      "abs_cos_after": 0.7679380774497986,
+      "delta_abs_cos": 0.036922574043273926
     },
     {
       "bank_index": 6,
-      "abs_cos_before": 0.6952881813049316,
-      "abs_cos_after": 0.756931483745575,
-      "delta_abs_cos": 0.06164330244064331
+      "abs_cos_before": 0.6954687833786011,
+      "abs_cos_after": 0.7572061419487,
+      "delta_abs_cos": 0.06173735857009888
     },
     {
       "bank_index": 7,
-      "abs_cos_before": 0.6785207390785217,
-      "abs_cos_after": 0.755104124546051,
-      "delta_abs_cos": 0.0765833854675293
+      "abs_cos_before": 0.6787009835243225,
+      "abs_cos_after": 0.7552858591079712,
+      "delta_abs_cos": 0.07658487558364868
     }
   ],
   "neighbors_entered_topk": [
@@ -75,8 +75,8 @@
     "feature_id": "louvre_located_in@L11",
     "step": 39,
     "metrics": {
-      "interference_mean": 0.7574325203895569,
-      "spectral_participation": 0.03526624441146851,
+      "interference_mean": 0.7575168609619141,
+      "spectral_participation": 0.03524329662322998,
       "coactivation_overlap": 0.20841403016763727
     },
     "neighbors": [
@@ -84,52 +84,52 @@
         "rank": 0,
         "bank_index": 0,
         "label": null,
-        "abs_cos": 0.8860968351364136
+        "abs_cos": 0.886094868183136
       },
       {
         "rank": 1,
         "bank_index": 3,
         "label": null,
-        "abs_cos": 0.8176584839820862
+        "abs_cos": 0.817625105381012
       },
       {
         "rank": 2,
         "bank_index": 1,
         "label": null,
-        "abs_cos": 0.7883652448654175
+        "abs_cos": 0.7883270978927612
       },
       {
         "rank": 3,
         "bank_index": 4,
         "label": null,
-        "abs_cos": 0.7446869015693665
+        "abs_cos": 0.7449067831039429
       },
       {
         "rank": 4,
         "bank_index": 5,
         "label": null,
-        "abs_cos": 0.7308216691017151
+        "abs_cos": 0.7310155034065247
       },
       {
         "rank": 5,
         "bank_index": 2,
         "label": null,
-        "abs_cos": 0.7180218696594238
+        "abs_cos": 0.7179959416389465
       },
       {
         "rank": 6,
         "bank_index": 6,
         "label": null,
-        "abs_cos": 0.6952881813049316
+        "abs_cos": 0.6954687833786011
       },
       {
         "rank": 7,
         "bank_index": 7,
         "label": null,
-        "abs_cos": 0.6785207390785217
+        "abs_cos": 0.6787009835243225
       }
     ],
-    "query_norm": 126.26521301269531,
+    "query_norm": 126.2716064453125,
     "bank_size": 11,
     "extra": {
       "prompt": "The Louvre Museum is located in",
@@ -142,8 +142,8 @@
     "feature_id": "superposition_pack@L11",
     "step": 39,
     "metrics": {
-      "interference_mean": 0.7793024182319641,
-      "spectral_participation": 0.009747407653115013,
+      "interference_mean": 0.7793672680854797,
+      "spectral_participation": 0.009733871980146929,
       "coactivation_overlap": 0.1775000680661058
     },
     "neighbors": [
@@ -151,52 +151,52 @@
         "rank": 0,
         "bank_index": 4,
         "label": null,
-        "abs_cos": 0.8383774161338806
+        "abs_cos": 0.8383201360702515
       },
       {
         "rank": 1,
         "bank_index": 2,
         "label": null,
-        "abs_cos": 0.8234894871711731
+        "abs_cos": 0.8234778642654419
       },
       {
         "rank": 2,
         "bank_index": 0,
         "label": null,
-        "abs_cos": 0.8195136785507202
+        "abs_cos": 0.8193358182907104
       },
       {
         "rank": 3,
         "bank_index": 5,
         "label": null,
-        "abs_cos": 0.7676267623901367
+        "abs_cos": 0.7679380774497986
       },
       {
         "rank": 4,
         "bank_index": 6,
         "label": null,
-        "abs_cos": 0.756931483745575
+        "abs_cos": 0.7572061419487
       },
       {
         "rank": 5,
         "bank_index": 7,
         "label": null,
-        "abs_cos": 0.755104124546051
+        "abs_cos": 0.7552858591079712
       },
       {
         "rank": 6,
         "bank_index": 11,
         "label": null,
-        "abs_cos": 0.7529709935188293
+        "abs_cos": 0.7529451847076416
       },
       {
         "rank": 7,
         "bank_index": 1,
         "label": null,
-        "abs_cos": 0.7204051613807678
+        "abs_cos": 0.720429003238678
       }
     ],
-    "query_norm": 138.7876739501953,
+    "query_norm": 138.82138061523438,
     "bank_size": 12,
     "extra": {
       "prompt": "Superposition allows neural networks to represent more features than",
@@ -210,8 +210,8 @@
   "layer": 11,
   "ckpt": {
     "step": 39,
-    "weight_path": "/Users/ashm/work/super/results/train_gpt2_small_geometry/checkpoints/step_00039.pt",
-    "geometry_path": "/Users/ashm/work/super/results/train_gpt2_small_geometry/checkpoints/step_00039.geometry.json",
-    "loss": 0.028959443792700768
+    "weight_path": "experiments/results/train_gpt2_small_geometry/checkpoints/step_00039.pt",
+    "geometry_path": "experiments/results/train_gpt2_small_geometry/checkpoints/step_00039.geometry.json",
+    "loss": 0.02891123853623867
   }
 }
