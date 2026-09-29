@@ -60,12 +60,26 @@ def _split_layer_keys(geometry: Dict[str, float]) -> Tuple[Dict[int, Dict[str, f
     return by_layer, plain
 
 
-def format_live_line(step: int, loss: Optional[float], geometry: Optional[Dict[str, float]] = None) -> str:
+def format_live_line(
+    step: int,
+    loss: Optional[float],
+    geometry: Optional[Dict[str, float]] = None,
+    *,
+    color: Optional[bool] = None,
+) -> str:
     """Human live metric line: loss beside named geometry (optionally multi-layer)."""
+    from spg import tui
+
+    if color is None:
+        color = tui.color_enabled()
+
     loss_s = f"{loss:.4f}" if loss is not None else "nan"
     geometry = geometry or {}
+
+    head = f"step={tui.val(str(step), enabled=color)}  loss={tui.val(loss_s, enabled=color)}"
+
     if not geometry:
-        return f"step={step}  loss={loss_s}  |  geometry: (none)"
+        return head + tui.pipe() + tui.geo_block("geometry: (none)", enabled=color)
 
     by_layer, plain = _split_layer_keys(geometry)
     parts: List[str] = []
@@ -76,16 +90,17 @@ def format_live_line(step: int, loss: Optional[float], geometry: Optional[Dict[s
                 f"{_short_metric(m)}={by_layer[L][m]:.4f}" for m in by_layer[L]
             )
             label = f"geometry L{L}" if i == 0 else f"L{L}"
-            parts.append(f"{label}: {bits}")
+            # whole metrics chunk one color
+            parts.append(tui.geo_block(f"{label}: {bits}", enabled=color))
 
     if plain:
         bits = "  ".join(f"{_short_metric(k)}={v:.4f}" for k, v in plain.items())
         if by_layer:
-            parts.append(bits)
+            parts.append(tui.geo_block(bits, enabled=color))
         else:
-            parts.append(f"geometry: {bits}")
+            parts.append(tui.geo_block(f"geometry: {bits}", enabled=color))
 
-    return f"step={step}  loss={loss_s}  |  " + "  |  ".join(parts)
+    return head + tui.pipe() + tui.pipe().join(parts)
 
 
 class SignalLogger:

@@ -530,7 +530,13 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
                     step=step, loss=last_loss, geometry=geo, control=st
                 )
                 if control_phase != "active":
-                    line = f"{line}  |  control_phase={control_phase}"
+                    from spg import tui
+
+                    line = (
+                        f"{line}{tui.pipe()}"
+                        f"{tui.key('control_phase=')}"
+                        f"{tui.warn(control_phase) if control_phase == 'warmup' else tui.val(control_phase)}"
+                    )
                 print(line, flush=True)
 
         if save_every > 0 and (step + 1) % save_every == 0:

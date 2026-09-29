@@ -64,7 +64,7 @@ print(format_control_line(step=t, loss=float(lm_loss), geometry=geometry, contro
 ```
 
 ```bash
-spg control-demo
+spg demo
 spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml
 spg track --config experiments/configs/train_gpt2_small_geometry_control_band.yaml
 spg edit-demo   # thin edit-time nudge

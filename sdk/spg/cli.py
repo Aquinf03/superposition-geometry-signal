@@ -1,4 +1,4 @@
-"""Command-line interface: ``spg track | diff | plot | view | control-demo | edit-demo``.
+"""Command-line interface: ``spg track | diff | plot | view | demo | edit-demo``.
 
 Examples::
 
@@ -9,7 +9,7 @@ Examples::
     spg diff --config experiments/configs/train_gpt2_small_geometry.yaml
     spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml
     spg view --run-dir experiments/results/train_gpt2_small_geometry --open
-    spg control-demo
+    spg demo
     spg edit-demo
 """
 
@@ -32,32 +32,36 @@ def _ensure_repo_on_path() -> Path:
 
 
 def _cmd_plot(args: argparse.Namespace) -> int:
+    from spg import tui
     from spg.plot import plot
 
     out = plot(args.csv, out=args.out)
-    print(f"wrote {out}")
+    print(tui.ok("wrote") + " " + tui.dim(str(out)))
     return 0
 
 
 def _cmd_track(args: argparse.Namespace) -> int:
+    from spg import tui
+
     _ensure_repo_on_path()
     from experiments.train_with_geometry import load_config, train
 
     cfg = load_config(Path(args.config))
     result = train(cfg, source_config=Path(args.config))
-    print(f"final_loss={result['final_loss']:.4f}")
-    print(f"signals={result['signals_csv']}")
-    print(f"wrote {result['result_json']}")
-    print("Plot with:")
-    print(f"  spg plot {result['signals_csv']}")
+    print(tui.kv("final_loss=", f"{result['final_loss']:.4f}"))
+    print(tui.kv("signals=", result["signals_csv"]))
+    print(tui.ok("wrote") + " " + tui.dim(str(result["result_json"])))
+    print(tui.dim("Plot with:"))
+    print(tui.geo(f"  spg plot {result['signals_csv']}"))
     return 0
 
 
 def _cmd_view(args: argparse.Namespace) -> int:
+    from spg import tui
     from spg.view import write_view_html
 
     out = write_view_html(Path(args.run_dir), out=args.out)
-    print(f"wrote {out}")
+    print(tui.ok("wrote") + " " + tui.dim(str(out)))
     if args.open:
         webbrowser.open(out.resolve().as_uri())
     return 0
@@ -112,11 +116,11 @@ def _cmd_diff(args: argparse.Namespace) -> int:
     return 0
 
 
-def _cmd_control_demo(_args: argparse.Namespace) -> int:
+def _cmd_demo(_args: argparse.Namespace) -> int:
     """Toy sanity: GeoControl point + band + FeatureRelativeControl (no model)."""
-    from spg import FeatureRelativeControl, GeoControl, format_control_line
+    from spg import FeatureRelativeControl, GeoControl, format_control_line, tui
 
-    print("spg control-demo — point target → interference=0.35 @ L8\n")
+    print(tui.header("spg demo") + tui.dim("  point target → interference=0.35 @ L8\n"))
     control = GeoControl(
         layer=8,
         metric="interference_mean",
@@ -134,9 +138,9 @@ def _cmd_control_demo(_args: argparse.Namespace) -> int:
         st = control.status(geo)
         loss = 1.0 + float(pen)
         print(format_control_line(step=step, loss=loss, geometry=geo, control=st))
-        print(f"         penalty.item()={float(pen):.6f}")
+        print(tui.penalty_line(f"         penalty.item()={float(pen):.6f}"))
 
-    print("\nspg control-demo — band [0.30, 0.40] (hinge outside)\n")
+    print(tui.header("\nspg demo") + tui.dim("  band [0.30, 0.40] (hinge outside)\n"))
     band = GeoControl(
         layer=8,
         metric="interference_mean",
@@ -152,9 +156,9 @@ def _cmd_control_demo(_args: argparse.Namespace) -> int:
         pen = band.penalty(geo)
         st = band.status(geo)
         print(format_control_line(step=step, loss=float(pen), geometry=geo, control=st))
-        print(f"         penalty.item()={float(pen):.6f}")
+        print(tui.penalty_line(f"         penalty.item()={float(pen):.6f}"))
 
-    print("\nspg control-demo — feature-relative (shrink related, margin on unrelated)\n")
+    print(tui.header("\nspg demo") + tui.dim("  feature-relative (shrink related, margin on unrelated)\n"))
     feat = FeatureRelativeControl(
         weight_related=1e-2,
         weight_unrelated=1e-2,
@@ -167,13 +171,17 @@ def _cmd_control_demo(_args: argparse.Namespace) -> int:
         pen = feat.penalty(rel, unrel)
         st = feat.status(rel, unrel)
         print(
-            f"step={step}  related={rel:.2f} unrelated={unrel:.2f}  "
-            f"pen={st.penalty:.4g}  (margin={st.margin})"
+            f"{tui.kv('step=', step)}  "
+            f"{tui.kv('related=', f'{rel:.2f}')} "
+            f"{tui.kv('unrelated=', f'{unrel:.2f}')}  "
+            f"{tui.penalty_line(f'pen={st.penalty:.4g}')}  "
+            f"(margin={st.margin})"
         )
-        print(f"         penalty.item()={float(pen):.6f}")
+        print(tui.penalty_line(f"         penalty.item()={float(pen):.6f}"))
 
-    print("\nok — hero train: loss = lm_loss + control.penalty_on_value(metric_t)")
-    print("    edit-time: spg edit-demo")
+    print()
+    print(tui.ok("ok") + tui.dim("  hero train: loss = lm_loss + control.penalty_on_value(metric_t)"))
+    print(tui.dim("    edit-time: spg edit-demo"))
     return 0
 
 
@@ -297,10 +305,11 @@ def build_parser() -> argparse.ArgumentParser:
     p_view.set_defaults(func=_cmd_view)
 
     p_demo = sub.add_parser(
-        "control-demo",
+        "demo",
         help="Toy GeoControl: point / band / feature-relative (no model)",
+        aliases=["control-demo"],
     )
-    p_demo.set_defaults(func=_cmd_control_demo)
+    p_demo.set_defaults(func=_cmd_demo)
 
     try:
         from spg.paths import CONFIGS as _CONFIGS

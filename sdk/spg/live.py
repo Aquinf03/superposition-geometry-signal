@@ -15,9 +15,20 @@ def format_control_line(
     loss: Optional[float],
     geometry: Optional[Mapping[str, Number]] = None,
     control: Optional[Union[ControlStatus, Mapping[str, Any]]] = None,
+    *,
+    color: Optional[bool] = None,
 ) -> str:
-    """Watch line + ``| geo_target: …`` when control is enabled."""
-    base = format_live_line(step, loss, dict(geometry or {}))
+    """Watch line + ``| geo_target: …`` when control is enabled.
+
+    Color groups:
+      geo_target: L#  ·  metric→goal  ·  (cur λ pen)
+    """
+    from spg import tui
+
+    if color is None:
+        color = tui.color_enabled()
+
+    base = format_live_line(step, loss, dict(geometry or {}), color=color)
     if control is None:
         return base
 
@@ -52,10 +63,15 @@ def format_control_line(
         goal = f"[{st.lo:.4f},{st.hi:.4f}]"
     else:
         goal = f"{st.target:.4f}"
-    bit = (
-        f"geo_target: L{st.layer} {short}→{goal} "
-        f"(cur={cur_s} λ={st.weight:g} pen={st.penalty:.4g})"
+
+    # geo_target: L8   |   interference→[0.30,0.40]   |   (cur=… λ=… pen=…)
+    head = tui.target_label(f"geo_target: L{st.layer}", enabled=color)
+    arrow = tui.goal(f"{short}→{goal}", enabled=color)
+    paren = tui.status(
+        f"(cur={cur_s} λ={st.weight:g} pen={st.penalty:.4g})",
+        enabled=color,
     )
+    bit = f"{head} {arrow} {paren}"
     if st.warned:
-        bit += f" WARN={st.warned}"
-    return f"{base}  |  {bit}"
+        bit += " " + tui.warn(f"WARN={st.warned}", enabled=color)
+    return base + tui.pipe() + bit

@@ -26,7 +26,7 @@ That’s it: **Tracker** logs live `loss | geometry`, **Diff** compares neighbor
 ```bash
 spg plot runs/quickstart/signals.csv
 spg view --run-dir experiments/results/train_gpt2_small_geometry --open
-spg control-demo
+spg demo
 spg edit-demo
 ```
 

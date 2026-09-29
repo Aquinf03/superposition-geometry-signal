@@ -23,7 +23,7 @@ spg track --config experiments/configs/train_gpt2_small_geometry_control_band.ya
 spg diff --config experiments/configs/train_gpt2_small_geometry.yaml
 spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml
 spg view --run-dir experiments/results/train_gpt2_small_geometry --open
-spg control-demo
+spg demo
 spg edit-demo
 ```
 
@@ -33,9 +33,12 @@ spg edit-demo
 | `spg diff` | ckpt A vs B (default) or `--features` |
 | `spg plot` | loss + geometry curves from `signals.csv` |
 | `spg view` | interactive HTML neighborhood scrubber |
-| `spg control-demo` | toy point / band / feature-relative (no model) |
+| `spg demo` | toy point / band / feature-relative (no model) |
 | `spg edit-demo` | thin edit-time geo nudge (one MLP `W_out`) |
 
 Also: `python -m spg …`.
+
+Live lines use a small ANSI palette (teal = geometry, rose = control). Auto on TTY;
+off with `NO_COLOR` or `SPG_COLOR=0`; force on with `SPG_COLOR=1`.
 
 Package source: `sdk/spg/`. Soft control: `GeoControl` / `FeatureRelativeControl` / `grad_geometry` (off by default). Spec: [`CONTROL_GEO.md`](../CONTROL_GEO.md).

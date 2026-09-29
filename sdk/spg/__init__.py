@@ -26,6 +26,7 @@ from spg.control import (
     FeatureRelativeStatus,
 )
 from spg.live import format_control_line
+from spg import tui
 from spg.grad_geometry import collect_mlp_out_bank_grad, mean_interference_tensor
 from spg.geometry import (
     DEFAULT_PROBE_PROMPTS,
@@ -46,6 +47,7 @@ __all__ = [
     "FeatureRelativeControl",
     "FeatureRelativeStatus",
     "format_control_line",
+    "tui",
     "collect_mlp_out_bank_grad",
     "mean_interference_tensor",
     "write_view_html",
