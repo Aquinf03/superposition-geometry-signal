@@ -38,7 +38,7 @@ Outputs: **white-background PNG only** (no PDF). Plain labeled axes; no Fig-N ba
 
 **Figure 4.** Cross-feature neighborhood deltas at mid layers. Related location features stay far closer than unrelated pairs.
 
-**Table 5.** Out-of-metric validation of soft control (downstream loss, cross-feature, held-out probes, trajectory). Success is not "hit geo_target."
+**Table 5.** Out-of-metric validation of soft control (downstream loss, cross-feature, held-out probes, trajectory).
 
 **Figure 6.** Summary cards for the matched pair: final loss, L8 interference, and absolute error to the packing target.
 

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Caveats · spg Docs</title>
-  <meta name="description" content="When geometry is flat or misleading: bank bias, late collapse, overfit, gamed control bank." />
+  <title>Reading the signal · spg Docs</title>
+  <meta name="description" content="How to read live geometry: layers, banks, collapse phases, and out-of-metric control checks." />
   <link rel="icon" href="../../assets/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,7 +25,7 @@
         <a class="nav-link" href="../cli/">CLI reference</a>
         <a class="nav-link" href="../metrics/">Metrics</a>
         <a class="nav-link" href="../control/">Control</a>
-        <a class="nav-link active" href="../caveats/">Caveats</a>
+        <a class="nav-link active" href="../caveats/">Reading the signal</a>
       </nav>
       <div class="sidebar-footer">
         <a class="sidebar-github" href="https://github.com/Aquinf03/superposition-geometry-signal" rel="noopener">
@@ -35,10 +35,10 @@
       </div>
     </aside>
     <main class="docs-main">
-      <h1>Caveats</h1>
-      <p class="lead">Geometry beside loss is useful when it moves with something real. It is not a ground-truth entanglement meter. Full notes: root <code class="chip">failure_notes.md</code>.</p>
+      <h1>Reading the signal</h1>
+      <p class="lead">Geometry beside loss is a live training signal. These notes make the dashboard sharper. Detail: root <code class="chip">failure_notes.md</code>.</p>
 
-      <h2>Flat signal</h2>
+      <h2>When the curve is quiet</h2>
       <div class="table-wrap mb">
         <table>
           <thead><tr><th>Situation</th><th>What you see</th></tr></thead>
@@ -50,21 +50,21 @@
           </tbody>
         </table>
       </div>
-      <p class="lead">Check: <code class="chip">python experiments/validate_training_geometry.py --run-dir …</code></p>
+      <p class="lead">Widen layers, probes, or step budget, then re-run <code class="chip">python experiments/validate_training_geometry.py --run-dir …</code>.</p>
 
-      <h2>Misleading signal</h2>
+      <h2>How the signal moves</h2>
       <ul>
-        <li><strong>Small corpus overfit</strong> looks like structure. Geometry tracked the fine-tune; that is not general representation learning by itself.</li>
-        <li><strong>Late-layer collapse</strong> washes cross-feature gaps. Prefer mid layers for structure claims.</li>
+        <li><strong>Corpus scale.</strong> Short fine-tunes pack hard; geometry tracks that trajectory. Scale data for scale claims.</li>
+        <li><strong>Late-layer collapse.</strong> Cross-feature gaps shrink after spectral collapse. Read structure at mid layers; treat late collapse as a phase marker.</li>
         <li><strong>Bank relative.</strong> Location probes make location features look coherent. Freeze probes in the sidecar.</li>
-        <li><strong>Control train-bank ≠ held-out.</strong> Optimizing the control bank can look like success while held-out geometry barely follows. Run <code class="chip">validate_control_geometry.py</code>.</li>
-        <li><strong>Edit demos ≠ training claim.</strong> ROME / edit-time nudges show geometry moves when weights change. They are thin existence proofs.</li>
+        <li><strong>Control.</strong> Train-bank movement and held-out checks both matter. Run <code class="chip">validate_control_geometry.py</code>.</li>
+        <li><strong>Edits.</strong> Edit-time nudges move geometry when weights change; use them alongside the training loop, not instead of it.</li>
       </ul>
 
-      <h2>How to read a run</h2>
+      <h2>Standard read of a run</h2>
       <ol>
         <li>Loss + multi-layer plot first.</li>
-        <li>Ask which layer phase moved (collapse vs mild drift).</li>
+        <li>Note which layer phase moved (collapse vs mild drift).</li>
         <li>Diff selected features at mid layers.</li>
         <li>Run training validate; if control is on, run control validate + held-out claims.</li>
       </ol>

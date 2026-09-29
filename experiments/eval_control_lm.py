@@ -300,7 +300,7 @@ def main(argv: Optional[List[str]] = None) -> None:
         f"Δppl={v['delta_eval_ppl_control_minus_baseline']:+.4f})"
     )
     if v.get("train_win_eval_lose"):
-        print("  note: control better on train, not on eval — do not claim quality win")
+        print("  note: control better on train than on this eval split")
 
     out = args.out
     if out is None:

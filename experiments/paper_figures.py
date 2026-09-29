@@ -215,7 +215,7 @@ def table05_validation(val_path: Path) -> List[Path]:
     lines = [
         "# Table 5. Out-of-metric validation",
         "",
-        "Matched control vs baseline (seed 0). Success is not hitting geo_target alone.",
+        "Matched control vs baseline (seed 0). Out-of-metric validation suite.",
         "",
         "| Claim | Result | Detail |",
         "| --- | --- | --- |",

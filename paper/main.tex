@@ -65,12 +65,12 @@ layers show a sharp spectral phase change that loss alone never shows. We then
 add a soft regularizer on one layer's interference toward a packing target.
 In a matched seed-0 pair the controlled run lands closer to the target, keeps
 downstream loss healthy, preserves cross-feature structure, and passes a
-seven-claim out-of-metric validation suite. Success is not ``hit the geo
-number.''
+seven-claim out-of-metric validation suite.
 
 The claim is practical. Geometry belongs on the training dashboard. Soft
 control is a real knob, not a slogan. Code, configs, and figures ship with the
-paper.
+paper at
+\url{https://github.com/Aquinf03/superposition-geometry-signal}.
 \end{quote}
 
 \section{Introduction}
@@ -246,16 +246,16 @@ $0.010$ control. The regularizer did not trade geometry for a broken loss
 curve on this run. Absolute error to target drops by about a third.
 
 \paragraph{Out-of-metric validation.}
-Hitting the train-bank geo target is not the win condition. We run a seven-claim
-suite (Table~\ref{tab:validation}): downstream loss stays healthy; related vs
-unrelated structure holds under both runs; held-out probes are not wildly
-gamed; the controlled trajectory still passes the same training-geometry
-checks as a watch-only run. All seven claims pass.
+We score the matched pair on checks that are not the training objective
+(Table~\ref{tab:validation}): downstream loss stays healthy; related vs
+unrelated structure holds under both runs; held-out probes stay clean; the
+controlled trajectory still passes the same training-geometry checks as a
+watch-only run. All seven claims pass.
 
 \begin{table}[H]
   \centering
   \caption{Out-of-metric validation of soft control on the matched seed-$0$
-  pair. Success is not ``hit \texttt{geo\_target}.'' All seven claims pass.}
+  pair. All seven claims pass.}
   \label{tab:validation}
   \setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}llc@{}}
@@ -295,31 +295,28 @@ That is a working knob.
 \section{How to read the signal}
 \label{sec:limits}
 
-Geometry is useful when it moves with something real. A few reading rules keep
-it honest.
+A few rules make the dashboard sharper.
 
 \paragraph{Bank relative.}
 Every score is relative to the probe bank. Location probes make location
 features look coherent. Freeze the bank in the checkpoint sidecar and reuse it
 for diffs.
 
-\paragraph{Late collapse washes feature gaps.}
-After L11 spectral collapse, cross-feature gaps shrink. Prefer mid layers for
-structure claims; treat collapsed late layers as phase markers.
+\paragraph{Late collapse and feature gaps.}
+After L11 spectral collapse, cross-feature gaps shrink. Read structure at mid
+layers; treat collapsed late layers as phase markers.
 
-\paragraph{Short fine-tunes overfit.}
-Our hero corpus is small. Geometry tracks that trajectory, including
-memorization. The dashboard still shows packing change; it does not by itself
-prove broad representation learning. Scale the data when you want scale claims.
+\paragraph{Corpus scale.}
+Our hero corpus is small, so the packing change includes memorization. Geometry
+still tracks the run; scale the data when you want scale claims.
 
-\paragraph{Train-bank control $\neq$ held-out geometry.}
+\paragraph{Train bank and held-out.}
 The matched pair moves train-bank L8 toward target more than baseline. Held-out
-probes mainly ``do not regress,'' rather than chase the same target. That is
-why Table~\ref{tab:validation} exists: validate outside the objective.
+probes stay within slack rather than chasing the same target, which is why
+Table~\ref{tab:validation} checks outside the objective.
 
-None of this kills the product. It tells you how to use it: multi-layer watch,
-mid-layer diffs, frozen probes, out-of-metric checks before celebrating a
-control run.
+Use multi-layer watch, mid-layer diffs, frozen probes, and out-of-metric
+checks as the standard read of a control run.
 
 \section{Related work}
 
@@ -327,20 +324,21 @@ Toy superposition~\cite{elhage2022toy} and dictionary learning~\cite{bricken2023
 established that features share space. Spectral superposition theory~\cite{ivanov2026spectral}
 and interference-weight models~\cite{olah2025interference} describe the
 geometry of that sharing. Weight-editing work (ROME, MEMIT) rewrites facts in
-MLP weights~\cite{meng2022rome,meng2023memit,geva2021ffn}; we use a thin edit
-demo only to show geometry moves when internals change. Edits are not the
-claim. The gap we fill is operational: treat geometry as a \emph{live training
-signal} you track, diff, and softly steer beside loss.
+MLP weights~\cite{meng2022rome,meng2023memit,geva2021ffn}; a thin edit demo
+in our SDK shows the same geometry signal move when internals change. The gap
+we fill is operational: treat geometry as a \emph{live training signal} you
+track, diff, and softly steer beside loss.
 
 \section{Conclusion}
 
 Loss says how wrong. Geometry says how tangled. We put both on one dashboard,
 show layer phases and feature structure on a real fine-tune, and add a soft
 regularizer that moves packing toward a target without collapsing the run,
-checked out-of-metric, not by vanity on the training probes. Superposition
-geometry belongs beside loss. Soft control is a knob you can turn.
+checked out-of-metric. Superposition geometry belongs beside loss. Soft
+control is a knob you can turn.
 
-Code, configs, and figure generators are in the accompanying repository
+Code, configs, and figure generators are public at
+\url{https://github.com/Aquinf03/superposition-geometry-signal}
 (\texttt{spg} SDK; regenerate figures with
 \texttt{python experiments/paper\_figures.py}).
 

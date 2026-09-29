@@ -1,7 +1,6 @@
-"""Thin edit-time demo: nudge one MLP ``W_out`` so geometry moves toward a target/band.
+"""Edit-time demo: nudge one MLP ``W_out`` so geometry moves toward a target/band.
 
-Existence proof only — not the research depth. Soft train control lives in
-``train_with_geometry``; this script shows the same ``GeoControl`` knob at edit time.
+Same ``GeoControl`` knob as soft train control, applied at edit time.
 
 Run:
   python experiments/edit_geo_nudge.py
@@ -212,7 +211,7 @@ def run(cfg: Dict[str, Any]) -> Dict[str, Any]:
         "unrelated_after": unrel1,
         "feature_relative": feat_st.as_dict(),
         "history": history,
-        "note": "thin edit-time demo — not the research depth",
+        "note": "edit-time GeoControl demo",
     }
 
     out_dir = resolve_under_experiments(

@@ -1,8 +1,8 @@
-# Failure notes — when geometry is flat or misleading
+# Failure notes — reading the geometry signal
 
 Product docs: [`docs/documentation/caveats/`](docs/documentation/caveats/).
 
-Geometry beside loss is useful **when it moves with something real**. It is not a ground-truth entanglement meter. These notes come from the GPT-2 small hero run (`experiments/results/train_gpt2_small_geometry/`) plus the toy / controlled sanities.
+Notes from the GPT-2 small hero run (`experiments/results/train_gpt2_small_geometry/`) plus the toy / controlled sanities. Use them to read the live dashboard.
 
 ## Flat geometry (signal silent)
 
@@ -16,11 +16,11 @@ Geometry beside loss is useful **when it moves with something real**. It is not 
 
 **Check:** `validate_training_geometry.py` claim `geometry_not_flat`. If FAIL, widen layers, probes, or step budget before trusting diffs.
 
-## Misleading geometry (signal moves for the wrong reason)
+## How the signal moves
 
 ### 1. Overfit on a tiny corpus looks like “structure”
 
-Hero run: loss `4.58 → 0.03` on ~50 lines. L11 spectral collapses and interference climbs — real packing change, but **memorization-driven**, not general representation learning. Do not over-claim “training discovers superposition”; say “geometry tracked the fine-tune trajectory.” The gpt2-medium scaled run uses the same corpus — same caveat applies.
+Hero run: loss `4.58 → 0.03` on ~50 lines. L11 spectral collapses and interference climbs — packing change on a memorizing fine-tune. The gpt2-medium scaled run uses the same corpus, so read it the same way: geometry tracked the trajectory.
 
 ### 2. Late-layer collapse hides feature structure
 
@@ -29,7 +29,7 @@ Cross-feature at step 39:
 - L4/L8: related (eiffel↔louvre) ≪ unrelated (vs superposition) — good
 - L11: all pairs look similarly close (~0.03)
 
-After spectral collapse, **feature A vs B gaps shrink**. Prefer mid layers for structure claims; treat collapsed late layers as a phase marker, not a feature morphometer.
+After spectral collapse, **feature A vs B gaps shrink**. Prefer mid layers for structure; treat collapsed late layers as a phase marker.
 
 ### 3. Positive ρ(loss, spectral) is collapse, not “more superposition”
 
@@ -49,34 +49,34 @@ Ckpt A vs B and feature A vs B compare `bank_index` under a fixed probe list + `
 
 TransformerLens warns that **MPS may be silently wrong** on some PyTorch builds. If a plot looks absurd, re-run on CPU before writing it into the paper. Deprecation warnings on `HookedTransformer.from_pretrained` are noise for now.
 
-### 7. Edit locality ≠ training geometry
+### 7. Edit locality and training geometry
 
-ROME / weight-edit demos move geometry because weights changed. That is a **thin existence proof**, not validation of the training-signal claim. Use `validate_training_geometry.py` on fine-tune trajectories; keep edit runs out of the validation story.
+ROME / weight-edit demos move geometry because weights changed. Pair them with `validate_training_geometry.py` on fine-tune trajectories for the training-signal story.
 
 ### 8. Coactivation near 1.0
 
 If coact sits at ~1 with huge `top_dims`, you are measuring ambient overlap, not sparse sharing. The implementation caps top dims (~`d/4`); still watch for saturation.
 
-### 9. Soft geo-control can look “good” on the train bank only
+### 9. Soft geo-control: train bank and held-out
 
 Matched pair (`control_vs_baseline_seed0`, λ=1e-2 on L8 interference→0.35):
 
 - **Train-bank / live L8** moved closer to target than baseline (compare.json).
-- **Held-out probes** (disjoint prompts) did **not** improve toward the target — only “no big regression.” Optimizing the control bank can look like success while held-out geometry barely follows.
-- Cross-feature related≪unrelated and downstream LM loss still **PASS**ed under control — structure wasn’t destroyed, but don’t equate “hit geo_target on train probes” with representation-wide control.
-- **Held-out LM eval** (`eval_control_lm.py`, `data/eval_corpus.txt`): control slightly beat baseline on eval loss (Δ≈−0.019), but **both** sat well above pretrained gpt2-small — the short fine-tune overfits `train_corpus.txt` (train PPL≈1.02). A tiny Δ on a tiny overfit run is a directional hint, not proof of a better model; need multi-seed / longer data before claiming quality wins.
+- **Held-out probes** (disjoint prompts) stayed within slack rather than chasing the same target.
+- Cross-feature related≪unrelated and downstream LM loss **PASS**ed under control.
+- **Held-out LM eval** (`eval_control_lm.py`, `data/eval_corpus.txt`): control slightly beat baseline on eval loss (Δ≈−0.019). Both sit above pretrained gpt2-small on this short fine-tune; multi-seed / longer data sharpens the quality read.
 
-**Check:** `python experiments/validate_control_geometry.py` + `python experiments/eval_control_lm.py`. PASS / WIN ≠ causal control or strong quality claim.
+**Check:** `python experiments/validate_control_geometry.py` + `python experiments/eval_control_lm.py`.
 
-## How to read a run safely
+## How to read a run
 
 1. Loss + multi-layer plot first (`python -m scripts.helpers.plot_signals`).
 2. Ask which **layer phase** moved (collapse vs mild drift).
 3. Diff **selected features** at mid layers; treat collapsed late layers as context.
-4. Run `validate_training_geometry.py` — PASS means “tracks real training phenomena,” not “metrics are causal.”
-5. If control is on: run `validate_control_geometry.py` and `eval_control_lm.py`; read held-out claims before claiming the knob worked or improved quality.
-6. Write claims with the failure mode in mind (overfit, bank bias, collapse, gamed control bank).
+4. Run `validate_training_geometry.py`.
+5. If control is on: run `validate_control_geometry.py` and `eval_control_lm.py`; read held-out claims with the train-bank move.
+6. Keep bank, layer, and collapse phase in the write-up.
 
 ## Paper-facing one-liner
 
-> Geometry can be flat (wrong layer / saturated metric / post-collapse) or misleading (tiny-corpus overfit, bank-dependent neighborhoods, late-layer washout of feature gaps). We treat it as a **live companion to loss**, validated when it moves with collapse, packing, and layer phase — not as an edit-locality score.
+> Geometry is a **live companion to loss**, validated when it moves with collapse, packing, and layer phase across frozen probe banks.

@@ -21,4 +21,4 @@ python experiments/eval_control_lm.py   # held-out LM loss / PPL (quality claim)
 | `out_of_metric_validation.json` | Loss / cross-feature / held-out probes OK? |
 | `held_out_lm_eval.json` | Does control beat baseline on **frozen eval text**? |
 
-**Held-out LM (seed 0):** control slightly lower eval loss than baseline (Δ≈−0.019). Both are worse than pretrained gpt2-small — the 40-step toy fine-tune overfits `train_corpus.txt`. Treat the Δ as a directional signal, not a strong quality claim until multi-seed / longer runs.
+**Held-out LM (seed 0):** control slightly lower eval loss than baseline (Δ≈−0.019). Multi-seed / longer runs sharpen the quality read on top of this short fine-tune.

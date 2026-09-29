@@ -18,10 +18,8 @@ Same dashboard. Same cadence. Diff = what changed in the tangle for features you
 - SDK + optional 3D so anyone can watch it
 - conference paper on geometry-as-training-signal
 
-**Thin demo only (not the depth):**
-- one simple edit example showing geometry moves when weights change  
-- **not** multi-variant ROME research, not edit-algorithm papers
+**Also shipping:**
+- one simple edit example showing geometry moves when weights change
 
-**Out:**
-- deep weight-editing methods as the main claim
-- geometry-aware ROME variants as the project spine
+**Out of scope for this paper:**
+- multi-variant ROME / edit-algorithm research as the spine

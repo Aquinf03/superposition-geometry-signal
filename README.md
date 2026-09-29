@@ -10,7 +10,7 @@ Models pack more features than they have dimensions. That sharing is *superposit
 step=12  loss=0.41  |  geometry: interference=0.22  spectral=0.31  coact=0.09
 ```
 
-Weight editing is only a thin demo that geometry moves when internals change — **not** the research depth.
+Weight editing is a thin demo that geometry moves when internals change.
 
 ## Why it matters
 
@@ -26,7 +26,7 @@ Watching only loss misses how representation geometry is shifting while the mode
 
 **Superposition geometry belongs beside the loss curve as a training signal you track and diff.**
 
-**Docs:** [`docs/documentation/`](docs/documentation/) · Thesis: [`THESIS.md`](THESIS.md) · Paper: [`paper/`](paper/) · Caveats: [`failure_notes.md`](failure_notes.md) / [`docs/…/caveats/`](docs/documentation/caveats/)
+**Docs:** [`docs/documentation/`](docs/documentation/) · Thesis: [`THESIS.md`](THESIS.md) · Paper: [`paper/`](paper/) · Notes: [`failure_notes.md`](failure_notes.md) / [`docs/…/caveats/`](docs/documentation/caveats/)
 
 ## What we will do
 
@@ -92,7 +92,7 @@ python experiments/diff_features.py --config experiments/configs/train_gpt2_medi
 python experiments/validate_training_geometry.py --run-dir experiments/results/train_gpt2_medium_geometry
 ```
 
-### Thin demo (optional — not the research depth)
+### Thin demo (optional)
 
 ```bash
 python experiments/rome_edit.py --config experiments/configs/rome_gpt2_small.yaml
