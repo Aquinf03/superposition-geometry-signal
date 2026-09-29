@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Install · spg Docs</title>
+  <meta name="description" content="Install spg: Python ≥ 3.10, venv, pip install -e ., check_env." />
+  <link rel="icon" href="../../assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/docs.css" />
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="brand" href="../" title="Aquin Labs">
+        <img src="../../assets/mainlogo2.png" alt="" width="22" height="22" />
+        <span>Aquin<span class="brand-gap">Labs</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="../">Docs</a>
+        <a class="header-link" href="https://github.com/ashm/super" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+  <div class="docs-frame">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <nav>
+        <a class="nav-link" href="../">Getting started</a>
+        <a class="nav-link active" href="../install/">Install</a>
+        <a class="nav-link" href="../sdk/">SDK</a>
+        <a class="nav-link" href="../cli/">CLI reference</a>
+        <a class="nav-link" href="../metrics/">Metrics</a>
+        <a class="nav-link" href="../control/">Control</a>
+        <a class="nav-link" href="../caveats/">Caveats</a>
+      </nav>
+    </aside>
+    <main class="docs-main">
+      <h1>Install</h1>
+      <p class="lead">spg is a normal Python package at <code class="chip">sdk/spg/</code>. Editable install puts the <code class="chip">spg</code> CLI on your PATH.</p>
+      <div class="prereq"><span class="prereq-label">Prerequisite</span>Python ≥ 3.10 · pip · PyTorch</div>
+
+      <section class="tool" id="venv">
+        <h3 class="tool-cmd">venv + install</h3>
+        <p class="tool-desc">From the repo root. <code class="chip">requirements.txt</code> covers train deps; <code class="chip">pip install -e .</code> installs the SDK and CLI.</p>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>python -m venv .venv</span></span>
+<span class="line"><span class="prompt">$</span><span>source .venv/bin/activate</span></span>
+<span class="line"><span class="prompt">$</span><span>pip install -r requirements.txt</span></span>
+<span class="line"><span class="prompt">$</span><span>pip install -e .</span></span>
+<span class="line"><span class="prompt">$</span><span>python scripts/tests/check_env.py</span></span>
+<span class="line"><span class="prompt">$</span><span>spg --help</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="extras">
+        <h3 class="tool-cmd">Optional: TransformerLens / HF</h3>
+        <p class="tool-desc">Hero train / view on GPT-2 need TransformerLens and transformers. Install the full extra if you skipped them:</p>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>pip install -e ".[full]"</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="color">
+        <h3 class="tool-cmd">Live line color</h3>
+        <p class="tool-desc">TTY live lines use a small ANSI palette (teal geometry, rose control). Off with <code class="chip">NO_COLOR</code> or <code class="chip">SPG_COLOR=0</code>; force on with <code class="chip">SPG_COLOR=1</code>.</p>
+      </section>
+    </main>
+  </div>
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

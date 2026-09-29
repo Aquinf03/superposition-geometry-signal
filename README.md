@@ -26,7 +26,7 @@ Watching only loss misses how representation geometry is shifting while the mode
 
 **Superposition geometry belongs beside the loss curve as a training signal you track and diff.**
 
-See `THESIS.md`. Quickstart: `QUICKSTART.md`. Caveats: `failure_notes.md`. Future control: `CONTROL_GEO.md`.
+**Docs:** [`docs/documentation/`](docs/documentation/) · Thesis: [`THESIS.md`](THESIS.md) · Paper: [`paper/`](paper/) · Caveats: [`failure_notes.md`](failure_notes.md) / [`docs/…/caveats/`](docs/documentation/caveats/)
 
 ## What we will do
 
@@ -51,13 +51,14 @@ Gap: treat geometry as a **live training metric beside loss**, not only a post-h
 ## Repo layout
 
 ```
+docs/          # product docs (SDK + CLI)
+paper/         # LaTeX
+sdk/spg/       # Superposition Geometry package (pip install -e .)
 experiments/
   configs/     # run YAML
   data/        # corpora / fixtures
   results/     # signals, diffs, plots
   *.py         # train / diff / validate / demos
-paper/         # LaTeX
-sdk/spg/       # Superposition Geometry package (pip install -e .)
 scripts/
   helpers/     # shims → spg
   tests/       # sanities + env check
@@ -65,20 +66,15 @@ scripts/
 
 ## Setup
 
-Python **≥ 3.10**. PyTorch + TransformerLens (+ HF).
+Python **≥ 3.10**. PyTorch + TransformerLens (+ HF). Full install and API: **[`docs/documentation/install/`](docs/documentation/install/)**.
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-pip install -e .          # spg SDK (Tracker / Diff / plot / view + CLI)
+pip install -e .          # spg SDK + CLI
 python scripts/tests/check_env.py
-```
-
-```bash
-spg plot experiments/results/train_gpt2_small_geometry/signals.csv
-spg view --run-dir experiments/results/train_gpt2_small_geometry --open
-spg --help
+spg demo
 ```
 
 ### Hero — train with live geometry

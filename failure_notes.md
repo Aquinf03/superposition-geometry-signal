@@ -1,5 +1,7 @@
 # Failure notes — when geometry is flat or misleading
 
+Product docs: [`docs/documentation/caveats/`](docs/documentation/caveats/).
+
 Geometry beside loss is useful **when it moves with something real**. It is not a ground-truth entanglement meter. These notes come from the GPT-2 small hero run (`experiments/results/train_gpt2_small_geometry/`) plus the toy / controlled sanities.
 
 ## Flat geometry (signal silent)

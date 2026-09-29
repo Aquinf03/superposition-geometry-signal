@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CLI reference · spg Docs</title>
+  <meta name="description" content="spg CLI: track, diff, plot, view, demo, edit-demo." />
+  <link rel="icon" href="../../assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/docs.css" />
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="brand" href="../" title="Aquin Labs">
+        <img src="../../assets/mainlogo2.png" alt="" width="22" height="22" />
+        <span>Aquin<span class="brand-gap">Labs</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="../">Docs</a>
+        <a class="header-link" href="https://github.com/ashm/super" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+  <div class="docs-frame">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <nav>
+        <a class="nav-link" href="../">Getting started</a>
+        <a class="nav-link" href="../install/">Install</a>
+        <a class="nav-link" href="../sdk/">SDK</a>
+        <a class="nav-link active" href="../cli/">CLI reference</a>
+        <a class="nav-link" href="../metrics/">Metrics</a>
+        <a class="nav-link" href="../control/">Control</a>
+        <a class="nav-link" href="../caveats/">Caveats</a>
+      </nav>
+    </aside>
+    <main class="docs-main">
+      <h1>CLI reference</h1>
+      <p class="lead">Binary: <code class="chip">spg</code> (also <code class="chip">python -m spg</code>). After install, run <code class="chip">spg --help</code>.</p>
+      <div class="prereq"><span class="prereq-label">Prerequisite</span><code class="chip">pip install -e .</code> from the repo root</div>
+
+      <section class="tool" id="spg-track">
+        <h3 class="tool-cmd">spg track</h3>
+        <p class="tool-desc">Fine-tune with live loss | geometry. Optional soft control when the YAML has <code class="chip">control.enabled: true</code>.</p>
+        <div class="table-wrap mb">
+          <table>
+            <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td class="flag">-c, --config</td><td>Train YAML under <code class="chip">experiments/configs/</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>spg track --config experiments/configs/train_gpt2_small_geometry.yaml</span></span>
+<span class="line"><span class="prompt">$</span><span>spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml</span></span>
+<span class="line"><span class="prompt">$</span><span>spg track --config experiments/configs/train_gpt2_small_geometry_control_band.yaml</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="spg-diff">
+        <h3 class="tool-cmd">spg diff</h3>
+        <p class="tool-desc">Default: checkpoint A vs B geometry. With <code class="chip">--features</code>: cross-feature A vs B at one checkpoint.</p>
+        <div class="table-wrap mb">
+          <table>
+            <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td class="flag">-c, --config</td><td>Train / diff YAML.</td></tr>
+              <tr><td class="flag">--run-dir</td><td>Override results run directory.</td></tr>
+              <tr><td class="flag">--features</td><td>Cross-feature mode instead of ckpt A vs B.</td></tr>
+              <tr><td class="flag">--step-a / --step-b</td><td>Checkpoint steps (default mode).</td></tr>
+              <tr><td class="flag">--step</td><td>Checkpoint step for <code class="chip">--features</code>.</td></tr>
+              <tr><td class="flag">--pair A B</td><td>Feature pair for <code class="chip">--features</code> (repeatable).</td></tr>
+              <tr><td class="flag">--device</td><td>Device override.</td></tr>
+              <tr><td class="flag">--no-plots</td><td>Skip PNG writes.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>spg diff --config experiments/configs/train_gpt2_small_geometry.yaml</span></span>
+<span class="line"><span class="prompt">$</span><span>spg diff --features --config experiments/configs/train_gpt2_small_geometry.yaml</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="spg-plot">
+        <h3 class="tool-cmd">spg plot</h3>
+        <p class="tool-desc">Plot loss + geometry curves from <code class="chip">signals.csv</code>.</p>
+        <div class="table-wrap mb">
+          <table>
+            <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td class="flag">csv</td><td>Path to signals.csv (optional positional).</td></tr>
+              <tr><td class="flag">-o, --out</td><td>Output PNG path.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>spg plot experiments/results/train_gpt2_small_geometry/signals.csv</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="spg-view">
+        <h3 class="tool-cmd">spg view</h3>
+        <p class="tool-desc">Interactive HTML neighborhood scrubber for a run directory.</p>
+        <div class="table-wrap mb">
+          <table>
+            <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td class="flag">--run-dir</td><td>Run dir with signals.csv (+ optional diffs).</td></tr>
+              <tr><td class="flag">-o, --out</td><td>Output HTML (default <code class="chip">&lt;run-dir&gt;/neighborhood.html</code>).</td></tr>
+              <tr><td class="flag">--open</td><td>Open in the default browser.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>spg view --run-dir experiments/results/train_gpt2_small_geometry --open</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="spg-demo">
+        <h3 class="tool-cmd">spg demo</h3>
+        <p class="tool-desc">Toy GeoControl: point target, band, and feature-relative (no model). Alias: <code class="chip">spg control-demo</code>.</p>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>spg demo</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="spg-edit-demo">
+        <h3 class="tool-cmd">spg edit-demo</h3>
+        <p class="tool-desc">Thin edit-time geo nudge on one MLP <code class="chip">W_out</code>. Existence proof only, not the research depth.</p>
+        <div class="table-wrap mb">
+          <table>
+            <thead><tr><th>Flag</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td class="flag">-c, --config</td><td>Edit YAML (default <code class="chip">edit_geo_nudge.yaml</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>spg edit-demo</span></span></code></pre>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

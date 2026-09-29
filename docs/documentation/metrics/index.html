@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrics · spg Docs</title>
+  <meta name="description" content="Interference, spectral participation, coactivation. Multi-layer track columns and diffs." />
+  <link rel="icon" href="../../assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/docs.css" />
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="brand" href="../" title="Aquin Labs">
+        <img src="../../assets/mainlogo2.png" alt="" width="22" height="22" />
+        <span>Aquin<span class="brand-gap">Labs</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="../">Docs</a>
+        <a class="header-link" href="https://github.com/ashm/super" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+  <div class="docs-frame">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <nav>
+        <a class="nav-link" href="../">Getting started</a>
+        <a class="nav-link" href="../install/">Install</a>
+        <a class="nav-link" href="../sdk/">SDK</a>
+        <a class="nav-link" href="../cli/">CLI reference</a>
+        <a class="nav-link active" href="../metrics/">Metrics</a>
+        <a class="nav-link" href="../control/">Control</a>
+        <a class="nav-link" href="../caveats/">Caveats</a>
+      </nav>
+    </aside>
+    <main class="docs-main">
+      <h1>Metrics</h1>
+      <p class="lead">Logged every step beside <code class="chip">loss</code> as <code class="chip">geometry_*</code> columns in <code class="chip">signals.csv</code>. Live stdout shortens names (<code class="chip">interference</code>, <code class="chip">spectral</code>, <code class="chip">coact</code>).</p>
+
+      <section class="tool" id="interference">
+        <h3 class="tool-cmd">interference_mean</h3>
+        <p class="tool-desc">Mean absolute cosine similarity between the query and its top-k neighbors in the probe bank. High means the query sits near many other directions.</p>
+      </section>
+
+      <section class="tool" id="spectral">
+        <h3 class="tool-cmd">spectral_participation</h3>
+        <p class="tool-desc">How the query's energy spreads across eigenvectors of the neighbor covariance, normalized to [0, 1]. Near 0 is localized; near 1 is more superposition-like.</p>
+      </section>
+
+      <section class="tool" id="coact">
+        <h3 class="tool-cmd">coactivation_overlap</h3>
+        <p class="tool-desc">Average Jaccard overlap of top-activated coordinates between query and each neighbor (capped to roughly d/4 dims so dense vectors cannot trivially score 1).</p>
+      </section>
+
+      <h2>Multi-layer track</h2>
+      <p class="lead">Hero configs set <code class="chip">geometry.layers: [4, 8, 11]</code>. CSV columns look like <code class="chip">geometry_L8_interference_mean</code>. Checkpoints freeze a geometry sidecar next to every weight save so diffs reuse the same probes.</p>
+
+      <h2>Config knobs</h2>
+      <div class="table-wrap mb">
+        <table>
+          <thead><tr><th>Key</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td class="flag">geometry.layers</td><td>MLP-out layers to track.</td></tr>
+            <tr><td class="flag">geometry.every_n_steps</td><td>Log cadence.</td></tr>
+            <tr><td class="flag">geometry.top_k_neighbors</td><td>Neighbors for interference / coact.</td></tr>
+            <tr><td class="flag">geometry.bank_positions</td><td><code class="chip">all</code> or <code class="chip">last</code>.</td></tr>
+            <tr><td class="flag">geometry.probe_prompts</td><td>Optional probe bank override.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Diff</h2>
+      <p class="lead">Checkpoint diffs and cross-feature diffs live under the run dir (<code class="chip">diff_ckpt_*</code>, <code class="chip">diff_features_step_*</code>). Related location pairs should score closer than unrelated pairs at mid layers. Prefer mid layers after late-layer spectral collapse.</p>
+      <p class="lead">Longer notes: root <code class="chip">metrics.md</code>.</p>
+    </main>
+  </div>
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

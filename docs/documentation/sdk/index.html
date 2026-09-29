@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SDK · spg Docs</title>
+  <meta name="description" content="Python API: Tracker, Diff, plot, write_view_html, GeoControl, format_live_line." />
+  <link rel="icon" href="../../assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/docs.css" />
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="brand" href="../" title="Aquin Labs">
+        <img src="../../assets/mainlogo2.png" alt="" width="22" height="22" />
+        <span>Aquin<span class="brand-gap">Labs</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="../">Docs</a>
+        <a class="header-link" href="https://github.com/ashm/super" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+  <div class="docs-frame">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <nav>
+        <a class="nav-link" href="../">Getting started</a>
+        <a class="nav-link" href="../install/">Install</a>
+        <a class="nav-link active" href="../sdk/">SDK</a>
+        <a class="nav-link" href="../cli/">CLI reference</a>
+        <a class="nav-link" href="../metrics/">Metrics</a>
+        <a class="nav-link" href="../control/">Control</a>
+        <a class="nav-link" href="../caveats/">Caveats</a>
+      </nav>
+    </aside>
+    <main class="docs-main">
+      <h1>SDK</h1>
+      <p class="lead">Import from <code class="chip">spg</code>. Package source lives under <code class="chip">sdk/spg/</code>.</p>
+
+      <section class="tool" id="tracker">
+        <h3 class="tool-cmd">Tracker / SignalLogger</h3>
+        <p class="tool-desc">Append-only logger. Writes <code class="chip">signals.csv</code> + <code class="chip">meta.json</code> under <code class="chip">results_dir/run_name/</code>. With <code class="chip">live_print=True</code>, prints a live line each log.</p>
+        <div class="codeblock" data-shell="0">
+          <div class="codeblock-bar"><span>python</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span>from spg import Tracker</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>t = Tracker(results_dir="runs", run_name="demo", live_print=True)</span></span>
+<span class="line"><span>t.log(step=0, loss=1.2, geometry={</span></span>
+<span class="line"><span>    "interference_mean": 0.4,</span></span>
+<span class="line"><span>    "spectral_participation": 0.2,</span></span>
+<span class="line"><span>    "coactivation_overlap": 0.1,</span></span>
+<span class="line"><span>})</span></span>
+<span class="line"><span># multi-layer keys also work: geometry_L8_interference_mean or L8_interference_mean</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="diff">
+        <h3 class="tool-cmd">Diff</h3>
+        <p class="tool-desc">Snapshot a query against a neighbor bank, then compare two snapshots. Summary score is lower when neighborhoods are closer.</p>
+        <div class="codeblock" data-shell="0">
+          <div class="codeblock-bar"><span>python</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span>from spg import Diff</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>a = Diff.snapshot(query_a, bank, feature_id="eiffel", step=19)</span></span>
+<span class="line"><span>b = Diff.snapshot(query_b, bank, feature_id="louvre", step=39)</span></span>
+<span class="line"><span>d = Diff.compare(a, b)</span></span>
+<span class="line"><span>print(d["summary_score"])</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="plot-view">
+        <h3 class="tool-cmd">plot · write_view_html</h3>
+        <p class="tool-desc"><code class="chip">plot(csv)</code> writes a loss + geometry PNG. <code class="chip">write_view_html(run_dir)</code> builds an interactive neighborhood scrubber.</p>
+        <div class="codeblock" data-shell="0">
+          <div class="codeblock-bar"><span>python</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span>from spg import plot, write_view_html</span></span>
+<span class="line"><span>from pathlib import Path</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>plot("runs/demo/signals.csv")</span></span>
+<span class="line"><span>write_view_html(Path("experiments/results/train_gpt2_small_geometry"))</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="geocontrol">
+        <h3 class="tool-cmd">GeoControl</h3>
+        <p class="tool-desc">Soft regularizer. Off by default. Point target or band; add <code class="chip">penalty_on_value(metric_t)</code> to the LM loss after warmup. See <a href="../control/">Control</a>.</p>
+        <div class="codeblock" data-shell="0">
+          <div class="codeblock-bar"><span>python</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span>from spg import GeoControl, format_control_line</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>control = GeoControl(</span></span>
+<span class="line"><span>    layer=8, metric="interference_mean",</span></span>
+<span class="line"><span>    target=0.35, weight=1e-2, enabled=True,</span></span>
+<span class="line"><span>)</span></span>
+<span class="line"><span># loss = lm_loss + control.penalty_on_value(metric_t)</span></span>
+<span class="line"><span>print(format_control_line(step=t, loss=float(lm_loss),</span></span>
+<span class="line"><span>                          geometry=geometry, control=control.status(geometry)))</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="exports">
+        <h3 class="tool-cmd">Public exports</h3>
+        <p class="tool-desc">Also available: <code class="chip">FeatureRelativeControl</code>, <code class="chip">collect_mlp_out_bank</code>, <code class="chip">compute_geometry_metrics</code>, <code class="chip">mean_interference_tensor</code>, <code class="chip">set_seed</code>, <code class="chip">tui</code>.</p>
+      </section>
+    </main>
+  </div>
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Getting started · spg Docs</title>
+  <meta name="description" content="Superposition Geometry as a live training signal beside loss. Track, diff, plot, optionally control packing." />
+  <link rel="icon" href="../assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/docs.css" />
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="brand" href="./" title="Aquin Labs">
+        <img src="../assets/mainlogo2.png" alt="" width="22" height="22" />
+        <span>Aquin<span class="brand-gap">Labs</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="./">Docs</a>
+        <a class="header-link" href="https://github.com/ashm/super" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+  <div class="docs-frame">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <nav>
+        <a class="nav-link active" href="./">Getting started</a>
+        <a class="nav-link" href="install/">Install</a>
+        <a class="nav-link" href="sdk/">SDK</a>
+        <a class="nav-link" href="cli/">CLI reference</a>
+        <a class="nav-link" href="metrics/">Metrics</a>
+        <a class="nav-link" href="control/">Control</a>
+        <a class="nav-link" href="caveats/">Caveats</a>
+      </nav>
+    </aside>
+    <main class="docs-main"><article>
+  <h1 class="hero">Getting started</h1>
+  <p class="lead"><strong>spg</strong> treats superposition geometry like loss: a live signal you print every step, diff for selected features, plot beside the loss curve, and optionally steer with a soft regularizer.</p>
+
+  <h2>How the pieces fit</h2>
+  <div class="table-wrap mb">
+    <table class="plain">
+      <thead><tr><th>Name</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">spg</td><td>Python package + CLI (<code class="chip">pip install -e .</code>).</td></tr>
+        <tr><td class="mono">Tracker</td><td>Logs <code class="chip">step / loss / geometry_*</code> to <code class="chip">signals.csv</code> and prints a live line.</td></tr>
+        <tr><td class="mono">Diff</td><td>Compare feature neighborhoods across steps or pairs.</td></tr>
+        <tr><td class="mono">GeoControl</td><td>Opt-in soft regularizer on one layer + metric toward a target or band.</td></tr>
+        <tr><td class="mono">spg track</td><td>Hero fine-tune loop with live geometry (and optional control).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>SDK (few lines)</h2>
+  <div class="codeblock" data-shell="1">
+  <div class="codeblock-bar">
+    <span>shell</span>
+    <button type="button" class="copy-btn">Copy</button>
+  </div>
+  <pre><code><span class="line"><span class="prompt">$</span><span>pip install -e .</span></span></code></pre>
+  </div>
+  <div class="codeblock" data-shell="0">
+  <div class="codeblock-bar">
+    <span>python</span>
+    <button type="button" class="copy-btn">Copy</button>
+  </div>
+  <pre><code><span class="line"><span>from spg import Tracker, Diff, plot</span></span>
+<span class="line"><span>import torch</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>t = Tracker(results_dir="runs", run_name="quickstart", live_print=True)</span></span>
+<span class="line"><span>q0, q1 = torch.randn(32), torch.randn(32)</span></span>
+<span class="line"><span>bank = torch.randn(64, 32)</span></span>
+<span class="line"><span>for step, (loss, q) in enumerate([(1.2, q0), (0.8, q1)]):</span></span>
+<span class="line"><span>    snap = Diff.snapshot(q, bank, feature_id="demo", step=step)</span></span>
+<span class="line"><span>    t.log(step=step, loss=loss, geometry=snap["metrics"])</span></span>
+<span class="line"><span>d = Diff.compare(</span></span>
+<span class="line"><span>    Diff.snapshot(q0, bank, feature_id="t0"),</span></span>
+<span class="line"><span>    Diff.snapshot(q1, bank, feature_id="t1"),</span></span>
+<span class="line"><span>)</span></span>
+<span class="line"><span>print("Δ summary", round(d["summary_score"], 4))</span></span>
+<span class="line"><span>plot(t.csv_path)</span></span></code></pre>
+  </div>
+  <p class="lead">That is the loop: <strong>Tracker</strong> logs live <code class="chip">loss | geometry</code>, <strong>Diff</strong> compares neighborhoods, <strong>plot</strong> draws the curves. Soft control is opt-in via <code class="chip">GeoControl</code> (see <a href="control/">Control</a>).</p>
+
+  <h2>CLI</h2>
+  <div class="codeblock" data-shell="1">
+  <div class="codeblock-bar">
+    <span>shell</span>
+    <button type="button" class="copy-btn">Copy</button>
+  </div>
+  <pre><code><span class="line"><span class="prompt">$</span><span>spg demo</span></span>
+<span class="line"><span class="prompt">$</span><span>spg plot experiments/results/train_gpt2_small_geometry/signals.csv</span></span>
+<span class="line"><span class="prompt">$</span><span>spg view --run-dir experiments/results/train_gpt2_small_geometry --open</span></span>
+<span class="line"><span class="prompt">$</span><span>spg track --config experiments/configs/train_gpt2_small_geometry.yaml</span></span>
+<span class="line"><span class="prompt">$</span><span>spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml</span></span></code></pre>
+  </div>
+
+  <h2>Next</h2>
+  <ul>
+    <li><a href="install/">Install</a> — venv, deps, env check</li>
+    <li><a href="sdk/">SDK</a> — Tracker, Diff, plot, view, GeoControl</li>
+    <li><a href="cli/">CLI reference</a> — every <code class="chip">spg</code> command</li>
+    <li><a href="caveats/">Caveats</a> — when the signal is flat or misleading</li>
+  </ul>
+    </article></main>
+  </div>
+  <script src="../assets/docs.js"></script>
+</body>
+</html>

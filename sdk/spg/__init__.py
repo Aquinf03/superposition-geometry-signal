@@ -1,16 +1,6 @@
 """spg — Superposition Geometry as a live training signal beside loss.
 
-Quickstart::
-
-    from spg import Tracker, Diff, plot, GeoControl
-
-    tracker = Tracker(results_dir="runs", run_name="demo", live_print=True)
-    tracker.log(step=0, loss=1.2, geometry={
-        "interference_mean": 0.4,
-        "spectral_participation": 0.2,
-        "coactivation_overlap": 0.1,
-    })
-    plot(tracker.csv_path)
+Docs: docs/documentation/
 """
 
 from __future__ import annotations

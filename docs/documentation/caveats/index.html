@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Caveats · spg Docs</title>
+  <meta name="description" content="When geometry is flat or misleading: bank bias, late collapse, overfit, gamed control bank." />
+  <link rel="icon" href="../../assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/docs.css" />
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="brand" href="../" title="Aquin Labs">
+        <img src="../../assets/mainlogo2.png" alt="" width="22" height="22" />
+        <span>Aquin<span class="brand-gap">Labs</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="../">Docs</a>
+        <a class="header-link" href="https://github.com/ashm/super" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+  <div class="docs-frame">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <nav>
+        <a class="nav-link" href="../">Getting started</a>
+        <a class="nav-link" href="../install/">Install</a>
+        <a class="nav-link" href="../sdk/">SDK</a>
+        <a class="nav-link" href="../cli/">CLI reference</a>
+        <a class="nav-link" href="../metrics/">Metrics</a>
+        <a class="nav-link" href="../control/">Control</a>
+        <a class="nav-link active" href="../caveats/">Caveats</a>
+      </nav>
+    </aside>
+    <main class="docs-main">
+      <h1>Caveats</h1>
+      <p class="lead">Geometry beside loss is useful when it moves with something real. It is not a ground-truth entanglement meter. Full notes: root <code class="chip">failure_notes.md</code>.</p>
+
+      <h2>Flat signal</h2>
+      <div class="table-wrap mb">
+        <table>
+          <thead><tr><th>Situation</th><th>What you see</th></tr></thead>
+          <tbody>
+            <tr><td>Wrong / inactive layer</td><td>Curves barely twitch while loss falls.</td></tr>
+            <tr><td>Coarse cadence</td><td>Sparse points look constant.</td></tr>
+            <tr><td>Tiny / saturated bank</td><td>Metrics stuck near floor or ceiling.</td></tr>
+            <tr><td>Already-collapsed regime</td><td>Late spectral ≈ 0 and stays there.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="lead">Check: <code class="chip">python experiments/validate_training_geometry.py --run-dir …</code></p>
+
+      <h2>Misleading signal</h2>
+      <ul>
+        <li><strong>Small corpus overfit</strong> looks like structure. Geometry tracked the fine-tune; that is not general representation learning by itself.</li>
+        <li><strong>Late-layer collapse</strong> washes cross-feature gaps. Prefer mid layers for structure claims.</li>
+        <li><strong>Bank relative.</strong> Location probes make location features look coherent. Freeze probes in the sidecar.</li>
+        <li><strong>Control train-bank ≠ held-out.</strong> Optimizing the control bank can look like success while held-out geometry barely follows. Run <code class="chip">validate_control_geometry.py</code>.</li>
+        <li><strong>Edit demos ≠ training claim.</strong> ROME / edit-time nudges show geometry moves when weights change. They are thin existence proofs.</li>
+      </ul>
+
+      <h2>How to read a run</h2>
+      <ol>
+        <li>Loss + multi-layer plot first.</li>
+        <li>Ask which layer phase moved (collapse vs mild drift).</li>
+        <li>Diff selected features at mid layers.</li>
+        <li>Run training validate; if control is on, run control validate + held-out claims.</li>
+      </ol>
+    </main>
+  </div>
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>

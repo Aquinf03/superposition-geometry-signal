@@ -1,5 +1,7 @@
 # Geometry metrics (track signal)
 
+Product docs: [`docs/documentation/metrics/`](docs/documentation/metrics/).
+
 Logged every step beside `loss` as `geometry_*` columns in `experiments/results/<run>/signals.csv`.
 
 Query vector (ROME baseline): current MLP output at the edit subject position, `v + δ`, during `v` optimization.

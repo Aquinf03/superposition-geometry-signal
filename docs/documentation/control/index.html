@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Control · spg Docs</title>
+  <meta name="description" content="Soft GeoControl: point target, band, feature-relative. Out-of-metric validation." />
+  <link rel="icon" href="../../assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/docs.css" />
+</head>
+<body>
+  <header class="docs-header">
+    <div class="docs-header-inner">
+      <a class="brand" href="../" title="Aquin Labs">
+        <img src="../../assets/mainlogo2.png" alt="" width="22" height="22" />
+        <span>Aquin<span class="brand-gap">Labs</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="../">Docs</a>
+        <a class="header-link" href="https://github.com/ashm/super" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </header>
+  <div class="docs-frame">
+    <aside class="docs-sidebar" aria-label="Documentation">
+      <nav>
+        <a class="nav-link" href="../">Getting started</a>
+        <a class="nav-link" href="../install/">Install</a>
+        <a class="nav-link" href="../sdk/">SDK</a>
+        <a class="nav-link" href="../cli/">CLI reference</a>
+        <a class="nav-link" href="../metrics/">Metrics</a>
+        <a class="nav-link active" href="../control/">Control</a>
+        <a class="nav-link" href="../caveats/">Caveats</a>
+      </nav>
+    </aside>
+    <main class="docs-main">
+      <h1>Control</h1>
+      <p class="lead">Loss has a knob. Geometry gets one too: push packing toward a target while you train. Control is <strong>off by default</strong>.</p>
+
+      <h2>Modes</h2>
+      <div class="table-wrap mb">
+        <table class="plain">
+          <thead><tr><th>Mode</th><th>Mechanism</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">point</td><td><code class="chip">λ · (metric − target)²</code></td><td>Aim L8 interference at 0.35</td></tr>
+            <tr><td class="mono">band</td><td>Hinge outside <code class="chip">[lo, hi]</code></td><td>Stabilize packing while fine-tuning</td></tr>
+            <tr><td class="mono">feature-relative</td><td>Shrink related Δ, keep unrelated above a margin</td><td>Structure the tangle, not just scalars</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section class="tool" id="api">
+        <h3 class="tool-cmd">GeoControl API</h3>
+        <p class="tool-desc">Start with one layer, one metric, one λ. Warmup logs geometry with λ=0, then arms the regularizer.</p>
+        <div class="codeblock" data-shell="0">
+          <div class="codeblock-bar"><span>python</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span>from spg import GeoControl, FeatureRelativeControl, format_control_line</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>control = GeoControl(</span></span>
+<span class="line"><span>    layer=8, metric="interference_mean",</span></span>
+<span class="line"><span>    target=0.35, weight=1e-2, enabled=True,</span></span>
+<span class="line"><span>)</span></span>
+<span class="line"><span>band = GeoControl(</span></span>
+<span class="line"><span>    layer=8, metric="interference_mean",</span></span>
+<span class="line"><span>    mode="band", lo=0.30, hi=0.40,</span></span>
+<span class="line"><span>    weight=1e-2, enabled=True,</span></span>
+<span class="line"><span>)</span></span>
+<span class="line"><span># loss = lm_loss + control.penalty_on_value(metric_t)</span></span></code></pre>
+        </div>
+      </section>
+
+      <section class="tool" id="cli">
+        <h3 class="tool-cmd">Try it</h3>
+        <div class="codeblock" data-shell="1">
+          <div class="codeblock-bar"><span>example</span><button type="button" class="copy-btn">Copy</button></div>
+          <pre><code><span class="line"><span class="prompt">$</span><span>spg demo</span></span>
+<span class="line"><span class="prompt">$</span><span>spg track --config experiments/configs/train_gpt2_small_geometry_control.yaml</span></span>
+<span class="line"><span class="prompt">$</span><span>python experiments/validate_control_geometry.py</span></span></code></pre>
+        </div>
+      </section>
+
+      <h2>Validate out-of-metric</h2>
+      <p class="lead">Hitting the train-bank geo target is not success. Matched baseline vs control should keep downstream loss healthy, preserve related ≪ unrelated structure, and not wildly game held-out probes. See <code class="chip">experiments/results/control_vs_baseline_seed0/</code> and the paper table in <code class="chip">paper/figures/table05_validation.md</code>.</p>
+
+      <h2>Rails</h2>
+      <ul>
+        <li>Always log loss and geometry live; control must not hide the watch dashboard.</li>
+        <li>Freeze probe bank + layers in the run config.</li>
+        <li>Warmup before arming; abort if the signal is flat.</li>
+        <li>Train-bank movement ≠ held-out geometry. Read held-out claims before celebrating.</li>
+      </ul>
+    </main>
+  </div>
+  <script src="../../assets/docs.js"></script>
+</body>
+</html>
