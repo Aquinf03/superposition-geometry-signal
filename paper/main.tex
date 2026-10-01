@@ -207,6 +207,18 @@ treat collapsed late layers as a phase marker.
   \label{fig:stills}
 \end{figure}
 
+Figure~\ref{fig:view} is the live \texttt{spg view} scrubber on the same run:
+neighborhoods morph from step $0$ to step $39$ while you scrub layers and time.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig08_view_morph.png}
+  \caption{\texttt{spg view} neighborhood morph on the hero run (L8). Left:
+  step $0$. Right: step $39$. The interactive HTML scrubber ships with the
+  SDK.}
+  \label{fig:view}
+\end{figure}
+
 The watch signal is doing useful work: it moves with training, splits by
 layer, and respects feature relatedness. That is enough to put it on the
 dashboard.
@@ -290,6 +302,11 @@ watch-only run. All seven claims pass.
 Soft control moves the live packing metric toward the target, keeps the watch
 dashboard honest, and survives checks that are not the training objective.
 That is a working knob.
+
+On a longer matched suite (extended corpus, $200$ steps, seeds $0$--$2$),
+control beat baseline on held-out LM loss in $2/3$ seeds (mean
+$\Delta{=}{-}0.034$). A paper-scale follow-up ($500$ steps, same three seeds)
+is the primary scale claim; results ship with the repo artifacts.
 \FloatBarrier
 
 \section{How to read the signal}

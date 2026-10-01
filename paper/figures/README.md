@@ -26,6 +26,7 @@ Outputs: **white-background PNG only** (no PDF). Plain labeled axes; no Fig-N ba
 | `table05_validation.md` (+ `.csv`) | Out-of-metric PASS/FAIL **table** |
 | `fig06_matched_pair.png` | Three-card compare (loss / L8 / err) |
 | `fig07_neighborhood_stills.png` | Related vs unrelated scrubber stills |
+| `fig08_view_morph.png` | Live `spg view` morph (step 0 → 39) |
 | `archive_*_dashboard.png` | Raw `spg plot` exports |
 
 ## Captions (draft)
@@ -43,3 +44,5 @@ Outputs: **white-background PNG only** (no PDF). Plain labeled axes; no Fig-N ba
 **Figure 6.** Summary cards for the matched pair: final loss, L8 interference, and absolute error to the packing target.
 
 **Figure 7.** Neighborhood stills at step 39, L8: related feature pair (left) versus unrelated pair (right).
+
+**Figure 8.** `spg view` live neighborhood morph (step 0 → step 39) from the interactive HTML scrubber.
