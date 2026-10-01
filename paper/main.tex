@@ -162,60 +162,61 @@ That is the whole loop: watch, diff, optionally steer, validate.
 \section{What the watch shows}
 \label{sec:watch}
 
-We fine-tune gpt2-small for $40$ steps on a small factual corpus (seed $0$),
-tracking layers $4$, $8$, and $11$. Loss falls from about $4.58$ to
-$0.029$. Geometry does not sit still while that happens.
+We fine-tune gpt2-small for $500$ steps on an extended factual corpus
+(seed $0$), tracking layers $4$, $8$, and $11$. Loss falls from about
+$5.16$ to $0.0014$. Geometry does not sit still while that happens.
 
 \subsection{Layers disagree on purpose}
 
 Figure~\ref{fig:phase} plots spectral participation by layer. Late layer $11$
-collapses mid-run: energy concentrates, and that phase change is invisible if
-you only plot loss. Mid layers drift differently. The dashboard's job is
-exactly this: show that training is not one curve.
+swings early then settles on a different path from the mid layers, a phase
+pattern invisible if you only plot loss. Mid layers drift differently from
+each other too. The dashboard's job is exactly this: show that training is
+not one curve.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.92\linewidth]{figures/fig03_layer_phase.png}
-  \caption{Spectral participation by layer. L11 collapses mid-run: a
-  geometric phase change you would miss on a loss-only plot.}
+  \caption{Spectral participation by layer over the $500$-step run. Layers
+  disagree on timing and direction; a loss-only plot would miss that.}
   \label{fig:phase}
 \end{figure}
 
 \subsection{Related stays closer than unrelated}
 
-At step $39$, cross-feature neighborhood deltas at mid layers separate cleanly
-(Figure~\ref{fig:cross}): related location features score about $0.016$ apart;
-an unrelated pair sits near $0.27$.
+At step $499$, cross-feature neighborhood deltas at mid layers separate cleanly
+(Figure~\ref{fig:cross}): related location features score about $0.027$ apart;
+an unrelated pair sits near $0.214$.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.92\linewidth]{figures/fig04_cross_feature.png}
-  \caption{Cross-feature neighborhood deltas at mid layers. Related location
-  features stay far closer than unrelated pairs.}
+  \caption{Cross-feature neighborhood deltas at mid layers (step $499$).
+  Related location features stay far closer than unrelated pairs.}
   \label{fig:cross}
 \end{figure}
 
-Figure~\ref{fig:stills} shows the same contrast as neighborhood stills. After
-late-layer collapse the gaps shrink, so we read structure at mid layers and
-treat collapsed late layers as a phase marker.
+Figure~\ref{fig:stills} shows the same contrast as neighborhood stills. We
+read structure at mid layers; late-layer spectra are treated as a phase
+marker rather than the place to score relatedness.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/fig07_neighborhood_stills.png}
-  \caption{Neighborhood stills at step $39$, L8: related feature pair (left)
+  \caption{Neighborhood stills at step $499$, L8: related feature pair (left)
   versus unrelated pair (right).}
   \label{fig:stills}
 \end{figure}
 
 Figure~\ref{fig:view} is the live \texttt{spg view} scrubber on the same run:
-neighborhoods morph from step $0$ to step $39$ while you scrub layers and time.
+neighborhoods morph from step $0$ to step $495$ while you scrub layers and time.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/fig08_view_morph.png}
-  \caption{\texttt{spg view} neighborhood morph on the hero run (L8). Left:
-  step $0$. Right: step $39$. The interactive HTML scrubber ships with the
-  SDK.}
+  \caption{\texttt{spg view} neighborhood morph on the paper-scale run (L8).
+  Left: step $0$. Right: step $495$. The interactive HTML scrubber ships with
+  the SDK.}
   \label{fig:view}
 \end{figure}
 
@@ -229,15 +230,15 @@ dashboard.
 
 Watching is half the product. The other half is control. We match seed, corpus,
 model, steps, and learning rate, then enable a soft regularizer on L8
-interference toward $m^\star{=}0.35$ with $\lambda{=}10^{-2}$ and five warmup
+interference toward $m^\star{=}0.35$ with $\lambda{=}10^{-2}$ and $25$ warmup
 steps (Figure~\ref{fig:control}).
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/fig02_control_vs_baseline.png}
-  \caption{Matched control vs baseline (seed $0$). Soft regularizer on L8
-  interference toward $0.35$ after warmup; control ends closer to the packing
-  target without collapsing loss.}
+  \caption{Matched control vs baseline (seed $0$, $500$ steps). Soft
+  regularizer on L8 interference toward $0.35$ after warmup; control ends
+  closer to the packing target without collapsing loss.}
   \label{fig:control}
 \end{figure}
 
@@ -252,10 +253,10 @@ Figure~\ref{fig:cards} summarizes the same pair as three cards.
 \end{figure}
 
 \paragraph{Headline numbers.}
-Baseline ends at L8 interference $0.456$ (error $0.106$ to target). Control
-ends at $0.419$ (error $0.069$). Final LM loss is $0.029$ baseline vs
-$0.010$ control. The regularizer did not trade geometry for a broken loss
-curve on this run. Absolute error to target drops by about a third.
+Baseline ends at L8 interference $0.333$ (error $0.017$ to target). Control
+ends at $0.344$ (error $0.006$). Final LM loss is $0.0014$ baseline vs
+$0.0009$ control. The regularizer did not trade geometry for a broken loss
+curve on this run. Absolute error to target drops by about two thirds.
 
 \paragraph{Out-of-metric validation.}
 We score the matched pair on checks that are not the training objective
@@ -267,7 +268,7 @@ watch-only run. All seven claims pass.
 \begin{table}[H]
   \centering
   \caption{Out-of-metric validation of soft control on the matched seed-$0$
-  pair. All seven claims pass.}
+  $500$-step pair. All seven claims pass.}
   \label{tab:validation}
   \setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}llc@{}}
@@ -275,13 +276,13 @@ watch-only run. All seven claims pass.
     Claim & Detail & Result \\
     \midrule
     Downstream loss &
-      control $0.010$ vs baseline $0.029$ (slack $0.05$) &
+      control $0.0009$ vs baseline $0.0014$ (slack $0.05$) &
       \textbf{PASS} \\
     Cross-feature (baseline) &
-      related $0.016 < 0.5\times$ unrelated $0.273$ &
+      related $0.027 < 0.5\times$ unrelated $0.214$ &
       \textbf{PASS} \\
     Cross-feature (control) &
-      related $0.010 < 0.5\times$ unrelated $0.259$ &
+      related $0.028 < 0.5\times$ unrelated $0.233$ &
       \textbf{PASS} \\
     Structure preserved &
       control still separates related vs unrelated &
@@ -303,10 +304,31 @@ Soft control moves the live packing metric toward the target, keeps the watch
 dashboard honest, and survives checks that are not the training objective.
 That is a working knob.
 
-On a longer matched suite (extended corpus, $200$ steps, seeds $0$--$2$),
+\paragraph{Multi-seed scale.}
+On a shorter matched suite (same extended corpus, $200$ steps, seeds $0$--$2$),
 control beat baseline on held-out LM loss in $2/3$ seeds (mean
-$\Delta{=}{-}0.034$). A paper-scale follow-up ($500$ steps, same three seeds)
-is the primary scale claim; results ship with the repo artifacts.
+$\Delta{=}{-}0.034$). At the paper-scale horizon ($500$ steps, same seeds),
+control wins $1/3$ seeds (mean $\Delta{=}{+}0.023$): seed $1$ improves
+held-out loss by $0.154$, seed $2$ is flat ($+0.002$), and seed $0$
+regresses by $0.222$ (Table~\ref{tab:scale}). Soft control remains a
+usable knob at mid length; the $500$-step horizon is seed-sensitive on
+this corpus.
+
+\begin{table}[H]
+  \centering
+  \caption{Held-out LM loss: control minus baseline. Negative $\Delta$ means
+  control wins. Extended corpus; gpt2-small; matched LR and seed.}
+  \label{tab:scale}
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{@{}cccccc@{}}
+    \toprule
+    Steps & Seed $0$ & Seed $1$ & Seed $2$ & Wins & Mean $\Delta$ \\
+    \midrule
+    $200$ & $+0.003$ & $-0.073$ & $-0.031$ & $2/3$ & $-0.034$ \\
+    $500$ & $+0.222$ & $-0.154$ & $+0.002$ & $1/3$ & $+0.023$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 \FloatBarrier
 
 \section{How to read the signal}
@@ -319,13 +341,14 @@ Every score is relative to the probe bank. Location probes make location
 features look coherent. Freeze the bank in the checkpoint sidecar and reuse it
 for diffs.
 
-\paragraph{Late collapse and feature gaps.}
-After L11 spectral collapse, cross-feature gaps shrink. Read structure at mid
-layers; treat collapsed late layers as phase markers.
+\paragraph{Late layers and feature gaps.}
+Late-layer spectra can swing harder than mid layers. Read relatedness at mid
+layers; treat late-layer spectra as phase markers.
 
 \paragraph{Corpus scale.}
-Our hero corpus is small, so the packing change includes memorization. Geometry
-still tracks the run; scale the data when you want scale claims.
+The $500$-step extended corpus still admits memorization relative to public
+pretraining corpora. Geometry still tracks the run
+(Table~\ref{tab:scale}); larger public corpora are the next measurement step.
 
 \paragraph{Train bank and held-out.}
 The matched pair moves train-bank L8 toward target more than baseline. Held-out

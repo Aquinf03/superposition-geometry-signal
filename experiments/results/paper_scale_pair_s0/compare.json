@@ -1,0 +1,69 @@
+{
+  "baseline": {
+    "run_dir": "experiments/results/train_gpt2_small_geometry_paper_s0",
+    "run_name": "train_gpt2_small_geometry_paper_s0",
+    "seed": 0,
+    "model": "gpt2-small",
+    "control_cfg": {
+      "enabled": false
+    },
+    "n_steps": 100,
+    "loss_first": 5.15617036819458,
+    "loss_last": 0.0013862531632184982,
+    "L8_interference_first": 0.5170501073201498,
+    "L8_interference_last": 0.3327331952750683,
+    "L8_interference_min": 0.31359980007012683,
+    "L4_interference_last": 0.3616045539577802,
+    "L11_interference_last": 0.385313684741656,
+    "control_current_last": null,
+    "control_penalty_last": null,
+    "control_phases": [],
+    "armed_steps": 0,
+    "warmup_steps": 0
+  },
+  "control": {
+    "run_dir": "experiments/results/train_gpt2_small_geometry_paper_control_s0",
+    "run_name": "train_gpt2_small_geometry_paper_control_s0",
+    "seed": 0,
+    "model": "gpt2-small",
+    "control_cfg": {
+      "enabled": true,
+      "layer": 8,
+      "metric": "interference_mean",
+      "mode": "point",
+      "target": 0.35,
+      "weight": 0.01,
+      "every_n_steps": 5,
+      "warmup_steps": 25,
+      "abort_on_warmup_fail": true,
+      "abort_on_warn": false
+    },
+    "n_steps": 100,
+    "loss_first": 5.15617036819458,
+    "loss_last": 0.000893194752279669,
+    "L8_interference_first": 0.5170501073201498,
+    "L8_interference_last": 0.34371067583560944,
+    "L8_interference_min": 0.32022394115726155,
+    "L4_interference_last": 0.38334042578935623,
+    "L11_interference_last": 0.4259909677008788,
+    "control_current_last": 0.34242913126945496,
+    "control_penalty_last": 5.73179647744837e-07,
+    "control_phases": [
+      "active",
+      "warmup"
+    ],
+    "armed_steps": 95,
+    "warmup_steps": 5
+  },
+  "compare": {
+    "matched_seed": true,
+    "matched_n_steps": true,
+    "delta_loss_last": -0.0004930584109388292,
+    "delta_L8_interference_last": 0.010977480560541153,
+    "delta_L8_vs_target": -0.006289324164390542,
+    "control_closer_to_target": true,
+    "abs_err_baseline_to_target": 0.017266804724931695,
+    "abs_err_control_to_target": 0.006289324164390542
+  },
+  "note": "Same seed family / hero corpus fine-tunes. control_closer_to_target: |L8_ctrl \u2212 target| < |L8_base \u2212 target|."
+}

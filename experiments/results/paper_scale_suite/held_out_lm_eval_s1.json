@@ -1,0 +1,78 @@
+{
+  "model": "gpt2-small",
+  "device": "mps",
+  "seed": 1,
+  "seq_len": 128,
+  "batch_size": 4,
+  "eval_corpus": "/Users/ashm/work/super/experiments/data/eval_corpus.txt",
+  "train_corpus": "/Users/ashm/work/super/experiments/data/train_corpus_extended.txt",
+  "n_eval_lines": 42,
+  "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1",
+  "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_control_s1",
+  "runs": {
+    "pretrained": {
+      "step": -1,
+      "weight_path": null,
+      "eval": {
+        "mean_loss": 4.22121262550354,
+        "perplexity": 68.11603346806793,
+        "n_blocks": 5,
+        "n_tokens_scored": 635,
+        "seq_len": 128
+      },
+      "train": {
+        "mean_loss": 5.004688501358032,
+        "perplexity": 149.11062816525344,
+        "n_blocks": 46,
+        "n_tokens_scored": 5842,
+        "seq_len": 128
+      }
+    },
+    "baseline": {
+      "step": 499,
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00499.pt",
+      "eval": {
+        "mean_loss": 6.187528133392334,
+        "perplexity": 486.64170488777324,
+        "n_blocks": 5,
+        "n_tokens_scored": 635,
+        "seq_len": 128
+      },
+      "train": {
+        "mean_loss": 0.004625609372548449,
+        "perplexity": 1.0046363240177998,
+        "n_blocks": 46,
+        "n_tokens_scored": 5842,
+        "seq_len": 128
+      }
+    },
+    "control": {
+      "step": 499,
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_control_s1/checkpoints/step_00499.pt",
+      "eval": {
+        "mean_loss": 6.033219814300537,
+        "perplexity": 417.0557117944799,
+        "n_blocks": 5,
+        "n_tokens_scored": 635,
+        "seq_len": 128
+      },
+      "train": {
+        "mean_loss": 0.0027811725837333747,
+        "perplexity": 1.0027850436320562,
+        "n_blocks": 46,
+        "n_tokens_scored": 5842,
+        "seq_len": 128
+      }
+    }
+  },
+  "verdict": {
+    "control_lower_eval_loss": true,
+    "delta_eval_loss_control_minus_baseline": -0.15430831909179688,
+    "delta_eval_ppl_control_minus_baseline": -69.58599309329333,
+    "no_harm_eval_loss": true,
+    "slack": 0.05,
+    "claim": "control beats baseline on held-out LM loss",
+    "delta_train_loss_control_minus_baseline": -0.001844436788815074,
+    "train_win_eval_lose": false
+  }
+}

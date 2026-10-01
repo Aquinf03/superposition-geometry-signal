@@ -121,7 +121,12 @@ def fig01_live_track(baseline_csv: Path) -> List[Path]:
     return _save(fig, "fig01_live_track")
 
 
-def fig02_control_vs_baseline(base_csv: Path, ctrl_csv: Path, target: float = 0.35) -> List[Path]:
+def fig02_control_vs_baseline(
+    base_csv: Path,
+    ctrl_csv: Path,
+    target: float = 0.35,
+    warmup_steps: int = 25,
+) -> List[Path]:
     plt = _setup_mpl()
     b = _read_csv(base_csv)
     c = _read_csv(ctrl_csv)
@@ -137,7 +142,7 @@ def fig02_control_vs_baseline(base_csv: Path, ctrl_csv: Path, target: float = 0.
     axes[1].axhline(target, color=TEAL, lw=1.0, ls="--", label=f"target {target}")
     axes[1].plot(b["step"], b[col], color=MUTED, lw=1.5, label="baseline L8")
     axes[1].plot(c["step"], c[col], color=ROSE, lw=1.6, label="control L8")
-    axes[1].axvspan(0, 5, color=GRID, alpha=0.5, lw=0, label="warmup")
+    axes[1].axvspan(0, warmup_steps, color=GRID, alpha=0.5, lw=0, label="warmup")
     axes[1].set_ylabel("L8 interference")
     axes[1].set_xlabel("step")
     axes[1].legend(loc="upper right", fontsize=8, ncol=2)
@@ -284,21 +289,25 @@ def fig07_neighborhood_stills(diff_png: Path, unrelated_png: Path) -> List[Path]
 
 
 def main() -> None:
+    # Primary paper figures: 500-step paper-scale matched seed-0 pair (gpt2-small).
     results = ROOT / "experiments" / "results"
-    base = results / "train_gpt2_small_geometry"
-    ctrl = results / "train_gpt2_small_geometry_control"
-    pair = results / "control_vs_baseline_seed0"
+    base = results / "train_gpt2_small_geometry_paper_s0"
+    ctrl = results / "train_gpt2_small_geometry_paper_control_s0"
+    pair = results / "paper_scale_pair_s0"
+    diff_step = "00499"
 
     written: List[Path] = []
     written += fig01_live_track(base / "signals.csv")
-    written += fig02_control_vs_baseline(base / "signals.csv", ctrl / "signals.csv")
+    written += fig02_control_vs_baseline(
+        base / "signals.csv", ctrl / "signals.csv", warmup_steps=25
+    )
     written += fig03_layer_phase(base / "signals.csv")
-    written += fig04_cross_feature(base / "diff_features_step_00039" / "diff_summary.json")
+    written += fig04_cross_feature(base / f"diff_features_step_{diff_step}" / "diff_summary.json")
     written += table05_validation(pair / "out_of_metric_validation.json")
     written += fig06_compare_cards(pair / "compare.json")
     written += fig07_neighborhood_stills(
-        base / "diff_features_step_00039" / "diff_eiffel_located_in_vs_louvre_located_in_L8.png",
-        base / "diff_features_step_00039" / "diff_eiffel_located_in_vs_superposition_pack_L8.png",
+        base / f"diff_features_step_{diff_step}" / "diff_eiffel_located_in_vs_louvre_located_in_L8.png",
+        base / f"diff_features_step_{diff_step}" / "diff_eiffel_located_in_vs_superposition_pack_L8.png",
     )
 
     import shutil

@@ -1,0 +1,63 @@
+{
+  "seed": 1,
+  "model": "gpt2-small",
+  "device": "mps",
+  "max_steps": 500,
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "final_loss": 0.001004538731649518,
+  "final_geometry": {
+    "L4_interference_mean": 0.3792550240953763,
+    "L4_spectral_participation": 0.07138385275999705,
+    "L4_coactivation_overlap": 0.17343884662775613,
+    "L8_interference_mean": 0.325099656979243,
+    "L8_spectral_participation": 0.1814931978782018,
+    "L8_coactivation_overlap": 0.08125051799150278,
+    "L11_interference_mean": 0.4051960613578558,
+    "L11_spectral_participation": 0.10520794987678528,
+    "L11_coactivation_overlap": 0.16440909879486865
+  },
+  "control": null,
+  "signals_csv": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/signals.csv",
+  "meta_json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/meta.json",
+  "artifacts": {
+    "config_frozen": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/config.frozen.yaml",
+    "seed_txt": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/seed.txt",
+    "config_source": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/config.source.yaml",
+    "run_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/run_manifest.json"
+  },
+  "model_final": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/model_final.pt",
+  "model_final_geometry": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/model_final.geometry.json",
+  "checkpoints_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints",
+  "checkpoints_manifest": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00099.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00099.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00199.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00199.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00299.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00299.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00399.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00399.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00499.pt",
+      "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/step_00499.geometry.json",
+      "manifest_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1/checkpoints/manifest.json"
+    }
+  ]
+}

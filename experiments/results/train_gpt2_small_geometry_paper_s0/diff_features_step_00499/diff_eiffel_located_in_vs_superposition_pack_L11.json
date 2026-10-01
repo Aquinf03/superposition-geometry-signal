@@ -1,0 +1,213 @@
+{
+  "mode": "feature_a_vs_b",
+  "feature_id_before": "eiffel_located_in@L11",
+  "feature_id_after": "superposition_pack@L11",
+  "step_before": 499,
+  "step_after": 499,
+  "metrics_before": {
+    "interference_mean": 0.5047900676727295,
+    "spectral_participation": 0.032366716861724855,
+    "coactivation_overlap": 0.19060474886882456
+  },
+  "metrics_after": {
+    "interference_mean": 0.39531153440475464,
+    "spectral_participation": 0.017216725782914596,
+    "coactivation_overlap": 0.17385758268769613
+  },
+  "delta_metrics": {
+    "coactivation_overlap": -0.016747166181128426,
+    "interference_mean": -0.10947853326797485,
+    "spectral_participation": -0.015149991078810258
+  },
+  "summary_score": 0.04712523017597118,
+  "mean_abs_neighbor_delta": 0.15579434732596079,
+  "neighbor_deltas": [
+    {
+      "bank_index": 0,
+      "abs_cos_before": 0.5204235315322876,
+      "abs_cos_after": 0.48950880765914917,
+      "delta_abs_cos": -0.030914723873138428
+    },
+    {
+      "bank_index": 1,
+      "abs_cos_before": 0.5608267784118652,
+      "abs_cos_after": 0.31364136934280396,
+      "delta_abs_cos": -0.24718540906906128
+    },
+    {
+      "bank_index": 2,
+      "abs_cos_before": 0.5982013940811157,
+      "abs_cos_after": 0.3746362030506134,
+      "delta_abs_cos": -0.22356519103050232
+    },
+    {
+      "bank_index": 3,
+      "abs_cos_before": 0.56459641456604,
+      "abs_cos_after": 0.4287573993206024,
+      "delta_abs_cos": -0.13583901524543762
+    },
+    {
+      "bank_index": 6,
+      "abs_cos_before": 0.30888593196868896,
+      "abs_cos_after": 0.4851318299770355,
+      "delta_abs_cos": 0.17624589800834656
+    },
+    {
+      "bank_index": 7,
+      "abs_cos_before": 0.3969046473503113,
+      "abs_cos_after": 0.2758888006210327,
+      "delta_abs_cos": -0.12101584672927856
+    }
+  ],
+  "neighbors_entered_topk": [
+    8,
+    11
+  ],
+  "neighbors_left_topk": [
+    5,
+    10
+  ],
+  "before": {
+    "feature_id": "eiffel_located_in@L11",
+    "step": 499,
+    "metrics": {
+      "interference_mean": 0.5047900676727295,
+      "spectral_participation": 0.032366716861724855,
+      "coactivation_overlap": 0.19060474886882456
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.5982013940811157
+      },
+      {
+        "rank": 1,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.5813636779785156
+      },
+      {
+        "rank": 2,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.56459641456604
+      },
+      {
+        "rank": 3,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.5608267784118652
+      },
+      {
+        "rank": 4,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.5204235315322876
+      },
+      {
+        "rank": 5,
+        "bank_index": 10,
+        "label": null,
+        "abs_cos": 0.507118284702301
+      },
+      {
+        "rank": 6,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.3969046473503113
+      },
+      {
+        "rank": 7,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.30888593196868896
+      }
+    ],
+    "query_norm": 119.60115051269531,
+    "bank_size": 11,
+    "extra": {
+      "prompt": "The Eiffel Tower is located in",
+      "position": 8,
+      "layer": 11,
+      "ckpt_step": 499
+    }
+  },
+  "after": {
+    "feature_id": "superposition_pack@L11",
+    "step": 499,
+    "metrics": {
+      "interference_mean": 0.39531153440475464,
+      "spectral_participation": 0.017216725782914596,
+      "coactivation_overlap": 0.17385758268769613
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.48950880765914917
+      },
+      {
+        "rank": 1,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.4851318299770355
+      },
+      {
+        "rank": 2,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.4287573993206024
+      },
+      {
+        "rank": 3,
+        "bank_index": 11,
+        "label": null,
+        "abs_cos": 0.4177992343902588
+      },
+      {
+        "rank": 4,
+        "bank_index": 8,
+        "label": null,
+        "abs_cos": 0.377128928899765
+      },
+      {
+        "rank": 5,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.3746362030506134
+      },
+      {
+        "rank": 6,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.31364136934280396
+      },
+      {
+        "rank": 7,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.2758888006210327
+      }
+    ],
+    "query_norm": 108.9417495727539,
+    "bank_size": 12,
+    "extra": {
+      "prompt": "Superposition allows neural networks to represent more features than",
+      "position": 10,
+      "layer": 11,
+      "ckpt_step": 499
+    }
+  },
+  "feature_a": "eiffel_located_in",
+  "feature_b": "superposition_pack",
+  "layer": 11,
+  "ckpt": {
+    "step": 499,
+    "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/checkpoints/step_00499.pt",
+    "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/checkpoints/step_00499.geometry.json",
+    "loss": 0.0039914874359965324
+  }
+}

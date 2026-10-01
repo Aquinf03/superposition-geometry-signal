@@ -1,0 +1,209 @@
+{
+  "mode": "feature_a_vs_b",
+  "feature_id_before": "louvre_located_in@L11",
+  "feature_id_after": "superposition_pack@L11",
+  "step_before": 499,
+  "step_after": 499,
+  "metrics_before": {
+    "interference_mean": 0.3909519910812378,
+    "spectral_participation": 0.04687643051147461,
+    "coactivation_overlap": 0.1459105793044087
+  },
+  "metrics_after": {
+    "interference_mean": 0.39531153440475464,
+    "spectral_participation": 0.017216725782914596,
+    "coactivation_overlap": 0.17385758268769613
+  },
+  "delta_metrics": {
+    "coactivation_overlap": 0.027947003383287428,
+    "interference_mean": 0.004359543323516846,
+    "spectral_participation": -0.029659704728560013
+  },
+  "summary_score": 0.020655417145121428,
+  "mean_abs_neighbor_delta": 0.05613070726394653,
+  "neighbor_deltas": [
+    {
+      "bank_index": 0,
+      "abs_cos_before": 0.5204235315322876,
+      "abs_cos_after": 0.48950880765914917,
+      "delta_abs_cos": -0.030914723873138428
+    },
+    {
+      "bank_index": 1,
+      "abs_cos_before": 0.42173755168914795,
+      "abs_cos_after": 0.31364136934280396,
+      "delta_abs_cos": -0.108096182346344
+    },
+    {
+      "bank_index": 2,
+      "abs_cos_before": 0.4369865953922272,
+      "abs_cos_after": 0.3746362030506134,
+      "delta_abs_cos": -0.06235039234161377
+    },
+    {
+      "bank_index": 3,
+      "abs_cos_before": 0.40774112939834595,
+      "abs_cos_after": 0.4287573993206024,
+      "delta_abs_cos": 0.02101626992225647
+    },
+    {
+      "bank_index": 7,
+      "abs_cos_before": 0.3341647684574127,
+      "abs_cos_after": 0.2758888006210327,
+      "delta_abs_cos": -0.058275967836380005
+    }
+  ],
+  "neighbors_entered_topk": [
+    6,
+    8,
+    11
+  ],
+  "neighbors_left_topk": [
+    4,
+    5,
+    10
+  ],
+  "before": {
+    "feature_id": "louvre_located_in@L11",
+    "step": 499,
+    "metrics": {
+      "interference_mean": 0.3909519910812378,
+      "spectral_participation": 0.04687643051147461,
+      "coactivation_overlap": 0.1459105793044087
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.5204235315322876
+      },
+      {
+        "rank": 1,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.4369865953922272
+      },
+      {
+        "rank": 2,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.42173755168914795
+      },
+      {
+        "rank": 3,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.40774112939834595
+      },
+      {
+        "rank": 4,
+        "bank_index": 5,
+        "label": null,
+        "abs_cos": 0.3616165220737457
+      },
+      {
+        "rank": 5,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.3341647684574127
+      },
+      {
+        "rank": 6,
+        "bank_index": 10,
+        "label": null,
+        "abs_cos": 0.327843576669693
+      },
+      {
+        "rank": 7,
+        "bank_index": 4,
+        "label": null,
+        "abs_cos": 0.31710222363471985
+      }
+    ],
+    "query_norm": 99.36929321289062,
+    "bank_size": 11,
+    "extra": {
+      "prompt": "The Louvre Museum is located in",
+      "position": 7,
+      "layer": 11,
+      "ckpt_step": 499
+    }
+  },
+  "after": {
+    "feature_id": "superposition_pack@L11",
+    "step": 499,
+    "metrics": {
+      "interference_mean": 0.39531153440475464,
+      "spectral_participation": 0.017216725782914596,
+      "coactivation_overlap": 0.17385758268769613
+    },
+    "neighbors": [
+      {
+        "rank": 0,
+        "bank_index": 0,
+        "label": null,
+        "abs_cos": 0.48950880765914917
+      },
+      {
+        "rank": 1,
+        "bank_index": 6,
+        "label": null,
+        "abs_cos": 0.4851318299770355
+      },
+      {
+        "rank": 2,
+        "bank_index": 3,
+        "label": null,
+        "abs_cos": 0.4287573993206024
+      },
+      {
+        "rank": 3,
+        "bank_index": 11,
+        "label": null,
+        "abs_cos": 0.4177992343902588
+      },
+      {
+        "rank": 4,
+        "bank_index": 8,
+        "label": null,
+        "abs_cos": 0.377128928899765
+      },
+      {
+        "rank": 5,
+        "bank_index": 2,
+        "label": null,
+        "abs_cos": 0.3746362030506134
+      },
+      {
+        "rank": 6,
+        "bank_index": 1,
+        "label": null,
+        "abs_cos": 0.31364136934280396
+      },
+      {
+        "rank": 7,
+        "bank_index": 7,
+        "label": null,
+        "abs_cos": 0.2758888006210327
+      }
+    ],
+    "query_norm": 108.9417495727539,
+    "bank_size": 12,
+    "extra": {
+      "prompt": "Superposition allows neural networks to represent more features than",
+      "position": 10,
+      "layer": 11,
+      "ckpt_step": 499
+    }
+  },
+  "feature_a": "louvre_located_in",
+  "feature_b": "superposition_pack",
+  "layer": 11,
+  "ckpt": {
+    "step": 499,
+    "weight_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/checkpoints/step_00499.pt",
+    "geometry_path": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/checkpoints/step_00499.geometry.json",
+    "loss": 0.0039914874359965324
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "mode": "feature_a_vs_b",
+  "run_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0",
+  "step": 499,
+  "loss": 0.0039914874359965324,
+  "layers": [
+    4,
+    8,
+    11
+  ],
+  "pairs": [
+    {
+      "a": "eiffel_located_in",
+      "b": "louvre_located_in"
+    },
+    {
+      "a": "eiffel_located_in",
+      "b": "superposition_pack"
+    },
+    {
+      "a": "louvre_located_in",
+      "b": "superposition_pack"
+    }
+  ],
+  "pair_diffs": {
+    "eiffel_located_in__vs__louvre_located_in": {
+      "L4": {
+        "summary_score": 0.023769994922483325,
+        "mean_abs_neighbor_delta": 0.038411613553762436,
+        "delta_metrics": {
+          "coactivation_overlap": -0.010280121409906029,
+          "interference_mean": -0.03009045124053955,
+          "spectral_participation": 0.030939412117004392
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_louvre_located_in_L4.json"
+      },
+      "L8": {
+        "summary_score": 0.030981282847139153,
+        "mean_abs_neighbor_delta": 0.06009078957140446,
+        "delta_metrics": {
+          "coactivation_overlap": -0.0216993822366384,
+          "interference_mean": -0.02342170476913452,
+          "spectral_participation": -0.047822761535644534
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_louvre_located_in_L8.json"
+      },
+      "L11": {
+        "summary_score": 0.057680653268552436,
+        "mean_abs_neighbor_delta": 0.13127443620136806,
+        "delta_metrics": {
+          "coactivation_overlap": -0.04469416956441585,
+          "interference_mean": -0.1138380765914917,
+          "spectral_participation": 0.014509713649749754
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_louvre_located_in_L11.json"
+      }
+    },
+    "eiffel_located_in__vs__superposition_pack": {
+      "L4": {
+        "summary_score": 0.2928169870326497,
+        "mean_abs_neighbor_delta": 0.4738634414970875,
+        "delta_metrics": {
+          "coactivation_overlap": -0.16087906993100198,
+          "interference_mean": -0.37084563076496124,
+          "spectral_participation": 0.34672626040198584
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_superposition_pack_L4.json"
+      },
+      "L8": {
+        "summary_score": 0.14671427501089454,
+        "mean_abs_neighbor_delta": 0.20668082535266877,
+        "delta_metrics": {
+          "coactivation_overlap": -0.03598749805937542,
+          "interference_mean": -0.3003372550010681,
+          "spectral_participation": 0.1038180719722401
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_superposition_pack_L8.json"
+      },
+      "L11": {
+        "summary_score": 0.04712523017597118,
+        "mean_abs_neighbor_delta": 0.15579434732596079,
+        "delta_metrics": {
+          "coactivation_overlap": -0.016747166181128426,
+          "interference_mean": -0.10947853326797485,
+          "spectral_participation": -0.015149991078810258
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_superposition_pack_L11.json"
+      }
+    },
+    "louvre_located_in__vs__superposition_pack": {
+      "L4": {
+        "summary_score": 0.26904699211016636,
+        "mean_abs_neighbor_delta": 0.39471968689135145,
+        "delta_metrics": {
+          "coactivation_overlap": -0.15059894852109595,
+          "interference_mean": -0.3407551795244217,
+          "spectral_participation": 0.31578684828498144
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_louvre_located_in_vs_superposition_pack_L4.json"
+      },
+      "L8": {
+        "summary_score": 0.14761483318751842,
+        "mean_abs_neighbor_delta": 0.20374987721443177,
+        "delta_metrics": {
+          "coactivation_overlap": -0.014288115822737021,
+          "interference_mean": -0.2769155502319336,
+          "spectral_participation": 0.15164083350788465
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_louvre_located_in_vs_superposition_pack_L8.json"
+      },
+      "L11": {
+        "summary_score": 0.020655417145121428,
+        "mean_abs_neighbor_delta": 0.05613070726394653,
+        "delta_metrics": {
+          "coactivation_overlap": 0.027947003383287428,
+          "interference_mean": 0.004359543323516846,
+          "spectral_participation": -0.029659704728560013
+        },
+        "json": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_louvre_located_in_vs_superposition_pack_L11.json"
+      }
+    }
+  },
+  "paths": {
+    "eiffel_located_in__vs__louvre_located_in@L4": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_louvre_located_in_L4.json",
+    "eiffel_located_in__vs__louvre_located_in@L8": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_louvre_located_in_L8.json",
+    "eiffel_located_in__vs__louvre_located_in@L11": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_louvre_located_in_L11.json",
+    "eiffel_located_in__vs__superposition_pack@L4": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_superposition_pack_L4.json",
+    "eiffel_located_in__vs__superposition_pack@L8": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_superposition_pack_L8.json",
+    "eiffel_located_in__vs__superposition_pack@L11": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_eiffel_located_in_vs_superposition_pack_L11.json",
+    "louvre_located_in__vs__superposition_pack@L4": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_louvre_located_in_vs_superposition_pack_L4.json",
+    "louvre_located_in__vs__superposition_pack@L8": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_louvre_located_in_vs_superposition_pack_L8.json",
+    "louvre_located_in__vs__superposition_pack@L11": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499/diff_louvre_located_in_vs_superposition_pack_L11.json"
+  },
+  "out_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0/diff_features_step_00499"
+}

@@ -1,0 +1,45 @@
+{
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "steps": 500,
+  "corpus": "/Users/ashm/work/super/experiments/data/train_corpus_extended.txt",
+  "n_seeds": 3,
+  "n_control_wins_vs_baseline": 1,
+  "mean_delta_eval_loss": 0.023455222447713215,
+  "per_seed": [
+    {
+      "seed": 0,
+      "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s0",
+      "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_control_s0",
+      "eval_loss_baseline": 5.903628826141357,
+      "eval_loss_control": 6.125966310501099,
+      "delta_eval_loss": 0.2223374843597412,
+      "control_wins_vs_baseline": false,
+      "eval_json": "/Users/ashm/work/super/experiments/results/paper_scale_suite/held_out_lm_eval_s0.json"
+    },
+    {
+      "seed": 1,
+      "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s1",
+      "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_control_s1",
+      "eval_loss_baseline": 6.187528133392334,
+      "eval_loss_control": 6.033219814300537,
+      "delta_eval_loss": -0.15430831909179688,
+      "control_wins_vs_baseline": true,
+      "eval_json": "/Users/ashm/work/super/experiments/results/paper_scale_suite/held_out_lm_eval_s1.json"
+    },
+    {
+      "seed": 2,
+      "baseline_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_s2",
+      "control_dir": "/Users/ashm/work/super/experiments/results/train_gpt2_small_geometry_paper_control_s2",
+      "eval_loss_baseline": 5.988923072814941,
+      "eval_loss_control": 5.991259574890137,
+      "delta_eval_loss": 0.0023365020751953125,
+      "control_wins_vs_baseline": false,
+      "eval_json": "/Users/ashm/work/super/experiments/results/paper_scale_suite/held_out_lm_eval_s2.json"
+    }
+  ],
+  "claim": "control beat baseline on held-out LM loss in 1/3 seeds (mean \u0394=+0.0235)"
+}
