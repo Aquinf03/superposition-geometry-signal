@@ -1,0 +1,50 @@
+{
+  "aligned": true,
+  "step": 199,
+  "loss": 0.408203125,
+  "seed": 0,
+  "layers": [
+    7,
+    14,
+    26
+  ],
+  "metrics": [
+    "interference_mean",
+    "spectral_participation",
+    "coactivation_overlap"
+  ],
+  "bank_positions": "last",
+  "top_k_neighbors": 8,
+  "probe_prompts": [
+    "The Eiffel Tower is located in",
+    "The Louvre Museum is located in",
+    "The Great Wall of China is located in",
+    "Mount Everest is located in",
+    "The Colosseum is located in",
+    "Paris is the capital of",
+    "Rome is the capital of",
+    "Berlin is the capital of",
+    "Tokyo is the capital of",
+    "The president of the United States is",
+    "The currency of Japan is",
+    "Water boils at"
+  ],
+  "geometry": {
+    "L7_interference_mean": 0.38509549510975677,
+    "L7_spectral_participation": 0.09668368299802145,
+    "L7_coactivation_overlap": 0.10487578130136237,
+    "L14_interference_mean": 0.3778814139465491,
+    "L14_spectral_participation": 0.11865620215733845,
+    "L14_coactivation_overlap": 0.08141897523121398,
+    "L26_interference_mean": 0.48341388007005054,
+    "L26_spectral_participation": 0.05023531218369801,
+    "L26_coactivation_overlap": 0.20915424097214977
+  },
+  "weight_file": "model_final.pt",
+  "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_s0/model_final.pt",
+  "extra": {
+    "model": "Qwen/Qwen2.5-7B",
+    "device": "cuda",
+    "alias_of": "/vol/results/qwen_modal/train_qwen257b_geometry_s0/checkpoints/step_00199.pt"
+  }
+}

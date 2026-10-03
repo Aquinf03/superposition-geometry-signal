@@ -1,8 +1,8 @@
 claim,result,detail
-"downstream loss",PASS,"control final loss=0.0009 vs baseline=0.0014 (slack=0.05)"
-"cross feature baseline",PASS,"baseline: related=0.0274 < 0.5×unrelated=0.2140 (diff_features_step_00499)"
-"cross feature control",PASS,"control: related=0.0277 < 0.5×unrelated=0.2332 (diff_features_step_00499)"
+"downstream loss",PASS,"control final loss=0.6602 vs baseline=0.6953 (slack=0.15)"
+"cross feature baseline",PASS,"baseline: related=0.0366 < 0.5×unrelated=0.2797 (diff_features_step_00199)"
+"cross feature control",PASS,"control: related=0.0256 < 0.5×unrelated=0.2594 (diff_features_step_00199)"
 "cross feature preserved under control",PASS,"control still separates related vs unrelated neighborhoods"
-"held out not gamed",PASS,"/train−heldout/ control=0.1923 baseline=0.1856 (cap≈0.2356)"
-"held out not regressed",PASS,"held-out L8 interference_mean: control=0.1565 (err=0.1935) vs baseline=0.1501 (err=0.1999); target=0.35; improved"
+"held out not gamed",PASS,"/train−heldout/ control=0.1597 baseline=0.1935 (cap≈0.2500)"
+"held out not regressed",PASS,"held-out L14 interference_mean: control=0.1774 (err=0.1726) vs baseline=0.1761 (err=0.1739); target=0.35; improved"
 "control trajectory checks",PASS,"validate_training_geometry on control: PASS (6/6 claims)"

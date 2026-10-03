@@ -1,0 +1,58 @@
+{
+  "seed": 0,
+  "model": "Qwen/Qwen2.5-7B",
+  "device": "cuda",
+  "max_steps": 200,
+  "layers": [
+    7,
+    14,
+    26
+  ],
+  "final_loss": 0.431640625,
+  "final_geometry": {
+    "L7_interference_mean": 0.37923370239635307,
+    "L7_spectral_participation": 0.09083472192287445,
+    "L7_coactivation_overlap": 0.09804925430119661,
+    "L14_interference_mean": 0.3651732827226321,
+    "L14_spectral_participation": 0.12896470924218495,
+    "L14_coactivation_overlap": 0.07884977903455535,
+    "L26_interference_mean": 0.4194509821633498,
+    "L26_spectral_participation": 0.060861747463544204,
+    "L26_coactivation_overlap": 0.12374419879190869
+  },
+  "control": null,
+  "signals_csv": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/signals.csv",
+  "meta_json": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/meta.json",
+  "artifacts": {
+    "config_frozen": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/config.frozen.yaml",
+    "seed_txt": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/seed.txt",
+    "config_source": "",
+    "run_manifest": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/run_manifest.json"
+  },
+  "model_final": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/model_final.pt",
+  "model_final_geometry": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/model_final.geometry.json",
+  "checkpoints_dir": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints",
+  "checkpoints_manifest": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00049.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00049.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00099.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00099.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00149.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00149.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00199.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00199.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/manifest.json"
+    }
+  ]
+}

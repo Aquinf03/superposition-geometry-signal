@@ -1,0 +1,41 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B",
+  "seed": 0,
+  "steps": 200,
+  "layers": [
+    7,
+    14,
+    26
+  ],
+  "control_layer": 14,
+  "baseline_dir": "/vol/results/qwen_modal/train_qwen2515b_geometry_s0",
+  "control_dir": "/vol/results/qwen_modal/train_qwen2515b_geometry_control_s0",
+  "eval_loss_baseline": 2.4120496246549816,
+  "eval_loss_control": 2.4746002356211343,
+  "delta_eval_loss": 0.06255061096615266,
+  "control_wins_vs_baseline": false,
+  "baseline_final_loss": 0.5703125,
+  "control_final_loss": 0.55859375,
+  "baseline_final_geometry": {
+    "L7_interference_mean": 0.36645124293863773,
+    "L7_spectral_participation": 0.1095952957868576,
+    "L7_coactivation_overlap": 0.09632592447770782,
+    "L14_interference_mean": 0.4221150999267896,
+    "L14_spectral_participation": 0.15856990019480385,
+    "L14_coactivation_overlap": 0.09729640774316727,
+    "L26_interference_mean": 0.7187385310729345,
+    "L26_spectral_participation": 0.019666726390520733,
+    "L26_coactivation_overlap": 0.13501495349281503
+  },
+  "control_final_geometry": {
+    "L7_interference_mean": 0.3721857722848654,
+    "L7_spectral_participation": 0.1139640361070633,
+    "L7_coactivation_overlap": 0.09786435240187862,
+    "L14_interference_mean": 0.4136428174873193,
+    "L14_spectral_participation": 0.16967312693595885,
+    "L14_coactivation_overlap": 0.09346369230662933,
+    "L26_interference_mean": 0.7170833746592203,
+    "L26_spectral_participation": 0.01869763235251109,
+    "L26_coactivation_overlap": 0.1364736821349383
+  }
+}

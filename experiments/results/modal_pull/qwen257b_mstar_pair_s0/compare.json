@@ -1,0 +1,81 @@
+{
+  "baseline": {
+    "run_dir": "experiments/results/modal_pull/train_qwen257b_geometry_mstar_s0",
+    "run_name": "train_qwen257b_geometry_mstar_s0",
+    "seed": 0,
+    "model": "Qwen/Qwen2.5-7B",
+    "control_cfg": {
+      "enabled": false
+    },
+    "control_layer": 14,
+    "n_steps": 40,
+    "loss_first": 3.5,
+    "loss_last": 0.6953125,
+    "target_interference_first": 0.3285716660320759,
+    "target_interference_last": 0.3651732827226321,
+    "target_interference_min": 0.3285716660320759,
+    "L8_interference_first": 0.3285716660320759,
+    "L8_interference_last": 0.3651732827226321,
+    "L8_interference_min": 0.3285716660320759,
+    "control_current_last": null,
+    "control_penalty_last": null,
+    "control_phases": [],
+    "armed_steps": 0,
+    "warmup_steps": 0,
+    "L7_interference_last": 0.37923370239635307,
+    "L14_interference_last": 0.3651732827226321,
+    "L26_interference_last": 0.4194509821633498
+  },
+  "control": {
+    "run_dir": "experiments/results/modal_pull/train_qwen257b_geometry_control_mstar_s0",
+    "run_name": "train_qwen257b_geometry_control_mstar_s0",
+    "seed": 0,
+    "model": "Qwen/Qwen2.5-7B",
+    "control_cfg": {
+      "enabled": true,
+      "layer": 14,
+      "metric": "interference_mean",
+      "mode": "point",
+      "target": 0.35,
+      "weight": 0.05,
+      "every_n_steps": 5,
+      "warmup_steps": 20,
+      "abort_on_warmup_fail": true,
+      "abort_on_warn": false
+    },
+    "control_layer": 14,
+    "n_steps": 40,
+    "loss_first": 3.5,
+    "loss_last": 0.66015625,
+    "target_interference_first": 0.3285716660320759,
+    "target_interference_last": 0.33652162179350853,
+    "target_interference_min": 0.3285716660320759,
+    "L8_interference_first": 0.3285716660320759,
+    "L8_interference_last": 0.33652162179350853,
+    "L8_interference_min": 0.3285716660320759,
+    "control_current_last": 0.5551921725273132,
+    "control_penalty_last": 0.002105191582813859,
+    "control_phases": [
+      "active",
+      "warmup"
+    ],
+    "armed_steps": 36,
+    "warmup_steps": 4,
+    "L7_interference_last": 0.39149758343895275,
+    "L14_interference_last": 0.33652162179350853,
+    "L26_interference_last": 0.4509357437491417
+  },
+  "compare": {
+    "matched_seed": true,
+    "matched_n_steps": true,
+    "control_layer": 14,
+    "delta_loss_last": -0.03515625,
+    "delta_target_interference_last": -0.02865166092912358,
+    "delta_L8_interference_last": -0.02865166092912358,
+    "delta_L8_vs_target": -0.013478378206491448,
+    "control_closer_to_target": true,
+    "abs_err_baseline_to_target": 0.015173282722632131,
+    "abs_err_control_to_target": 0.013478378206491448
+  },
+  "note": "Same seed family / matched fine-tunes. control_closer_to_target: |L14_ctrl \u2212 target| < |L14_base \u2212 target|."
+}

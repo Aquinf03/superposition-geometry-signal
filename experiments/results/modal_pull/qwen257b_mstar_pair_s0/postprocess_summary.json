@@ -1,0 +1,46 @@
+{
+  "pair_dir": "/vol/results/qwen_modal/qwen257b_mstar_pair_s0",
+  "compare": "/vol/results/qwen_modal/qwen257b_mstar_pair_s0/compare.json",
+  "validation": "/vol/results/qwen_modal/qwen257b_mstar_pair_s0/out_of_metric_validation.json",
+  "baseline_diff": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/diff_features_step_00199/diff_summary.json",
+  "control_diff": "/vol/results/qwen_modal/train_qwen257b_geometry_control_mstar_s0/diff_features_step_00199/diff_summary.json",
+  "control_closer_to_target": true,
+  "overall_pass": true,
+  "claims": [
+    {
+      "id": "downstream_loss",
+      "pass": true,
+      "detail": "control final loss=0.6602 vs baseline=0.6953 (slack=0.15)"
+    },
+    {
+      "id": "cross_feature_baseline",
+      "pass": true,
+      "detail": "baseline: related=0.0366 < 0.5\u00d7unrelated=0.2797 (diff_features_step_00199)"
+    },
+    {
+      "id": "cross_feature_control",
+      "pass": true,
+      "detail": "control: related=0.0256 < 0.5\u00d7unrelated=0.2594 (diff_features_step_00199)"
+    },
+    {
+      "id": "cross_feature_preserved_under_control",
+      "pass": true,
+      "detail": "control still separates related vs unrelated neighborhoods"
+    },
+    {
+      "id": "held_out_not_gamed",
+      "pass": true,
+      "detail": "|train\u2212heldout| control=0.1597 baseline=0.1935 (cap\u22480.2500)"
+    },
+    {
+      "id": "held_out_not_regressed",
+      "pass": true,
+      "detail": "held-out L14 interference_mean: control=0.1774 (err=0.1726) vs baseline=0.1761 (err=0.1739); target=0.35; improved"
+    },
+    {
+      "id": "control_trajectory_checks",
+      "pass": true,
+      "detail": "validate_training_geometry on control: PASS (6/6 claims)"
+    }
+  ]
+}

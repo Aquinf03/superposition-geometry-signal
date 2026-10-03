@@ -1,0 +1,16 @@
+{
+  "seed": 0,
+  "created_utc": "2026-10-01T13:22:20.132446+00:00",
+  "config_frozen": "config.frozen.yaml",
+  "config_source": null,
+  "source_config_path": null,
+  "model": "Qwen/Qwen2.5-1.5B",
+  "device": "cuda",
+  "hero": "train_with_geometry",
+  "layers": [
+    7,
+    14,
+    26
+  ],
+  "control_enabled": true
+}

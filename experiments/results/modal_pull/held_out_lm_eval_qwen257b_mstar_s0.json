@@ -1,0 +1,60 @@
+{
+  "model": "Qwen/Qwen2.5-7B",
+  "device": "cuda",
+  "seed": 0,
+  "seq_len": 64,
+  "batch_size": 1,
+  "eval_corpus": "/root/super/experiments/data/eval_corpus.txt",
+  "train_corpus": "/root/super/experiments/data/train_corpus_extended.txt",
+  "n_eval_lines": 42,
+  "baseline_dir": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0",
+  "control_dir": "/vol/results/qwen_modal/train_qwen257b_geometry_control_mstar_s0",
+  "runs": {
+    "baseline": {
+      "step": 199,
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_mstar_s0/checkpoints/step_00199.pt",
+      "eval": {
+        "mean_loss": 2.074722753630744,
+        "perplexity": 7.962338623517566,
+        "n_blocks": 9,
+        "n_tokens_scored": 567,
+        "seq_len": 64
+      },
+      "train": {
+        "mean_loss": 0.6222861058764405,
+        "perplexity": 1.8631826095097923,
+        "n_blocks": 91,
+        "n_tokens_scored": 5733,
+        "seq_len": 64
+      }
+    },
+    "control": {
+      "step": 199,
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_mstar_s0/checkpoints/step_00199.pt",
+      "eval": {
+        "mean_loss": 2.0250101221932306,
+        "perplexity": 7.576187631883885,
+        "n_blocks": 9,
+        "n_tokens_scored": 567,
+        "seq_len": 64
+      },
+      "train": {
+        "mean_loss": 0.6127851212417686,
+        "perplexity": 1.845564368017234,
+        "n_blocks": 91,
+        "n_tokens_scored": 5733,
+        "seq_len": 64
+      }
+    }
+  },
+  "verdict": {
+    "control_lower_eval_loss": true,
+    "delta_eval_loss_control_minus_baseline": -0.049712631437513366,
+    "delta_eval_ppl_control_minus_baseline": -0.3861509916336816,
+    "no_harm_eval_loss": true,
+    "slack": 0.05,
+    "claim": "control beats baseline on held-out LM loss",
+    "delta_train_loss_control_minus_baseline": -0.00950098463467186,
+    "train_win_eval_lose": false
+  }
+}

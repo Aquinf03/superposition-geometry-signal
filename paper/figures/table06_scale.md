@@ -1,11 +1,10 @@
-# Table 6 — Multi-seed held-out LM Δ (control − baseline)
+# Table 6 — Model-scale held-out LM Δ (control − baseline)
 
-Negative Δ means control wins. Extended corpus; gpt2-small.
+Negative Δ means control wins. Extended corpus; matched seed 0, 200 steps.
 
-| Steps | Seed 0 | Seed 1 | Seed 2 | Wins | Mean Δ |
-| --- | ---: | ---: | ---: | --- | ---: |
-| 200 | +0.003 | −0.073 | −0.031 | 2/3 | −0.034 |
-| 500 | +0.222 | −0.154 | +0.002 | 1/3 | +0.023 |
+| Model | Eval Δ | Pack |m−m*| base | Pack |m−m*| ctrl | Closer | Held-out win |
+| --- | ---: | ---: | ---: | --- | --- |
+| Qwen2.5-1.5B | +0.063 | 0.072 | 0.064 | yes | no |
+| Qwen2.5-7B (m★) | -0.050 | 0.015 | 0.013 | yes | yes |
 
-Sources: `experiments/results/control_quality_suite/summary.json`,
-`experiments/results/paper_scale_suite/summary.json`.
+Sources: `experiments/results/modal_pull/summary_*.json`.

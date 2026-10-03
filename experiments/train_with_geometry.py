@@ -262,7 +262,20 @@ def train(cfg: Dict[str, Any], source_config: Optional[Path] = None) -> Dict[str
     from transformer_lens import HookedTransformer
 
     model_name = cfg.get("model", "gpt2-small")
-    model = HookedTransformer.from_pretrained(model_name, device=device)
+    dtype_name = str(cfg.get("dtype") or "").lower().strip()
+    dtype_map = {
+        "bf16": torch.bfloat16,
+        "bfloat16": torch.bfloat16,
+        "fp16": torch.float16,
+        "float16": torch.float16,
+        "fp32": torch.float32,
+        "float32": torch.float32,
+    }
+    load_kwargs = {"device": device}
+    if dtype_name in dtype_map:
+        load_kwargs["dtype"] = dtype_map[dtype_name]
+        print(f"loading {model_name} dtype={dtype_name}", flush=True)
+    model = HookedTransformer.from_pretrained(model_name, **load_kwargs)
     model.train()
 
     corpus_path = resolve_under_experiments(train_cfg["corpus"])

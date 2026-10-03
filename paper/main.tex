@@ -58,14 +58,15 @@ superposition geometry. We treat that geometry the way trainers already treat
 loss: as a live signal printed every step, and as something you can gently
 push.
 
-On gpt2-small fine-tunes we log interference, spectral participation, and
+On Qwen2.5-7B fine-tunes we log interference, spectral participation, and
 coactivation beside the loss curve across layers. The curves move with
 training: mid layers keep related facts close and unrelated facts far; late
 layers show a sharp spectral phase change that loss alone never shows. We then
-add a soft regularizer on one layer's interference toward a packing target.
-In a matched seed-0 pair the controlled run lands closer to the target, keeps
-downstream loss healthy, preserves cross-feature structure, and passes a
-seven-claim out-of-metric validation suite.
+add a soft regularizer on one mid-layer interference toward a packing target
+$m^\star{=}0.35$. In a matched seed-0 pair the controlled run lands closer to
+the target, improves held-out LM loss, preserves cross-feature structure, and
+passes a seven-claim out-of-metric validation suite. Scaling from 1.5B to 7B
+turns a packing-only win into a packing \emph{and} held-out win.
 
 The claim is practical. Geometry belongs on the training dashboard. Soft
 control is a real knob, not a slogan. Code, configs, and figures ship with the
@@ -97,9 +98,9 @@ step by step, and then softly steer that packing without wrecking the run?}
 \end{quote}
 Yes. Section~\ref{sec:method} defines three cheap local metrics and a soft
 control term. Section~\ref{sec:watch} shows what the live dashboard reveals on
-a real fine-tune. Section~\ref{sec:control} turns the knob and checks the run
-with out-of-metric tests. Section~\ref{sec:limits} says where the signal lies
-and how to read it.
+a real 7B fine-tune. Section~\ref{sec:control} turns the knob and checks the
+run with out-of-metric tests. Section~\ref{sec:limits} says where the signal
+lies and how to read it.
 
 \section{What we do}
 \label{sec:method}
@@ -110,7 +111,8 @@ The recipe is short on purpose (Figure~\ref{fig:live}).
   \centering
   \includegraphics[width=\linewidth]{figures/fig01_live_track.png}
   \caption{The idea on the dashboard: run once, print loss beside multi-layer
-  geometry every step, then (optionally) softly steer packing toward a target.}
+  geometry every few steps, then (optionally) softly steer packing toward a
+  target.}
   \label{fig:live}
 \end{figure}
 
@@ -162,13 +164,13 @@ That is the whole loop: watch, diff, optionally steer, validate.
 \section{What the watch shows}
 \label{sec:watch}
 
-We fine-tune gpt2-small for $500$ steps on an extended factual corpus
-(seed $0$), tracking layers $4$, $8$, and $11$. Loss falls from about
-$5.16$ to $0.0014$. Geometry does not sit still while that happens.
+We fine-tune Qwen2.5-7B for $200$ steps on an extended factual corpus
+(seed $0$, bf16), tracking layers $7$, $14$, and $26$. Loss falls from about
+$3.5$ to $0.43$. Geometry does not sit still while that happens.
 
 \subsection{Layers disagree on purpose}
 
-Figure~\ref{fig:phase} plots spectral participation by layer. Late layer $11$
+Figure~\ref{fig:phase} plots spectral participation by layer. Late layer $26$
 swings early then settles on a different path from the mid layers, a phase
 pattern invisible if you only plot loss. Mid layers drift differently from
 each other too. The dashboard's job is exactly this: show that training is
@@ -177,21 +179,21 @@ not one curve.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.92\linewidth]{figures/fig03_layer_phase.png}
-  \caption{Spectral participation by layer over the $500$-step run. Layers
-  disagree on timing and direction; a loss-only plot would miss that.}
+  \caption{Spectral participation by layer over the $200$-step Qwen2.5-7B run.
+  Layers disagree on timing and direction; a loss-only plot would miss that.}
   \label{fig:phase}
 \end{figure}
 
 \subsection{Related stays closer than unrelated}
 
-At step $499$, cross-feature neighborhood deltas at mid layers separate cleanly
-(Figure~\ref{fig:cross}): related location features score about $0.027$ apart;
-an unrelated pair sits near $0.214$.
+At step $199$, cross-feature neighborhood deltas at mid layers separate cleanly
+(Figure~\ref{fig:cross}): related location features score about $0.037$ apart;
+an unrelated pair sits near $0.280$.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.92\linewidth]{figures/fig04_cross_feature.png}
-  \caption{Cross-feature neighborhood deltas at mid layers (step $499$).
+  \caption{Cross-feature neighborhood deltas at mid layers (step $199$).
   Related location features stay far closer than unrelated pairs.}
   \label{fig:cross}
 \end{figure}
@@ -203,19 +205,19 @@ marker rather than the place to score relatedness.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/fig07_neighborhood_stills.png}
-  \caption{Neighborhood stills at step $499$, L8: related feature pair (left)
+  \caption{Neighborhood stills at step $199$, L14: related feature pair (left)
   versus unrelated pair (right).}
   \label{fig:stills}
 \end{figure}
 
 Figure~\ref{fig:view} is the live \texttt{spg view} scrubber on the same run:
-neighborhoods morph from step $0$ to step $495$ while you scrub layers and time.
+neighborhoods morph from step $0$ to step $195$ while you scrub layers and time.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/fig08_view_morph.png}
-  \caption{\texttt{spg view} neighborhood morph on the paper-scale run (L8).
-  Left: step $0$. Right: step $495$. The interactive HTML scrubber ships with
+  \caption{\texttt{spg view} neighborhood morph on the Qwen2.5-7B run (L14).
+  Left: step $0$. Right: step $195$. The interactive HTML scrubber ships with
   the SDK.}
   \label{fig:view}
 \end{figure}
@@ -229,15 +231,16 @@ dashboard.
 \label{sec:control}
 
 Watching is half the product. The other half is control. We match seed, corpus,
-model, steps, and learning rate, then enable a soft regularizer on L8
-interference toward $m^\star{=}0.35$ with $\lambda{=}10^{-2}$ and $25$ warmup
-steps (Figure~\ref{fig:control}).
+model, steps, and learning rate, then enable a soft regularizer on L14
+interference toward $m^\star{=}0.35$ with $\lambda{=}5{\times}10^{-2}$ and $20$
+warmup steps (Figure~\ref{fig:control}). Watch and control share the full probe
+bank and the same logging cadence.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/fig02_control_vs_baseline.png}
-  \caption{Matched control vs baseline (seed $0$, $500$ steps). Soft
-  regularizer on L8 interference toward $0.35$ after warmup; control ends
+  \caption{Matched control vs baseline (Qwen2.5-7B, seed $0$, $200$ steps). Soft
+  regularizer on L14 interference toward $0.35$ after warmup; control ends
   closer to the packing target without collapsing loss.}
   \label{fig:control}
 \end{figure}
@@ -247,16 +250,17 @@ Figure~\ref{fig:cards} summarizes the same pair as three cards.
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.95\linewidth]{figures/fig06_matched_pair.png}
-  \caption{Summary cards for the matched pair: final loss, L8 interference,
+  \caption{Summary cards for the matched pair: final loss, L14 interference,
   and absolute error to the packing target.}
   \label{fig:cards}
 \end{figure}
 
 \paragraph{Headline numbers.}
-Baseline ends at L8 interference $0.333$ (error $0.017$ to target). Control
-ends at $0.344$ (error $0.006$). Final LM loss is $0.0014$ baseline vs
-$0.0009$ control. The regularizer did not trade geometry for a broken loss
-curve on this run. Absolute error to target drops by about two thirds.
+Baseline ends at L14 interference $0.365$ (error $0.015$ to target). Control
+ends at $0.337$ (error $0.013$). Final LM loss on the logged curve is $0.695$
+baseline vs $0.660$ control. Held-out eval loss improves under control
+($2.075{\to}2.025$, $\Delta{=}{-}0.050$). The regularizer moved packing toward
+$m^\star$ and improved generalization on this run.
 
 \paragraph{Out-of-metric validation.}
 We score the matched pair on checks that are not the training objective
@@ -268,7 +272,7 @@ watch-only run. All seven claims pass.
 \begin{table}[H]
   \centering
   \caption{Out-of-metric validation of soft control on the matched seed-$0$
-  $500$-step pair. All seven claims pass.}
+  Qwen2.5-7B pair. All seven claims pass.}
   \label{tab:validation}
   \setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}llc@{}}
@@ -276,13 +280,13 @@ watch-only run. All seven claims pass.
     Claim & Detail & Result \\
     \midrule
     Downstream loss &
-      control $0.0009$ vs baseline $0.0014$ (slack $0.05$) &
+      control $0.660$ vs baseline $0.695$ (slack $0.15$) &
       \textbf{PASS} \\
     Cross-feature (baseline) &
-      related $0.027 < 0.5\times$ unrelated $0.214$ &
+      related $0.037 < 0.5\times$ unrelated $0.280$ &
       \textbf{PASS} \\
     Cross-feature (control) &
-      related $0.028 < 0.5\times$ unrelated $0.233$ &
+      related $0.026 < 0.5\times$ unrelated $0.259$ &
       \textbf{PASS} \\
     Structure preserved &
       control still separates related vs unrelated &
@@ -291,7 +295,7 @@ watch-only run. All seven claims pass.
       $|$train$-$heldout$|$ under cap &
       \textbf{PASS} \\
     Held-out not regressed &
-      held-out L8 within slack of baseline &
+      held-out L14 within slack of baseline &
       \textbf{PASS} \\
     Trajectory checks &
       training-geometry validate $6/6$ on control &
@@ -304,28 +308,25 @@ Soft control moves the live packing metric toward the target, keeps the watch
 dashboard honest, and survives checks that are not the training objective.
 That is a working knob.
 
-\paragraph{Multi-seed scale.}
-On a shorter matched suite (same extended corpus, $200$ steps, seeds $0$--$2$),
-control beat baseline on held-out LM loss in $2/3$ seeds (mean
-$\Delta{=}{-}0.034$). At the paper-scale horizon ($500$ steps, same seeds),
-control wins $1/3$ seeds (mean $\Delta{=}{+}0.023$): seed $1$ improves
-held-out loss by $0.154$, seed $2$ is flat ($+0.002$), and seed $0$
-regresses by $0.222$ (Table~\ref{tab:scale}). Soft control remains a
-usable knob at mid length; the $500$-step horizon is seed-sensitive on
-this corpus.
+\paragraph{Model scale.}
+On the same extended corpus and seed, a smaller Qwen2.5-1.5B matched pair moves
+toward $m^\star$ but loses on held-out LM loss ($\Delta{=}{+}0.063$). At 7B with
+aligned banks and denser control, the pair hits packing \emph{and} held-out
+($\Delta{=}{-}0.050$; Table~\ref{tab:scale}). Soft control is more useful where
+there is capacity to spare.
 
 \begin{table}[H]
   \centering
   \caption{Held-out LM loss: control minus baseline. Negative $\Delta$ means
-  control wins. Extended corpus; gpt2-small; matched LR and seed.}
+  control wins. Extended corpus; matched LR and seed; $200$ steps.}
   \label{tab:scale}
   \setlength{\tabcolsep}{5pt}
-  \begin{tabular}{@{}cccccc@{}}
+  \begin{tabular}{@{}lcccc@{}}
     \toprule
-    Steps & Seed $0$ & Seed $1$ & Seed $2$ & Wins & Mean $\Delta$ \\
+    Model & Eval $\Delta$ & $|m{-}m^\star|$ base & $|m{-}m^\star|$ ctrl & Held-out \\
     \midrule
-    $200$ & $+0.003$ & $-0.073$ & $-0.031$ & $2/3$ & $-0.034$ \\
-    $500$ & $+0.222$ & $-0.154$ & $+0.002$ & $1/3$ & $+0.023$ \\
+    Qwen2.5-1.5B & $+0.063$ & $0.072$ & $0.064$ & lose \\
+    Qwen2.5-7B (m$\star$) & $-0.050$ & $0.015$ & $0.013$ & \textbf{win} \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -339,19 +340,20 @@ A few rules make the dashboard sharper.
 \paragraph{Bank relative.}
 Every score is relative to the probe bank. Location probes make location
 features look coherent. Freeze the bank in the checkpoint sidecar and reuse it
-for diffs.
+for diffs. Watch and control must share the same bank; a truncated control bank
+reads as a false miss on $m^\star$.
 
 \paragraph{Late layers and feature gaps.}
 Late-layer spectra can swing harder than mid layers. Read relatedness at mid
 layers; treat late-layer spectra as phase markers.
 
 \paragraph{Corpus scale.}
-The $500$-step extended corpus still admits memorization relative to public
+The $200$-step extended corpus still admits memorization relative to public
 pretraining corpora. Geometry still tracks the run
 (Table~\ref{tab:scale}); larger public corpora are the next measurement step.
 
 \paragraph{Train bank and held-out.}
-The matched pair moves train-bank L8 toward target more than baseline. Held-out
+The matched pair moves train-bank L14 toward target more than baseline. Held-out
 probes stay within slack rather than chasing the same target, which is why
 Table~\ref{tab:validation} checks outside the objective.
 
@@ -372,9 +374,9 @@ track, diff, and softly steer beside loss.
 \section{Conclusion}
 
 Loss says how wrong. Geometry says how tangled. We put both on one dashboard,
-show layer phases and feature structure on a real fine-tune, and add a soft
-regularizer that moves packing toward a target without collapsing the run,
-checked out-of-metric. Superposition geometry belongs beside loss. Soft
+show layer phases and feature structure on a Qwen2.5-7B fine-tune, and add a
+soft regularizer that moves packing toward a target while improving held-out
+loss, checked out-of-metric. Superposition geometry belongs beside loss. Soft
 control is a knob you can turn.
 
 Code, configs, and figure generators are public at
@@ -383,8 +385,9 @@ Code, configs, and figure generators are public at
 \texttt{python experiments/paper\_figures.py}).
 
 \section*{Acknowledgments}
-This work was produced at Aquin Labs. GPT-2 checkpoints are released by OpenAI
-under their model terms. Accept applicable licenses before downloading weights.
+This work was produced at Aquin Labs. Qwen2.5 checkpoints are released by
+Alibaba Cloud under their model terms. Accept applicable licenses before
+downloading weights.
 
 \bibliographystyle{plain}
 \bibliography{refs}

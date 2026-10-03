@@ -1,0 +1,44 @@
+{
+  "aligned": true,
+  "step": 199,
+  "loss": 0.45703125,
+  "seed": 0,
+  "layers": [
+    7,
+    14,
+    26
+  ],
+  "metrics": [
+    "interference_mean",
+    "spectral_participation",
+    "coactivation_overlap"
+  ],
+  "bank_positions": "last",
+  "top_k_neighbors": 8,
+  "probe_prompts": [
+    "The Eiffel Tower is located in",
+    "The Louvre Museum is located in",
+    "The Great Wall of China is located in",
+    "Mount Everest is located in",
+    "The Colosseum is located in",
+    "Paris is the capital of"
+  ],
+  "geometry": {
+    "L7_interference_mean": 0.6668736437956492,
+    "L7_spectral_participation": 0.02319226662317912,
+    "L7_coactivation_overlap": 0.27559573530434117,
+    "L14_interference_mean": 0.49145323038101196,
+    "L14_spectral_participation": 0.05020477374394735,
+    "L14_coactivation_overlap": 0.09988100339178733,
+    "L26_interference_mean": 0.5019404292106628,
+    "L26_spectral_participation": 0.06299300988515218,
+    "L26_coactivation_overlap": 0.17334506861157162
+  },
+  "weight_file": "model_final.pt",
+  "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/model_final.pt",
+  "extra": {
+    "model": "Qwen/Qwen2.5-7B",
+    "device": "cuda",
+    "alias_of": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00199.pt"
+  }
+}

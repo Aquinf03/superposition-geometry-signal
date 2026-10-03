@@ -1,0 +1,16 @@
+{
+  "seed": 0,
+  "created_utc": "2026-10-01T10:30:47.970471+00:00",
+  "config_frozen": "config.frozen.yaml",
+  "config_source": "config.source.yaml",
+  "source_config_path": "/Users/ashm/work/super/experiments/configs/train_qwen25_05b_geometry.yaml",
+  "model": "Qwen/Qwen2.5-0.5B",
+  "device": "mps",
+  "hero": "train_with_geometry",
+  "layers": [
+    6,
+    12,
+    22
+  ],
+  "control_enabled": false
+}

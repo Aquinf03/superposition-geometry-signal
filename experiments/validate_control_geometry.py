@@ -155,12 +155,22 @@ def measure_held_out(
 
 def _xf_pair_means(xf_path: Path) -> Optional[Dict[str, float]]:
     xf = json.loads(xf_path.read_text())
+    # Skip the deepest watched layer (phase marker); score relatedness on mid layers.
+    layer_ids: List[int] = []
+    for layers_map in (xf.get("pair_diffs") or {}).values():
+        for Lname in layers_map:
+            try:
+                layer_ids.append(int(str(Lname).lstrip("L")))
+            except ValueError:
+                continue
+    skip_late = {f"L{max(layer_ids)}", str(max(layer_ids))} if layer_ids else set()
+
     related: List[float] = []
     unrelated: List[float] = []
     for key, layers_map in (xf.get("pair_diffs") or {}).items():
         is_rel = "eiffel" in key and "louvre" in key and "superposition" not in key
         for Lname, stats in layers_map.items():
-            if Lname in ("L11", "11"):
+            if Lname in skip_late or Lname in ("L11", "11"):
                 continue
             score = float(stats["summary_score"])
             if is_rel:

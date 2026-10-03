@@ -308,6 +308,14 @@ def validate_run(run_dir: Path) -> Dict[str, Any]:
         xf = json.loads(xf_path.read_text())
         related_scores: List[float] = []
         unrelated_scores: List[float] = []
+        layer_ids: List[int] = []
+        for layers_map in xf.get("pair_diffs", {}).values():
+            for Lname in layers_map:
+                try:
+                    layer_ids.append(int(str(Lname).lstrip("L")))
+                except ValueError:
+                    continue
+        skip_late = {f"L{max(layer_ids)}", str(max(layer_ids))} if layer_ids else {"L11", "11"}
         for key, layers_map in xf.get("pair_diffs", {}).items():
             # Heuristic: pair name contains both location probes → related
             related = (
@@ -316,8 +324,8 @@ def validate_run(run_dir: Path) -> Dict[str, Any]:
                 and "superposition" not in key
             )
             for Lname, stats in layers_map.items():
-                # Prefer mid layers where structure was clearest; skip L11 if collapsed
-                if Lname == "L11":
+                # Prefer mid layers; skip deepest watched layer (phase marker).
+                if Lname in skip_late or Lname == "L11":
                     continue
                 score = float(stats["summary_score"])
                 if related:

@@ -1,0 +1,65 @@
+# Qwen2.5-0.5B watch-only (larger-model scale check).
+# Matched twin: train_qwen25_05b_geometry_control.yaml
+#
+#   python experiments/train_with_geometry.py \
+#     --config experiments/configs/train_qwen25_05b_geometry.yaml
+seed: 0
+model: Qwen/Qwen2.5-0.5B
+device: auto
+
+train:
+  corpus: data/train_corpus_extended.txt
+  seq_len: 64
+  batch_size: 1
+  max_steps: 100
+  lr: 2.0e-5
+  weight_decay: 0.01
+  grad_clip: 1.0
+
+geometry:
+  # Early / mid / late MLP-out (Qwen2.5-0.5B has 0..23)
+  layers: [6, 12, 22]
+  every_n_steps: 5
+  bank_positions: last
+  top_k_neighbors: 8
+  metrics:
+    - interference_mean
+    - spectral_participation
+    - coactivation_overlap
+  probe_prompts: null
+
+logging:
+  results_dir: results
+  run_name: train_qwen25_05b_geometry_s0
+  live_print: true
+  save_every_n_steps: 50
+
+control:
+  enabled: false
+  layer: 12
+  metric: interference_mean
+  mode: point
+  target: 0.35
+  weight: 1.0e-2
+  every_n_steps: 5
+  warmup_steps: 10
+  abort_on_warmup_fail: true
+  abort_on_warn: false
+
+diff:
+  top_k_neighbors: 8
+  save_neighborhood_plot: true
+  selected_features:
+    - name: eiffel_located_in
+      prompt: "The Eiffel Tower is located in"
+      position: last
+    - name: louvre_located_in
+      prompt: "The Louvre Museum is located in"
+      position: last
+    - name: superposition_pack
+      prompt: "Superposition allows neural networks to represent more features than"
+      position: last
+  cross_feature_pairs:
+    - [eiffel_located_in, louvre_located_in]
+    - [eiffel_located_in, superposition_pack]
+    - [louvre_located_in, superposition_pack]

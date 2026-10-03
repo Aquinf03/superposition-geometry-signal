@@ -6,7 +6,7 @@ tensor path so ``λ · (metric − target)²`` can backprop into the model.
 
 from __future__ import annotations
 
-from typing import List, Sequence
+from typing import Sequence
 
 import torch
 
@@ -40,31 +40,31 @@ def collect_mlp_out_bank_grad(
     prompts: Sequence[str],
     positions: str = "last",
 ) -> torch.Tensor:
-    """Gather ``hook_mlp_out`` rows **with** autograd (device tensors, no detach)."""
+    """Gather ``hook_mlp_out`` rows **with** autograd (device tensors, no detach).
+
+    Batches all prompts in one forward so we keep a single graph (critical for
+    7B-class models — per-prompt forwards OOM once the regularizer is armed).
+    """
     if positions not in ("last", "all"):
         raise ValueError(f"positions must be 'all' or 'last', got {positions!r}")
+    if not prompts:
+        raise ValueError(f"empty grad bank at layer {layer}")
+
     hook_name = f"blocks.{int(layer)}.hook_mlp_out"
-    rows: List[torch.Tensor] = []
+    captured: dict = {}
 
     def _hook(act: torch.Tensor, hook) -> torch.Tensor:
         # act: [batch, seq, d]
-        if positions == "last":
-            rows.append(act[0, -1])
-        else:
-            rows.append(act[0].reshape(-1, act.shape[-1]))
+        captured["act"] = act
         return act
 
-    for prompt in prompts:
-        tokens = model.to_tokens(prompt)
-        model.run_with_hooks(tokens, fwd_hooks=[(hook_name, _hook)])
-
-    if not rows:
+    # One batched forward — TransformerLens pads when given a list of strings.
+    tokens = model.to_tokens(list(prompts))
+    model.run_with_hooks(tokens, fwd_hooks=[(hook_name, _hook)])
+    act = captured.get("act")
+    if act is None:
         raise ValueError(f"empty grad bank at layer {layer}")
-    # "all" may append multi-row tensors
-    flat: List[torch.Tensor] = []
-    for r in rows:
-        if r.ndim == 1:
-            flat.append(r)
-        else:
-            flat.extend(list(r))
-    return torch.stack(flat, dim=0)
+
+    if positions == "last":
+        return act[:, -1, :]
+    return act.reshape(-1, act.shape[-1])

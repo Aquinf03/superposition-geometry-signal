@@ -1,0 +1,72 @@
+{
+  "seed": 0,
+  "model": "Qwen/Qwen2.5-7B",
+  "device": "cuda",
+  "max_steps": 200,
+  "layers": [
+    7,
+    14,
+    26
+  ],
+  "final_loss": 0.45703125,
+  "final_geometry": {
+    "L7_interference_mean": 0.6668736437956492,
+    "L7_spectral_participation": 0.02319226662317912,
+    "L7_coactivation_overlap": 0.27559573530434117,
+    "L14_interference_mean": 0.49145323038101196,
+    "L14_spectral_participation": 0.05020477374394735,
+    "L14_coactivation_overlap": 0.09988100339178733,
+    "L26_interference_mean": 0.5019404292106628,
+    "L26_spectral_participation": 0.06299300988515218,
+    "L26_coactivation_overlap": 0.17334506861157162
+  },
+  "control": {
+    "enabled": true,
+    "layer": 14,
+    "metric": "interference_mean",
+    "target": 0.35,
+    "weight": 0.01,
+    "current": 0.48173677424589795,
+    "error": 0.13173677424589797,
+    "penalty": 0.0,
+    "warned": null,
+    "mode": "point",
+    "lo": null,
+    "hi": null,
+    "phase": "active"
+  },
+  "signals_csv": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/signals.csv",
+  "meta_json": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/meta.json",
+  "artifacts": {
+    "config_frozen": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/config.frozen.yaml",
+    "seed_txt": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/seed.txt",
+    "config_source": "",
+    "run_manifest": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/run_manifest.json"
+  },
+  "model_final": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/model_final.pt",
+  "model_final_geometry": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/model_final.geometry.json",
+  "checkpoints_dir": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints",
+  "checkpoints_manifest": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/manifest.json",
+  "aligned_checkpoints": [
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00049.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00049.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00099.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00099.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00149.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00149.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/manifest.json"
+    },
+    {
+      "weight_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00199.pt",
+      "geometry_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/step_00199.geometry.json",
+      "manifest_path": "/vol/results/qwen_modal/train_qwen257b_geometry_control_s0/checkpoints/manifest.json"
+    }
+  ]
+}
